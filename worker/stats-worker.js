@@ -75,6 +75,39 @@ async function fetchWebAnalytics(token, days = 30) {
           sum { visits }
           dimensions { clientCountryName }
         }
+        devices: rumPageloadEventsAdaptiveGroups(
+          filter: { AND: [
+            { date_geq: "${since}" }
+            { siteTag: "${SITE_TAG}" }
+          ]}
+          limit: 5
+          orderBy: [sum_visits_DESC]
+        ) {
+          sum { visits }
+          dimensions { deviceType }
+        }
+        browsers: rumPageloadEventsAdaptiveGroups(
+          filter: { AND: [
+            { date_geq: "${since}" }
+            { siteTag: "${SITE_TAG}" }
+          ]}
+          limit: 8
+          orderBy: [sum_visits_DESC]
+        ) {
+          sum { visits }
+          dimensions { browserFamily }
+        }
+        os: rumPageloadEventsAdaptiveGroups(
+          filter: { AND: [
+            { date_geq: "${since}" }
+            { siteTag: "${SITE_TAG}" }
+          ]}
+          limit: 8
+          orderBy: [sum_visits_DESC]
+        ) {
+          sum { visits }
+          dimensions { osFamily }
+        }
       }
     }
   }`;
@@ -94,6 +127,9 @@ async function fetchWebAnalytics(token, days = 30) {
     daily:     acct?.daily     || [],
     referrers: acct?.referrers || [],
     countries: acct?.countries || [],
+    devices:   acct?.devices   || [],
+    browsers:  acct?.browsers  || [],
+    os:        acct?.os        || [],
   };
 }
 
@@ -168,6 +204,21 @@ function renderHtml(dlDays, wa) {
     .map(c => `<tr><td>${c.dimensions.clientCountryName}</td><td class="g">${(c.sum?.visits||0).toLocaleString()}</td></tr>`)
     .join('');
 
+  const deviceRows = wa.devices
+    .filter(d => d.dimensions?.deviceType)
+    .map(d => `<tr><td>${d.dimensions.deviceType}</td><td class="g">${(d.sum?.visits||0).toLocaleString()}</td></tr>`)
+    .join('');
+
+  const browserRows = wa.browsers
+    .filter(b => b.dimensions?.browserFamily)
+    .map(b => `<tr><td>${b.dimensions.browserFamily}</td><td class="g">${(b.sum?.visits||0).toLocaleString()}</td></tr>`)
+    .join('');
+
+  const osRows = wa.os
+    .filter(o => o.dimensions?.osFamily)
+    .map(o => `<tr><td>${o.dimensions.osFamily}</td><td class="g">${(o.sum?.visits||0).toLocaleString()}</td></tr>`)
+    .join('');
+
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -238,6 +289,32 @@ function renderHtml(dlDays, wa) {
       <tbody>${ctryRows || '<tr><td colspan="2" style="color:#444">No data yet</td></tr>'}</tbody>
     </table>
   </div>
+</div>
+<div class="two-col">
+  <div>
+    <h2>Device Type</h2>
+    <table>
+      <thead><tr><th>Device</th><th>Visits</th></tr></thead>
+      <tbody>${deviceRows || '<tr><td colspan="2" style="color:#444">No data yet</td></tr>'}</tbody>
+    </table>
+  </div>
+  <div>
+    <h2>Browsers</h2>
+    <table>
+      <thead><tr><th>Browser</th><th>Visits</th></tr></thead>
+      <tbody>${browserRows || '<tr><td colspan="2" style="color:#444">No data yet</td></tr>'}</tbody>
+    </table>
+  </div>
+</div>
+<div class="two-col">
+  <div>
+    <h2>Operating Systems</h2>
+    <table>
+      <thead><tr><th>OS</th><th>Visits</th></tr></thead>
+      <tbody>${osRows || '<tr><td colspan="2" style="color:#444">No data yet</td></tr>'}</tbody>
+    </table>
+  </div>
+  <div></div>
 </div>
 </body>
 </html>`;
