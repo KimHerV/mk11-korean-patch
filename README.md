@@ -1,7 +1,7 @@
 # Mortal Kombat 11: Korean Patch
 
 > Unofficial Korean localization: Story · Movelist · UI · DLC · In-game dialogue  
-> **v1.0 (2026-05-03)** · Fan-made · by KimHerV
+> **v1.0 (2026-05-04)** · Fan-made · by KimHerV
 
 > **한국어 사용자**: [랜딩 페이지에서 설치 안내](https://mk11-korean-patch.pages.dev)
 
