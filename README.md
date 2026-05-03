@@ -5,7 +5,7 @@
 
 > **한국어 사용자**: [랜딩 페이지에서 설치 안내](https://mk11-korean-patch.pages.dev)
 
-**[Landing Page](https://mk11-korean-patch.pages.dev)** &nbsp;|&nbsp; **[Download Latest](https://github.com/KimHerV/mk11-korean-patch/releases/latest)**
+**[Landing Page](https://mk11-korean-patch.pages.dev)** &nbsp;|&nbsp; **[Feedback](https://mk11-korean-patch.pages.dev/#feedback)**
 
 ---
 
