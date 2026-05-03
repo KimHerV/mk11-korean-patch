@@ -156,7 +156,7 @@ async function loadDays(env) {
 
 // ── HTML renderer ────────────────────────────────────────────
 
-function renderHtml(dlDays, wa) {
+function renderHtml(dlDays, wa, days = 30, key = '') {
   const latest   = dlDays[dlDays.length - 1] || {};
   const withDelta = dlDays.map((d, i) => ({
     ...d,
@@ -242,12 +242,21 @@ function renderHtml(dlDays, wa) {
   .g { color: #c9a84c; }
   .bar { display: inline-block; height: 7px; background: #7a6030; border-radius: 2px; vertical-align: middle; min-width: 2px; }
   .divider { border: none; border-top: 1px solid #1e1e1e; margin: 28px 0; }
+  .period { display: flex; gap: 6px; margin: 12px 0 24px; }
+  .period-btn { padding: 4px 12px; border-radius: 4px; font-size: 0.78rem; text-decoration: none; background: #1a1a1a; color: #888; border: 1px solid #2a2a2a; }
+  .period-btn:hover { color: #c9a84c; border-color: #7a6030; }
+  .period-btn.active { background: #1e1a0e; color: #c9a84c; border-color: #7a6030; }
   @media (max-width: 600px) { .two-col { grid-template-columns: 1fr; } }
 </style>
 </head>
 <body>
 <h1>MK11 Korean Patch: Stats</h1>
-<p class="sub">Download snapshots: daily 02:00 UTC. Web Analytics: last 30 days.</p>
+<p class="sub">Download snapshots: daily 02:00 UTC. Web Analytics: last ${days} days.</p>
+<div class="period">
+  ${[7, 30, 90, 180, 365].map(d =>
+    `<a href="/stats?key=${key}&days=${d}" class="period-btn${d === days ? ' active' : ''}">${d}d</a>`
+  ).join('')}
+</div>
 
 <h2>Downloads</h2>
 <div class="cards">
@@ -343,9 +352,10 @@ export default {
     }
 
     if (url.pathname === '/stats') {
+      const days = Math.min(parseInt(url.searchParams.get('days') || '30', 10) || 30, 365);
       const [dlDays, wa] = await Promise.all([
         loadDays(env),
-        fetchWebAnalytics(env.CF_ANALYTICS_TOKEN).catch(() => ({ daily: [], referrers: [], countries: [] })),
+        fetchWebAnalytics(env.CF_ANALYTICS_TOKEN, days).catch(() => ({ daily: [], referrers: [], countries: [], devices: [], browsers: [], os: [] })),
       ]);
 
       if (url.searchParams.get('fmt') === 'json') {
@@ -353,7 +363,7 @@ export default {
           headers: { 'Content-Type': 'application/json' },
         });
       }
-      return new Response(renderHtml(dlDays, wa), {
+      return new Response(renderHtml(dlDays, wa, days, key), {
         headers: { 'Content-Type': 'text/html;charset=utf-8' },
       });
     }
