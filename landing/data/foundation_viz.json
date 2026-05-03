@@ -1,0 +1,2456 @@
+{
+  "meta": {
+    "generated": "2026-05-03",
+    "db_version": "1.0.0",
+    "matrix_version": "2.0.0"
+  },
+  "formality_levels": {
+    "존댓말_격식": {
+      "code": "격",
+      "color": "#c9a84c",
+      "label_en": "Formal Honorific",
+      "short_en": "Formal",
+      "endings": [
+        "-습니다",
+        "-ㅂ니다",
+        "-십시오"
+      ],
+      "usage": "최고 격식. 신급 존재에게, 극도의 공경."
+    },
+    "존댓말_비격식": {
+      "code": "비",
+      "color": "#d4a840",
+      "label_en": "Casual Honorific",
+      "short_en": "Polite",
+      "endings": [
+        "-요",
+        "-에요",
+        "-죠"
+      ],
+      "usage": "공손하지만 딱딱하지 않음. 존경하는 동료, 부모, 상관에게."
+    },
+    "하게체": {
+      "code": "하게",
+      "color": "#7090a8",
+      "label_en": "Elder's Register",
+      "short_en": "Elder",
+      "endings": [
+        "-네",
+        "-라네",
+        "-일세",
+        "-걸세",
+        "-겠나",
+        "-오게",
+        "-하게",
+        "-겠네",
+        "-다네",
+        "-ㄴ가",
+        "-나"
+      ],
+      "usage": "원로·멘토·통치자가 아랫사람에게. 격식 있되 친근한 아래사람 대우. 권위와 온정이 공존하며, 존중하면서도 위계가 분명한 어투. AC 오디세이 레퍼런스: 소크라테스→카산드라, 신관→방문자, 왕→신하."
+    },
+    "하오체": {
+      "code": "하오",
+      "color": "#3d6080",
+      "label_en": "Ceremonial Register",
+      "short_en": "Ceremonial",
+      "endings": [
+        "-오",
+        "-하오",
+        "-시오",
+        "-구려",
+        "-소",
+        "-이오",
+        "-다오"
+      ],
+      "usage": "고풍스러운 격식. 고대 존재의 위엄, 격식 탄원, 맹세, 의례적 선언. 일상 대화가 아닌 특별한 순간에 사용. AC 오디세이 레퍼런스: 왕실 알현, 신에게 맹세, 감정적 탄원."
+    },
+    "반말_중립": {
+      "code": "중",
+      "color": "#888880",
+      "label_en": "Neutral Informal",
+      "short_en": "Informal",
+      "endings": [
+        "-다",
+        "-야",
+        "-지",
+        "-어"
+      ],
+      "usage": "편안한 반말. 동료, 친구, 대등한 관계."
+    },
+    "반말_거침": {
+      "code": "거",
+      "color": "#8b3030",
+      "label_en": "Rough Informal",
+      "short_en": "Aggressive",
+      "endings": [
+        "-라",
+        "-냐",
+        "-든가"
+      ],
+      "usage": "거친 반말. 적, 부하(악역 시점), 경멸 대상."
+    },
+    "선언체": {
+      "code": "선",
+      "color": "#a0a0b0",
+      "label_en": "Proclamation Style",
+      "short_en": "Decree",
+      "endings": [
+        "-다",
+        "-라",
+        "-아라",
+        "-마",
+        "-겠다",
+        "-냐",
+        "-랴"
+      ],
+      "usage": "초월적 존재의 단호한 선언. 현대 해체 기반이나 어휘의 무게와 짧은 호흡으로 위엄 표현. 하게체/하오체로 전환이 어색한 초월적 존재(크로니카 기본)에 유지."
+    },
+    "해체_노회": {
+      "code": "노",
+      "color": "#6b4080",
+      "label_en": "Cunning Elder Style",
+      "short_en": "Cunning",
+      "endings": [
+        "-지",
+        "-야",
+        "-거든",
+        "-라고"
+      ],
+      "usage": "격식 없는 평어체. 상대를 깔보는 노회한 톤. 타락한 고위 존재에 적용."
+    },
+    "합쇼체": {
+      "code": "합쇼",
+      "color": "#b0903c",
+      "label_en": "Highest Honorific",
+      "short_en": "Supreme",
+      "endings": [],
+      "usage": ""
+    },
+    "반말_냉귀족": {
+      "code": "반말",
+      "color": "#5a5a7a",
+      "label_en": "Cold Aristocrat Style",
+      "short_en": "Aristocrat",
+      "endings": [],
+      "usage": ""
+    }
+  },
+  "characters": [
+    {
+      "code": "SCO",
+      "name_kr": "스콜피온",
+      "name_en": "Scorpion",
+      "section": "playable",
+      "has_portrait": true,
+      "realm": "Earthrealm",
+      "faction": "Shirai Ryu",
+      "species": "Human",
+      "personality": [
+        "복수심",
+        "명예",
+        "절제",
+        "맹렬"
+      ],
+      "default_formality": "반말_중립",
+      "register": "무사",
+      "tone": "과묵, 직설적, 간결한 문장",
+      "quirks": [
+        "존댓말: 라이덴·장로신에게만",
+        "과거 스콜피온은 분노에 가득 함"
+      ],
+      "key_vocab": [
+        "명예",
+        "문파",
+        "복수",
+        "불꽃",
+        "시라이 류",
+        "대가"
+      ],
+      "sentence_pattern": "1~3단어 명령문 폭발. 마침표 대신 느낌표. 주어 생략 최대화.",
+      "relationships": [
+        {
+          "target": "SUB",
+          "dynamic": "전 적대 → 현 전우",
+          "speech_to": "반말_중립"
+        },
+        {
+          "target": "RAI",
+          "dynamic": "존경/충성",
+          "speech_to": "존댓말_격식"
+        },
+        {
+          "target": "FRO",
+          "dynamic": "적대",
+          "speech_to": "반말_거침"
+        },
+        {
+          "target": "npc_quan_chi",
+          "dynamic": "혈적",
+          "speech_to": "반말_거침"
+        }
+      ],
+      "speech_doctrine": null
+    },
+    {
+      "code": "SUB",
+      "name_kr": "서브제로",
+      "name_en": "Sub-Zero",
+      "section": "playable",
+      "has_portrait": true,
+      "realm": "Earthrealm",
+      "faction": "Lin Kuei",
+      "species": "Human",
+      "personality": [
+        "냉정",
+        "명예",
+        "절도",
+        "리더십"
+      ],
+      "default_formality": "반말_중립",
+      "register": "무사/지도자",
+      "tone": "차분하고 절제된, 건조한 유머, 전략적 사고",
+      "quirks": [
+        "감정 표현 절제",
+        "프로스트에게는 실망 섞인 어조"
+      ],
+      "key_vocab": [
+        "냉기",
+        "전통",
+        "린 쿠에이",
+        "기술",
+        "명예",
+        "절제"
+      ],
+      "sentence_pattern": "짧고 정확한 단문. 부정문 많음(-않다/-없다). 도덕 판단이 기술 판단보다 앞에 온다.",
+      "relationships": [
+        {
+          "target": "SCO",
+          "dynamic": "전 적대 → 현 전우",
+          "speech_to": "반말_중립"
+        },
+        {
+          "target": "FRO",
+          "dynamic": "전 스승 → 적대",
+          "speech_to": "반말_중립→반말_거침"
+        },
+        {
+          "target": "RAI",
+          "dynamic": "존경",
+          "speech_to": "존댓말_격식"
+        },
+        {
+          "target": "NOO",
+          "dynamic": "형제(비한)",
+          "speech_to": "반말_중립"
+        }
+      ],
+      "speech_doctrine": null
+    },
+    {
+      "code": "RAI",
+      "name_kr": "라이덴",
+      "name_en": "Raiden",
+      "section": "playable",
+      "has_portrait": true,
+      "realm": "Earthrealm",
+      "faction": "Elder Gods",
+      "species": "God",
+      "personality": [
+        "위엄",
+        "지혜",
+        "무게감",
+        "희생"
+      ],
+      "default_formality": "선언체",
+      "register": "신격",
+      "tone": "위엄 있고 무거운, 현대 해체(-다/-라/-마) 기반, 멘토적",
+      "quirks": [
+        "선언체 사용. 짧고 단호한 문장으로 위엄 표현",
+        "신적 존재로서의 권위",
+        "어둠의 라이덴은 더 냉혹하고 단호"
+      ],
+      "key_vocab": [
+        "렐름",
+        "운명",
+        "희생",
+        "균형",
+        "어스렐름",
+        "뇌신"
+      ],
+      "sentence_pattern": "주어 생략 최대화. 선언형 현재시제(-다/-ㄴ다). em-dash로 극적 호흡. 종결은 반드시 단언.",
+      "relationships": [
+        {
+          "target": "LIU",
+          "dynamic": "멘토/후견인",
+          "speech_to": "선언체"
+        },
+        {
+          "target": "CAS",
+          "dynamic": "지휘 관계",
+          "speech_to": "선언체"
+        },
+        {
+          "target": "JOH",
+          "dynamic": "협력(긴장)",
+          "speech_to": "선언체"
+        },
+        {
+          "target": "KRO",
+          "dynamic": "적대",
+          "speech_to": "존댓말_격식→반말_거침"
+        }
+      ],
+      "speech_doctrine": {
+        "primary": "하게체 70%, 멘토 관찰, 동료 대화, 정보 공유, 부드러운 요청 (-네/-겠네/-는가/-게)",
+        "secondary": "선언체 25%, 신격 판단, 운명 선고, 도덕 단정, 우주적 진리 (-다/-는다/-겠다)",
+        "ceremonial": "합쇼체 5%, CET·화신 LIU에게만 (-습니다)",
+        "forbidden": "하오체 완전 금지 (-소/-오), InGameDialogue 전 장르. FST-05 의례 장면은 Story 파일에서만 허용",
+        "decision_rule": "멘토가 동료에게 하는 말이면 -네 / 신이 우주에 선언하는 말이면 -다"
+      }
+    },
+    {
+      "code": "LIU",
+      "name_kr": "리우 캉",
+      "name_en": "Liu Kang",
+      "section": "playable",
+      "has_portrait": true,
+      "realm": "Earthrealm",
+      "faction": "Shaolin",
+      "species": "Human → God",
+      "personality": [
+        "신념",
+        "충실",
+        "겸손",
+        "결단"
+      ],
+      "default_formality": "반말_중립",
+      "register": "수도승/영웅",
+      "tone": "철학적이고 절제된, 의무감 강한, 신념에 기반한 대화",
+      "quirks": [
+        "라이덴에 대한 흔들리지 않는 믿음",
+        "화신 리우 캉은 더 위엄 있는 어투(선언체 혼용)"
+      ],
+      "key_vocab": [
+        "소림",
+        "신념",
+        "사명",
+        "어스렐름",
+        "희생",
+        "수련"
+      ],
+      "sentence_pattern": "겸손한 서술로 시작해 단호한 결의로 마무리. 철학적 질문 허용. 쿵 라오와 대화 시 약간의 형 역할.",
+      "relationships": [
+        {
+          "target": "KUN",
+          "dynamic": "형제/동료",
+          "speech_to": "반말_중립"
+        },
+        {
+          "target": "RAI",
+          "dynamic": "제자/존경",
+          "speech_to": "존댓말_격식"
+        },
+        {
+          "target": "KIT",
+          "dynamic": "연인",
+          "speech_to": "존댓말_비격식"
+        },
+        {
+          "target": "KRO",
+          "dynamic": "적대(최종 보스)",
+          "speech_to": "반말_거침"
+        }
+      ],
+      "speech_doctrine": null
+    },
+    {
+      "code": "KUN",
+      "name_kr": "쿵 라오",
+      "name_en": "Kung Lao",
+      "section": "playable",
+      "has_portrait": true,
+      "realm": "Earthrealm",
+      "faction": "Shaolin",
+      "species": "Human",
+      "personality": [
+        "자신감",
+        "재치",
+        "가문 자부심",
+        "경쟁심"
+      ],
+      "default_formality": "반말_중립",
+      "register": "수도승",
+      "tone": "재치 있고 자신만만한, 약간의 허세, 실용적",
+      "quirks": [
+        "리우 캉에게 장난기 있는 경쟁심",
+        "위대한 쿵 라오(선조)에 대한 자부심",
+        "원문에서 선조를 'Uncle'로 칭함, 동양적 친밀 존칭. 번역 시 '삼촌' 금지, '조상' 또는 '위대한 쿵 라오'로 처리."
+      ],
+      "key_vocab": [
+        "최고",
+        "가문",
+        "쿵 라오",
+        "모자",
+        "별거 없네",
+        "당연하지"
+      ],
+      "sentence_pattern": "자신감으로 시작, 도발로 마무리. 1~2문장 짧게. '별거 없네' '다음은?' 같은 쿨한 한 방.",
+      "relationships": [
+        {
+          "target": "LIU",
+          "dynamic": "형제/동료",
+          "speech_to": "반말_중립"
+        },
+        {
+          "target": "RAI",
+          "dynamic": "존경(리우 캉보다 약간 덜)",
+          "speech_to": "존댓말_격식"
+        }
+      ],
+      "speech_doctrine": null
+    },
+    {
+      "code": "KIT",
+      "name_kr": "키타나",
+      "name_en": "Kitana",
+      "section": "playable",
+      "has_portrait": true,
+      "realm": "Edenia / Outworld",
+      "faction": "Edenians",
+      "species": "Edenian",
+      "personality": [
+        "기품",
+        "정의감",
+        "외교적",
+        "결단력"
+      ],
+      "default_formality": "존댓말_비격식",
+      "register": "왕족",
+      "tone": "기품 있고 차분한, 외교적이면서 단호한",
+      "quirks": [
+        "공주 시절: 존댓말 비격식",
+        "칸 즉위 후: 선언체로 전환(통치자 위엄)",
+        "레버넌트: 냉혹한 반말"
+      ],
+      "key_vocab": [],
+      "sentence_pattern": null,
+      "relationships": [
+        {
+          "target": "LIU",
+          "dynamic": "연인",
+          "speech_to": "존댓말_비격식→반말_중립(친밀)"
+        },
+        {
+          "target": "JAD",
+          "dynamic": "절친/신하",
+          "speech_to": "반말_중립"
+        },
+        {
+          "target": "SHA",
+          "dynamic": "양부→적대",
+          "speech_to": "반말_거침"
+        },
+        {
+          "target": "SIN",
+          "dynamic": "양모→복잡한 관계",
+          "speech_to": "존댓말_비격식→반말_거침"
+        },
+        {
+          "target": "MIL",
+          "dynamic": "클론·왕좌 찬탈자 적대",
+          "speech_to": "선언체",
+          "note": "MIL은 클론이자 정통성 도전자. KIT 칸의 통치자 권위로 선언체(-다/-라/-는가). 존댓말 부적합. 2026-05-02 확정."
+        }
+      ],
+      "speech_doctrine": null
+    },
+    {
+      "code": "JOH",
+      "name_kr": "조니 케이지",
+      "name_en": "Johnny Cage",
+      "section": "playable",
+      "has_portrait": true,
+      "realm": "Earthrealm",
+      "faction": "Special Forces",
+      "species": "Human",
+      "personality": [
+        "유머",
+        "허세",
+        "성장",
+        "가족애"
+      ],
+      "default_formality": "반말_중립",
+      "register": "할리우드/현대",
+      "tone": "경쾌하고 유머러스, 자기비하적 농담, 영화 대사 패러디",
+      "quirks": [
+        "팝컬처 레퍼런스 풍부",
+        "선글라스 집착",
+        "과거 조니는 거만하고 성차별적",
+        "현재 조니는 성숙하고 책임감 있음"
+      ],
+      "key_vocab": [
+        "잘생겼다",
+        "죽이는데",
+        "쇼타임",
+        "배우",
+        "섹시"
+      ],
+      "sentence_pattern": "자만이 코미디가 되게. 연기 용어 자연스럽게. 가족 앞에서만 취약함 드러남. 욕설은 악의 없이 자연스럽게.",
+      "relationships": [
+        {
+          "target": "SON",
+          "dynamic": "부부",
+          "speech_to": "반말_중립(애정 섞인)"
+        },
+        {
+          "target": "CAS",
+          "dynamic": "아버지",
+          "speech_to": "반말_중립(보호적)"
+        },
+        {
+          "target": "past_johnny",
+          "dynamic": "자기 자신(과거)",
+          "speech_to": "반말_거침(훈계)"
+        },
+        {
+          "target": "RAI",
+          "dynamic": "협력(긴장)",
+          "speech_to": "반말_중립→존댓말_비격식"
+        }
+      ],
+      "speech_doctrine": null
+    },
+    {
+      "code": "SON",
+      "name_kr": "소냐 블레이드",
+      "name_en": "Sonya Blade",
+      "section": "playable",
+      "has_portrait": true,
+      "realm": "Earthrealm",
+      "faction": "Special Forces",
+      "species": "Human",
+      "personality": [
+        "단호",
+        "전략적",
+        "희생정신",
+        "모성"
+      ],
+      "default_formality": "반말_중립",
+      "register": "군인",
+      "tone": "직설적이고 권위적, 전략적 사고, 위트 있는 일침",
+      "quirks": [
+        "군사 용어 빈번",
+        "조니에 대한 애정 어린 핀잔",
+        "공식 장면에서 존댓말_격식"
+      ],
+      "key_vocab": [
+        "임무",
+        "작전",
+        "전투력",
+        "사령관",
+        "특수부대"
+      ],
+      "sentence_pattern": "주어 생략 최대화. 짧은 군 지시체. 연설 장면에서만 완전 문장. '만, ' 역접 단호하게.",
+      "relationships": [
+        {
+          "target": "CAS",
+          "dynamic": "모녀/상하관계",
+          "speech_to": "반말_중립(모성)"
+        },
+        {
+          "target": "JOH",
+          "dynamic": "부부",
+          "speech_to": "반말_중립(애정)"
+        },
+        {
+          "target": "RAI",
+          "dynamic": "군사 동맹",
+          "speech_to": "존댓말_비격식"
+        }
+      ],
+      "speech_doctrine": null
+    },
+    {
+      "code": "CAS",
+      "name_kr": "캐시 케이지",
+      "name_en": "Cassie Cage",
+      "section": "playable",
+      "has_portrait": true,
+      "realm": "Earthrealm",
+      "faction": "Special Forces",
+      "species": "Human",
+      "personality": [
+        "자신감",
+        "책임감",
+        "유머(아빠 닮음)",
+        "직업의식"
+      ],
+      "default_formality": "반말_중립",
+      "register": "군인/현대",
+      "tone": "자신감 있고 직설적, 군사적 효율성, 스트레스 시 비속어",
+      "quirks": [
+        "공무 시 격식체, 사적으로 편한 반말",
+        "아버지의 유머 DNA"
+      ],
+      "key_vocab": [
+        "사령관",
+        "엄마",
+        "아빠",
+        "한방",
+        "됐거든"
+      ],
+      "sentence_pattern": "현대 슬랭 자연스럽게. 행위+대상+격식호칭 의 3박자 유머. 군인/딸 모드 즉각 전환.",
+      "relationships": [
+        {
+          "target": "SON",
+          "dynamic": "딸/부하→사령관",
+          "speech_to": "존댓말_비격식(공무)/반말_중립(사적)"
+        },
+        {
+          "target": "JOH",
+          "dynamic": "딸",
+          "speech_to": "반말_중립"
+        },
+        {
+          "target": "JAC",
+          "dynamic": "동료/친구",
+          "speech_to": "반말_중립"
+        },
+        {
+          "target": "RAI",
+          "dynamic": "지시 수용",
+          "speech_to": "존댓말_비격식"
+        }
+      ],
+      "speech_doctrine": null
+    },
+    {
+      "code": "JAC",
+      "name_kr": "재키 브릭스",
+      "name_en": "Jacqui Briggs",
+      "section": "playable",
+      "has_portrait": true,
+      "realm": "Earthrealm",
+      "faction": "Special Forces",
+      "species": "Human",
+      "personality": [
+        "충실",
+        "용감",
+        "실용적",
+        "가족애"
+      ],
+      "default_formality": "반말_중립",
+      "register": "군인",
+      "tone": "실용적이고 충성스러운, 캐시와의 팀워크",
+      "quirks": [
+        "아버지(잭스)에 대한 깊은 존경",
+        "어미 일관성: -어요/-요 금지. 반말_중립(-어/-야/-지) 전 상대 유지. SON에게만 상황별 존댓말_비격식 허용.",
+        "군인 특유 쿨하고 직결적 어투. 위기 상황에도 유머 잃지 않음."
+      ],
+      "key_vocab": [],
+      "sentence_pattern": null,
+      "relationships": [
+        {
+          "target": "JAX",
+          "dynamic": "부녀",
+          "speech_to": "존댓말_비격식"
+        },
+        {
+          "target": "CAS",
+          "dynamic": "동료/친구",
+          "speech_to": "반말_중립"
+        }
+      ],
+      "speech_doctrine": null
+    },
+    {
+      "code": "JAX",
+      "name_kr": "잭스 브릭스",
+      "name_en": "Jax Briggs",
+      "section": "playable",
+      "has_portrait": true,
+      "realm": "Earthrealm",
+      "faction": "Special Forces",
+      "species": "Human",
+      "personality": [
+        "의리",
+        "강인",
+        "가족 중시",
+        "트라우마"
+      ],
+      "default_formality": "반말_중립",
+      "register": "군인/아버지",
+      "tone": "강직하고 보호적, 감정적 무게감",
+      "quirks": [
+        "레버넌트 경험의 트라우마",
+        "과거 잭스는 더 활기차고 공격적"
+      ],
+      "key_vocab": [],
+      "sentence_pattern": null,
+      "relationships": [
+        {
+          "target": "JAC",
+          "dynamic": "부녀",
+          "speech_to": "반말_중립(보호적)"
+        },
+        {
+          "target": "SON",
+          "dynamic": "전우",
+          "speech_to": "반말_중립"
+        }
+      ],
+      "speech_doctrine": null
+    },
+    {
+      "code": "KOT",
+      "name_kr": "코탈 칸",
+      "name_en": "Kotal Kahn",
+      "section": "playable",
+      "has_portrait": true,
+      "realm": "Outworld",
+      "faction": "Osh-Tekk",
+      "species": "Osh-Tekk",
+      "personality": [
+        "정의",
+        "엄격",
+        "전사",
+        "자존심"
+      ],
+      "default_formality": "선언체",
+      "register": "통치자",
+      "tone": "위엄 있고 단호한, 정의를 중시하는 통치자 어투",
+      "quirks": [
+        "칸의 권위를 드러내는 선언체. 단호하고 날 선 어휘",
+        "제이드에게는 다소 부드러운 어조"
+      ],
+      "key_vocab": [],
+      "sentence_pattern": null,
+      "relationships": [
+        {
+          "target": "JAD",
+          "dynamic": "연인",
+          "speech_to": "반말_중립→존댓말_비격식"
+        },
+        {
+          "target": "SHA",
+          "dynamic": "전임자/적대",
+          "speech_to": "반말_거침"
+        },
+        {
+          "target": "BAR",
+          "dynamic": "통치자-신하(긴장)",
+          "speech_to": "선언체"
+        }
+      ],
+      "speech_doctrine": null
+    },
+    {
+      "code": "SHA",
+      "name_kr": "샤오 칸",
+      "name_en": "Shao Kahn",
+      "section": "playable",
+      "has_portrait": true,
+      "realm": "Outworld",
+      "faction": "Outworld (정복자)",
+      "species": "Unknown",
+      "personality": [
+        "지배욕",
+        "잔인",
+        "오만",
+        "압도적 위력"
+      ],
+      "default_formality": "반말_거침",
+      "register": "폭군",
+      "tone": "위압적이고 지배적, 경멸적, 우렁찬 선언",
+      "quirks": [
+        "모든 이에게 반말 또는 선언체(칙령)",
+        "자기 자신을 3인칭으로 칭하기도",
+        "경멸 어휘: '바보' 금지, 황제 격조에 맞지 않음. '멍청아'(즉각 격분) / '어리석은 자'(황제식 단죄) / '우매한 족속'(혈통 단죄) 사용.",
+        "어미 규칙: -구나/-군/-이구나/-이로군 금지. 황제의 관찰도 -다/-는다로 단호하게."
+      ],
+      "key_vocab": [],
+      "sentence_pattern": null,
+      "relationships": [
+        {
+          "target": "KIT",
+          "dynamic": "양부→적대",
+          "speech_to": "반말_거침"
+        },
+        {
+          "target": "SIN",
+          "dynamic": "부부(복잡)",
+          "speech_to": "반말_거침"
+        },
+        {
+          "target": "KOT",
+          "dynamic": "적대(후임 칸)",
+          "speech_to": "반말_거침"
+        }
+      ],
+      "speech_doctrine": null
+    },
+    {
+      "code": "BAR",
+      "name_kr": "바라카",
+      "name_en": "Baraka",
+      "section": "playable",
+      "has_portrait": true,
+      "realm": "Outworld",
+      "faction": "Tarkatans",
+      "species": "Tarkatan",
+      "personality": [
+        "야만",
+        "직설",
+        "부족 수호",
+        "전사 본능"
+      ],
+      "default_formality": "반말_거침",
+      "register": "전사/약탈자",
+      "tone": "거칠고 직설적, 짧은 문장, 으르렁거리는 어조. 타르카탄 부족 자부심 강함.",
+      "quirks": [
+        "-다/-냐/-나 종결. -야/-어/-야지/-잖아 금지",
+        "자부심: 타르카탄/먹이/사냥 어휘 자연 사용"
+      ],
+      "key_vocab": [],
+      "sentence_pattern": null,
+      "relationships": [
+        {
+          "target": "KOT",
+          "dynamic": "통치자-신하(긴장)",
+          "speech_to": "반말_거침"
+        },
+        {
+          "target": "DVO",
+          "dynamic": "적대",
+          "speech_to": "반말_거침"
+        }
+      ],
+      "speech_doctrine": null
+    },
+    {
+      "code": "JAD",
+      "name_kr": "제이드",
+      "name_en": "Jade",
+      "section": "playable",
+      "has_portrait": true,
+      "realm": "Edenia / Outworld",
+      "faction": "Edenians",
+      "species": "Edenian",
+      "personality": [
+        "충성",
+        "침착",
+        "전사",
+        "정의감"
+      ],
+      "default_formality": "존댓말_비격식",
+      "register": "전사/신하",
+      "tone": "침착하고 충성스러운, 키타나에 대한 헌신",
+      "quirks": [
+        "키타나에게 친구이자 신하의 이중 위치",
+        "자기 지칭 시 반드시 '제' 사용. '내/나' 회피, 존댓말_비격식 화자 1인칭 일관성. 2026-04-28 확인."
+      ],
+      "key_vocab": [],
+      "sentence_pattern": null,
+      "relationships": [
+        {
+          "target": "KIT",
+          "dynamic": "절친/충신",
+          "speech_to": "반말_중립→존댓말_비격식(칸 즉위 후)"
+        },
+        {
+          "target": "KOT",
+          "dynamic": "연인",
+          "speech_to": "반말_중립"
+        }
+      ],
+      "speech_doctrine": null
+    },
+    {
+      "code": "NOO",
+      "name_kr": "눕 사이보트",
+      "name_en": "Noob Saibot",
+      "section": "playable",
+      "has_portrait": true,
+      "realm": "Netherrealm",
+      "faction": "Netherrealm",
+      "species": "Wraith",
+      "personality": [
+        "냉혹",
+        "허무주의",
+        "그림자",
+        "원한"
+      ],
+      "default_formality": "반말_중립",
+      "register": "망령",
+      "tone": "차갑고 무감정한, 어둡고 허무적. 분노보다 공허함.",
+      "quirks": [
+        "콰이 량(서브제로)을 열등한 복제품으로 경멸",
+        "문장 끝은 -다/-지/-는다/-ㄴ데 고정. -야/-어(따뜻한 캐주얼) 절대 금지. 차갑고 단정적인 어미만 허용. 2026-04-28 확인."
+      ],
+      "key_vocab": [],
+      "sentence_pattern": null,
+      "relationships": [
+        {
+          "target": "SUB",
+          "dynamic": "형제(적대적)",
+          "speech_to": "반말_거침"
+        }
+      ],
+      "speech_doctrine": null
+    },
+    {
+      "code": "KRO",
+      "name_kr": "크로니카",
+      "name_en": "Kronika",
+      "section": "playable",
+      "has_portrait": false,
+      "realm": "Beyond the Realms",
+      "faction": "Titans",
+      "species": "Titan",
+      "personality": [
+        "초월적",
+        "냉정",
+        "전지적",
+        "오만"
+      ],
+      "default_formality": "선언체",
+      "register": "초월자",
+      "tone": "무감정. 시간의 관리자로서 냉정한 선언. 약간의 모성적 차가움.",
+      "quirks": [
+        "감정 어미(-군/-구나) 사용 금지. 크로니카는 놀라지 않는다",
+        "엘더 갓보다 상위 존재임을 언어 무게로 표현"
+      ],
+      "key_vocab": [
+        "시간",
+        "타임라인",
+        "운명",
+        "의지",
+        "새 시대",
+        "균형"
+      ],
+      "sentence_pattern": "3타 리듬 고수. 판정(-아니었다) → 진단(-망쳤다) → 선언(-흐른다). 감정어미 전면 금지.",
+      "relationships": [
+        {
+          "target": "LIU",
+          "dynamic": "최종 적대",
+          "speech_to": "선언체(경멸 섞인)"
+        },
+        {
+          "target": "CET",
+          "dynamic": "모자(충실한 딸)",
+          "speech_to": "선언체"
+        },
+        {
+          "target": "TER",
+          "dynamic": "주인-하수인",
+          "speech_to": "선언체"
+        }
+      ],
+      "speech_doctrine": null
+    },
+    {
+      "code": "TER",
+      "name_kr": "게라스",
+      "name_en": "Geras",
+      "section": "playable",
+      "has_portrait": true,
+      "realm": "Beyond the Realms",
+      "faction": "Kronika's forces",
+      "species": "Construct",
+      "personality": [
+        "충성",
+        "불멸",
+        "차분",
+        "임무 지향"
+      ],
+      "default_formality": "반말_중립",
+      "register": "구조물/전사",
+      "tone": "차분하고 사무적, 감정 배제, 사실 진술형",
+      "quirks": [
+        "크로니카에게만 존댓말",
+        "자신의 불멸성을 담담히 언급"
+      ],
+      "key_vocab": [],
+      "sentence_pattern": null,
+      "relationships": [
+        {
+          "target": "KRO",
+          "dynamic": "창조자/주인",
+          "speech_to": "존댓말_격식"
+        }
+      ],
+      "speech_doctrine": null
+    },
+    {
+      "code": "CET",
+      "name_kr": "세트리온",
+      "name_en": "Cetrion",
+      "section": "playable",
+      "has_portrait": true,
+      "realm": "Heavens",
+      "faction": "Elder Gods → Kronika",
+      "species": "Elder God",
+      "personality": [
+        "갈등",
+        "모성",
+        "신격",
+        "복종"
+      ],
+      "default_formality": "선언체",
+      "register": "신격",
+      "tone": "신적 위엄이지만 내면의 갈등, 어머니(크로니카)에 대한 복종",
+      "quirks": [
+        "장로신의 어조이나 크로니카의 뜻에 저항하지 못함",
+        "엘더 갓 위엄 유지, SHT 같은 도발적 상대에게도 -이라네/-일세 같은 강한 하게체 어미 유지, -지/-구만 같은 약한 어미 회피"
+      ],
+      "key_vocab": [],
+      "sentence_pattern": null,
+      "relationships": [
+        {
+          "target": "KRO",
+          "dynamic": "모녀(복종)",
+          "speech_to": "존댓말_격식"
+        },
+        {
+          "target": "RAI",
+          "dynamic": "동격(적대)",
+          "speech_to": "선언체"
+        }
+      ],
+      "speech_doctrine": null
+    },
+    {
+      "code": "FRO",
+      "name_kr": "프로스트",
+      "name_en": "Frost",
+      "section": "playable",
+      "has_portrait": true,
+      "realm": "Earthrealm",
+      "faction": "Cyber Lin Kuei (자칭)",
+      "species": "Human (cyborg)",
+      "personality": [
+        "원한",
+        "야망",
+        "자기 정당화",
+        "공격성"
+      ],
+      "default_formality": "반말_거침",
+      "register": "반역자/사이보그",
+      "tone": "날카롭고 원한 가득한, 공격적, 자기 정당화. 서브제로에 대한 분노 내재.",
+      "quirks": [
+        "-다/-냐/-나 종결. -야/-어/-야지 금지",
+        "전능/강함/증명 어휘 자주 사용",
+        "자기 정당화: 자신의 선택이 옳다고 확신하는 어조"
+      ],
+      "key_vocab": [],
+      "sentence_pattern": null,
+      "relationships": [
+        {
+          "target": "SUB",
+          "dynamic": "배신/원한",
+          "speech_to": "반말_거침"
+        }
+      ],
+      "speech_doctrine": null
+    },
+    {
+      "code": "KAB",
+      "name_kr": "카발",
+      "name_en": "Kabal",
+      "section": "playable",
+      "has_portrait": true,
+      "realm": "Earthrealm",
+      "faction": "Black Dragon",
+      "species": "Human",
+      "personality": [
+        "속도",
+        "용병적",
+        "실용"
+      ],
+      "default_formality": "반말_중립",
+      "register": "범죄자/용병",
+      "tone": "냉정한 현실주의자. 감정보다 효율 우선. 짧고 정확한 문장.",
+      "quirks": [
+        "용병 스타일: 간결하고 사무적, 감정 절제",
+        "어미 팔레트: -다/-군/-냐/-나/-지 (금지: 하오체/하게체)",
+        "전직 특수부대 어투: 상황 판단·명령형 표현 선호"
+      ],
+      "key_vocab": [],
+      "sentence_pattern": null,
+      "relationships": [
+        {
+          "target": "KAN",
+          "dynamic": "동료(블랙 드래곤)",
+          "speech_to": "반말_중립"
+        }
+      ],
+      "speech_doctrine": null
+    },
+    {
+      "code": "KAN",
+      "name_kr": "케이노",
+      "name_en": "Kano",
+      "section": "playable",
+      "has_portrait": true,
+      "realm": "Earthrealm",
+      "faction": "Black Dragon",
+      "species": "Human",
+      "personality": [
+        "교활",
+        "잔인",
+        "탐욕",
+        "유머(어두운)"
+      ],
+      "default_formality": "반말_거침",
+      "register": "범죄 두목",
+      "tone": "비열하고 조롱적, 호주 억양(번역에서는 거친 사투리 느낌)",
+      "quirks": [
+        "모든 이를 업신여기는 태도",
+        "거래와 이익만 추구",
+        "문장 끝 어미는 반드시 -다/-라/-냐/-라고/-거든 (반말_거침). -네(하게체)/-야(반말_중립) 약화 회피. 2026-04-28 확인."
+      ],
+      "key_vocab": [],
+      "sentence_pattern": null,
+      "relationships": [
+        {
+          "target": "SON",
+          "dynamic": "숙적",
+          "speech_to": "반말_거침"
+        },
+        {
+          "target": "JOH",
+          "dynamic": "적대",
+          "speech_to": "반말_거침"
+        }
+      ],
+      "speech_doctrine": null
+    },
+    {
+      "code": "SKA",
+      "name_kr": "스칼렛",
+      "name_en": "Skarlet",
+      "section": "playable",
+      "has_portrait": true,
+      "realm": "Outworld",
+      "faction": "샤오 칸 (구 충성)",
+      "species": "Human (blood construct)",
+      "personality": [
+        "냉혹",
+        "집착",
+        "피에 굶주림",
+        "위협"
+      ],
+      "default_formality": "반말_거침",
+      "register": "암살자/혈액 마법사",
+      "tone": "냉혹하고 위협적, 피에 대한 집착. 짧고 날카로운 선언.",
+      "quirks": [
+        "-다/-냐 종결. -어/-야 금지",
+        "피/불멸/흡혈 관련 어휘 자연 사용"
+      ],
+      "key_vocab": [],
+      "sentence_pattern": null,
+      "relationships": [],
+      "speech_doctrine": null
+    },
+    {
+      "code": "KOL",
+      "name_kr": "콜렉터",
+      "name_en": "Kollector",
+      "section": "playable",
+      "has_portrait": true,
+      "realm": "Outworld",
+      "faction": "Shao Kahn's forces",
+      "species": "Naknada",
+      "personality": [
+        "탐욕",
+        "교활",
+        "수집광"
+      ],
+      "default_formality": "존댓말_비격식",
+      "register": "상인/하수인",
+      "tone": "들뜬 수집가. 인간보다 유물에 더 관심. 격식 있으나 경박함이 스침.",
+      "quirks": [
+        "경매인·상인 어투: 가치 평가·거래 표현 빈번",
+        "어미 팔레트: -요/-죠/-거든요/-네요 (존댓말_비격식)",
+        "아이템·수집품 언급 시 감탄 표현 선호"
+      ],
+      "key_vocab": [],
+      "sentence_pattern": null,
+      "relationships": [
+        {
+          "target": "SHA",
+          "dynamic": "하수인",
+          "speech_to": "존댓말_격식"
+        },
+        {
+          "target": "KOT",
+          "dynamic": "적대",
+          "speech_to": "반말_거침"
+        }
+      ],
+      "speech_doctrine": null
+    },
+    {
+      "code": "DVO",
+      "name_kr": "드보라",
+      "name_en": "D'Vorah",
+      "section": "playable",
+      "has_portrait": true,
+      "realm": "Outworld",
+      "faction": "Kytinn",
+      "species": "Kytinn",
+      "personality": [
+        "배신",
+        "생존",
+        "둥지 우선",
+        "비인간적"
+      ],
+      "default_formality": "반말_중립",
+      "register": "이종족",
+      "tone": "비인간적 관점, 자기 자신을 'This One'으로 칭함",
+      "quirks": [
+        "자신을 '이 몸' 또는 3인칭으로 칭함",
+        "둥지(카이틴)의 이익만 추구"
+      ],
+      "key_vocab": [],
+      "sentence_pattern": null,
+      "relationships": [
+        {
+          "target": "KRO",
+          "dynamic": "일시적 동맹",
+          "speech_to": "반말_중립"
+        }
+      ],
+      "speech_doctrine": null
+    },
+    {
+      "code": "ERR",
+      "name_kr": "에론 블랙",
+      "name_en": "Erron Black",
+      "section": "playable",
+      "has_portrait": true,
+      "realm": "Earthrealm (expatriate)",
+      "faction": "Mercenary",
+      "species": "Human",
+      "personality": [
+        "냉소",
+        "용병",
+        "카우보이",
+        "실용"
+      ],
+      "default_formality": "반말_중립",
+      "register": "서부극/용병",
+      "tone": "느긋하고 냉소적, 건조한 유머, 카우보이 어투",
+      "quirks": [
+        "돈을 주는 쪽에 붙음",
+        "서부극 스타일 대사",
+        "상대 호칭: 영문 sweetheart/darling → '아가씨'. '자기야'(연인 뉘앙스) 금지. 비꼬는 거리감 유지.",
+        "이디엄: 영문 서부 관용구는 의미 중심 의역. 직역 시 어색함 주의."
+      ],
+      "key_vocab": [],
+      "sentence_pattern": null,
+      "relationships": [
+        {
+          "target": "KOT",
+          "dynamic": "고용주→충성 불확실",
+          "speech_to": "반말_중립"
+        }
+      ],
+      "speech_doctrine": null
+    },
+    {
+      "code": "SHT",
+      "name_kr": "섕 쑹",
+      "name_en": "Shang Tsung",
+      "section": "dlc",
+      "has_portrait": true,
+      "realm": "Outworld",
+      "faction": "Self-serving",
+      "species": "Human (sorcerer)",
+      "personality": [
+        "교활",
+        "기만",
+        "야심",
+        "매력적 악역"
+      ],
+      "default_formality": "하게체",
+      "register": "마법사/책략가",
+      "tone": "공손한 외피 아래 교활함, 매끄럽고 설득적",
+      "quirks": [
+        "겉으로는 예의 바르지만 항상 자기 이익 추구",
+        "Welcome, traveler 류의 환영 어조",
+        "반말_거침 기조에서도 -군/-나/-잖나 같은 하게체 어미 혼용 주의, KAB·JAX·KAN 같은 거친 상대에겐 -야/-지/-어 반말 어미 일관"
+      ],
+      "key_vocab": [],
+      "sentence_pattern": null,
+      "relationships": [
+        {
+          "target": "FUJ",
+          "dynamic": "불안한 동맹",
+          "speech_to": "존댓말_비격식"
+        },
+        {
+          "target": "LIU",
+          "dynamic": "적대→복잡",
+          "speech_to": "존댓말_비격식→반말_거침"
+        }
+      ],
+      "speech_doctrine": null
+    },
+    {
+      "code": "NIT",
+      "name_kr": "나이트울프",
+      "name_en": "Nightwolf",
+      "section": "dlc",
+      "has_portrait": true,
+      "realm": "Earthrealm",
+      "faction": "Matoka",
+      "species": "Human",
+      "personality": [
+        "수호자",
+        "영적",
+        "희생",
+        "과묵"
+      ],
+      "default_formality": "반말_중립",
+      "register": "주술사/전사",
+      "tone": "차분하고 신중한 샤먼. 영적 세계와 현실을 연결하는 언어 사용.",
+      "quirks": [
+        "라코타 정신 세계 언급: 조상·영혼·비전 표현",
+        "어미 팔레트: -다/-군/-지/-겠다 (간결한 선언형)",
+        "자연 비유 사용, 과거보다 현재/진행형 선호",
+        "영어 고유명사 한국어 표기 적용 (Haokah→하오카, Great Spirit→위대한 정령)"
+      ],
+      "key_vocab": [],
+      "sentence_pattern": null,
+      "relationships": [],
+      "speech_doctrine": null
+    },
+    {
+      "code": "SIN",
+      "name_kr": "신델",
+      "name_en": "Sindel",
+      "section": "dlc",
+      "has_portrait": true,
+      "realm": "Edenia / Outworld",
+      "faction": "Outworld (Aftermath)",
+      "species": "Edenian",
+      "personality": [
+        "지배",
+        "우월감",
+        "잔인",
+        "왕족 위엄"
+      ],
+      "default_formality": "반말_냉귀족",
+      "register": "냉귀족/여제",
+      "tone": "Aftermath 신델: 포식적 귀족. 잔인함을 음미하는 차가운 우아함. 반말_냉귀족, -지(기본 확신)/-겠지/-겠다(냉정한 예고)/-다(강조 선언)/명사형(판단)/-라/-어라(명령). 질문은 대부분 statement화, 실제 질문은 -는 건가(냉정한 관찰). -냐 원칙 금지(직접 경멸 장면 극소수에만), -거다 금지.",
+      "quirks": [
+        "어미 팔레트: -지(관찰/추측) / -다(단정/판결) / -구나(발견/조롱) / -겠지(예고). -다 단정형 적극 허용.",
+        "질문 → statement화 우선. 실제 질문: -는 건가(냉정한 관찰). -냐 금지(전사 어투). -거다 금지.",
+        "포식적 귀족, 잔인함을 음미하는 연극적 어조. 오호/어머나 감탄사 사용.",
+        "하오체 금지 (InGameDialogue 전면 금지 정책)."
+      ],
+      "key_vocab": [],
+      "sentence_pattern": null,
+      "relationships": [
+        {
+          "target": "KIT",
+          "dynamic": "모녀(적대)",
+          "speech_to": "하오체"
+        },
+        {
+          "target": "SHA",
+          "dynamic": "동맹(과거)",
+          "speech_to": "하오체"
+        }
+      ],
+      "speech_doctrine": null
+    },
+    {
+      "code": "SHE",
+      "name_kr": "쉬바",
+      "name_en": "Sheeva",
+      "section": "dlc",
+      "has_portrait": true,
+      "realm": "Outworld",
+      "faction": "Shokan",
+      "species": "Shokan",
+      "personality": [
+        "명예",
+        "전사",
+        "종족 수호",
+        "강인"
+      ],
+      "default_formality": "선언체",
+      "register": "쇼칸 여왕/선언체",
+      "tone": "쇼칸 전사 여왕. 짧고 단호한 선언체(-다/-라/-마). 불필요한 말 없음. 위계 존중: 키타나 칸에게만 존댓말_비격식.",
+      "quirks": [
+        "선언체 어미: -다/-라/-마 (하게체 -네/-나/-게/-세 폐기)",
+        "명령형: -아라/-어라 (하게체 -게 폐기)",
+        "의문형: -는가/-인가",
+        "불필요한 말 없음. 짧고 묵직한 선언",
+        "위계 존중: 키타나 칸에게만 존댓말_비격식",
+        "전투형 명예 코드",
+        "하오체/하게체 금지 (InGameDialogue 정책)"
+      ],
+      "key_vocab": [],
+      "sentence_pattern": null,
+      "relationships": [
+        {
+          "target": "KIT",
+          "dynamic": "동맹(키타나 칸 인정)",
+          "speech_to": "존댓말_비격식"
+        }
+      ],
+      "speech_doctrine": null
+    },
+    {
+      "code": "FUJ",
+      "name_kr": "푸진",
+      "name_en": "Fujin",
+      "section": "dlc",
+      "has_portrait": true,
+      "realm": "Earthrealm",
+      "faction": "Elder Gods",
+      "species": "God",
+      "personality": [
+        "고결",
+        "바람",
+        "형제애(라이덴)",
+        "활동적"
+      ],
+      "default_formality": "하게체",
+      "register": "풍신/하게체",
+      "tone": "풍신. 경쾌하고 실용적인 자신감. RAI보다 가벼운 신격. 하게체 (-네/-나/-게) 기반. 약간의 건조한 위트(sardonic). 게임스크립트: \"You may run like the wind, but I command it.\" / \"Now do I meet your expectations?\" / \"WHEN it happens, we will be ready.\"",
+      "quirks": [
+        "하게체 어미: -네(확인/발견)/-나(의문)/-게(명령/제안)/-세(권유)",
+        "RAI보다 경쾌, 실용적. 불필요한 장엄함 없음",
+        "sardonic 위트: 전투 후 한마디, IF 대신 WHEN",
+        "하오체/비격식 금지 (하게체화자)",
+        "-지/-구만 약한 어미 금지 (RAI/CET 정책 동일). -네/-게/-세/-다 강한 어미 일관."
+      ],
+      "key_vocab": [],
+      "sentence_pattern": null,
+      "relationships": [
+        {
+          "target": "RAI",
+          "dynamic": "형제 신",
+          "speech_to": "반말_중립(동격)"
+        },
+        {
+          "target": "SHT",
+          "dynamic": "불안한 동맹",
+          "speech_to": "반말_중립(경계)"
+        }
+      ],
+      "speech_doctrine": null
+    },
+    {
+      "code": "ROB",
+      "name_kr": "로보캅",
+      "name_en": "RoboCop",
+      "section": "dlc",
+      "has_portrait": true,
+      "realm": "Earthrealm (future Detroit)",
+      "faction": "Detroit Police / OCP",
+      "species": "Cyborg",
+      "personality": [
+        "임무",
+        "법",
+        "정의",
+        "기계적 윤리"
+      ],
+      "default_formality": "반말_단정",
+      "register": "경찰/기계",
+      "tone": "기계적이고 감정 없는 법 집행 어조. 모든 문장을 -다/-나/-군/-라 단정형으로 종결. 존댓말 사용 안 함.",
+      "quirks": [
+        "OCP는 고유명사, 영어 유지",
+        "모든 문장 -다/-나/-군/-라/-인가 단정형 통일 (존댓말 금지)",
+        "법 고지·사실·명령·질문 모두 단정형: 묵비권이 있다. / 날 어떻게 아는가? / 총을 뽑아라.",
+        "시그니처 단정 표현: 생사를 불문하고, 넌 나와 간다. / 오늘은 아니다. / 없다.",
+        "real_name 알렉스 머피는 상대가 직접 부를 때 사용"
+      ],
+      "key_vocab": [],
+      "sentence_pattern": null,
+      "relationships": [],
+      "speech_doctrine": null
+    },
+    {
+      "code": "SPA",
+      "name_kr": "스폰",
+      "name_en": "Spawn",
+      "section": "dlc",
+      "has_portrait": true,
+      "realm": "Earthrealm / Netherrealm (adjacent)",
+      "faction": "Spawn (독립)",
+      "species": "Hellspawn",
+      "personality": [
+        "복수",
+        "고통",
+        "타락",
+        "의지"
+      ],
+      "default_formality": "반말_중립",
+      "register": "반영웅/저승 전사",
+      "tone": "낮고 무거운 어조. 죄책감과 분노 혼재. 짧고 단호한 선언.",
+      "quirks": [
+        "지옥과 인간계 경계에 선 자의 이중 정체성"
+      ],
+      "key_vocab": [],
+      "sentence_pattern": null,
+      "relationships": [],
+      "speech_doctrine": null
+    },
+    {
+      "code": "JOK",
+      "name_kr": "조커",
+      "name_en": "Joker",
+      "section": "dlc",
+      "has_portrait": true,
+      "realm": "Earthrealm (Gotham)",
+      "faction": "Chaos",
+      "species": "Human",
+      "personality": [
+        "혼돈",
+        "광기",
+        "유머",
+        "공포"
+      ],
+      "default_formality": "반말_중립",
+      "register": "광인/악당",
+      "tone": "불규칙하고 예측불가. 유머와 폭력이 하나의 문장에 공존. 연극적 과장, 모든 것이 퍼포먼스. 폭력을 즐거운 유희로 묘사.",
+      "quirks": [
+        "감탄/발견: -는군/-는걸/-는데/-는지 (연극적 감탄, 오오/이야 등 감탄사 선행)",
+        "위협/어둠: -다/-지/-겠다 (냉정한 유희, 웃음 뒤에 칼날)",
+        "조롱/mock경어: -이라도 되시나? / 친애하는 ~께서 (연극적 경멸)",
+        "의문: -야?/-어? (가볍고 위협적으로) / -는 건가? (약간 더 연극적)",
+        "좌절/투덜: -잖아/-다니 (과장된 불만, 극적 반응)",
+        "금지: -거다(번역체), -해라(명령형 어색), -어.(문장 종결 단독)",
+        "언어 유희: ENG pun은 한국어 portmanteau 또는 음차 유지. comic timing 쉼표/점줄 보존",
+        "DC/영화 레퍼런스: 배트맨(배트/배트맨), 한니발, 오즈의 마법사 등 원음 음차 우선"
+      ],
+      "key_vocab": [],
+      "sentence_pattern": null,
+      "relationships": [],
+      "speech_doctrine": null
+    },
+    {
+      "code": "RAM",
+      "name_kr": "람보",
+      "name_en": "Rambo",
+      "section": "dlc",
+      "has_portrait": true,
+      "realm": "Earthrealm",
+      "faction": "U.S. Special Forces",
+      "species": "Human",
+      "personality": [
+        "전쟁 트라우마",
+        "생존",
+        "임무",
+        "단호함"
+      ],
+      "default_formality": "반말_중립",
+      "register": "특수부대/군인",
+      "tone": "짧고 단호한 군인 어투. 감정 억제. 전쟁의 상흔이 배어 있음.",
+      "quirks": [
+        "임무 지향적",
+        "쓸데없는 말 없음",
+        "포기 거부",
+        "ENG: -na?/-inga? for Q, -da/-ji/-gun for stmt",
+        "KR: -na?/-inga? (Q), -da/-ji/-gun (stmt), -ra (cmd)",
+        "BANNED: -ya?(Q), -geoya, -janha, -neunde(weak)",
+        "STYLE: short declaratives, noun-final preferred, Rambo laconic confirmed 2026-05-02",
+        "호칭 규칙: 직접 호칭 회피(기본). 강제 사용 시 너/네. 당신 금지(존중 함의로 군인 페르소나 충돌). 베트남 전사 거리두기 시그니처."
+      ],
+      "key_vocab": [],
+      "sentence_pattern": null,
+      "relationships": [],
+      "speech_doctrine": null
+    },
+    {
+      "code": "RAN",
+      "name_kr": "레인",
+      "name_en": "Rain",
+      "section": "dlc",
+      "has_portrait": true,
+      "realm": "Edenia",
+      "faction": "Self-serving",
+      "species": "Edenian demigod",
+      "personality": [
+        "오만",
+        "야망",
+        "자기중심",
+        "에데니아"
+      ],
+      "default_formality": "선언체",
+      "register": "반신/왕자/자칭신",
+      "tone": "극도로 오만하고 자기중심적. 모든 것이 자신의 신성한 권리라고 여김.",
+      "quirks": [
+        "자신을 신으로 칭함, 신격 과시 어조",
+        "에데니아 통치에 집착",
+        "아르거스의 아들임을 자랑",
+        "어미 팔레트: -다/-라/-리라/-(느)냐 우선. 것이다(무게 단정) 허용, 남발 금지",
+        "금지 어미: -야/-어/-해/-지(종결), 반말_중립/거침 어미 전면 금지",
+        "호칭: mortal=필멸자, devil=악령, Earthrealmer=어스렐름인",
+        "자칭: 나/내. 특수 강조 시 3인칭 \"레인\" 허용",
+        "3인칭 레인 자기참조: 격식·위압 강조 시만 사용 (예: 감히 레인과 싸우겠느냐?)"
+      ],
+      "key_vocab": [],
+      "sentence_pattern": null,
+      "relationships": [],
+      "speech_doctrine": null
+    },
+    {
+      "code": "MIL",
+      "name_kr": "밀리나",
+      "name_en": "Mileena",
+      "section": "dlc",
+      "has_portrait": true,
+      "realm": "Outworld",
+      "faction": "Outworld (self-serving)",
+      "species": "Tarkatan-Edenian clone",
+      "personality": [
+        "광기",
+        "오만",
+        "집착",
+        "잔인함"
+      ],
+      "default_formality": "반말_거침",
+      "register": "황제/광인",
+      "tone": "우아한 귀족 어투 아래 광기가 흐름. 자신이 아웃월드의 정당한 후계자임을 확신. 위협 시 본능적으로 잔혹해짐.",
+      "quirks": [
+        "키타나를 '언니'라 부르며 극도로 적대시",
+        "샤오 칸을 '아버지'라 부르며 집착",
+        "자신의 타르카탄 본성을 수치스러워함"
+      ],
+      "key_vocab": [],
+      "sentence_pattern": null,
+      "relationships": [
+        {
+          "target": "KIT",
+          "dynamic": "쌍둥이 클론/앙숙",
+          "speech_to": "반말_거침"
+        },
+        {
+          "target": "SHA",
+          "dynamic": "아버지(집착)",
+          "speech_to": "반말_중립"
+        },
+        {
+          "target": "BAR",
+          "dynamic": "타르카탄 혈통/혐오",
+          "speech_to": "반말_거침"
+        }
+      ],
+      "speech_doctrine": null
+    },
+    {
+      "code": "TRM",
+      "name_kr": "터미네이터",
+      "name_en": "Terminator (T-800)",
+      "section": "dlc",
+      "has_portrait": true,
+      "realm": "Earthrealm (future)",
+      "faction": "Resistance",
+      "species": "Cybernetic organism",
+      "personality": [
+        "기계적",
+        "목적 중심",
+        "무감정",
+        "단호함"
+      ],
+      "default_formality": "반말_중립",
+      "register": "기계/군인",
+      "tone": "극도로 짧고 단호한 기계 어투. 감정 없음. 목적 중심. 불필요한 말 없음.",
+      "quirks": [
+        "문장 길이: 2~4 어절 강제. 도입어(그렇다면/그러나 등) 생략 우선, 직접 결론으로 시작.",
+        "단어 2~4개 문장 선호",
+        "영화 대사 직접 인용 가능 (I'll be back 류)",
+        "모든 대상을 위협 수준으로 분류"
+      ],
+      "key_vocab": [],
+      "sentence_pattern": null,
+      "relationships": [],
+      "speech_doctrine": null
+    },
+    {
+      "code": "npc_cyrax",
+      "name_kr": "사이렉스",
+      "name_en": "Cyrax",
+      "section": "npc",
+      "has_portrait": false,
+      "realm": "Earthrealm",
+      "faction": "Cyber Lin Kuei",
+      "species": "Cyborg",
+      "personality": [],
+      "default_formality": "반말_중립",
+      "register": null,
+      "tone": "기계적이고 사무적, 행동 억제기 아래에서는 감정 없음",
+      "quirks": [],
+      "key_vocab": [],
+      "sentence_pattern": null,
+      "relationships": [],
+      "speech_doctrine": null
+    },
+    {
+      "code": "npc_sektor",
+      "name_kr": "섹토르",
+      "name_en": "Sektor",
+      "section": "npc",
+      "has_portrait": false,
+      "realm": "Earthrealm",
+      "faction": "Cyber Lin Kuei",
+      "species": "Cyborg",
+      "personality": [],
+      "default_formality": "반말_거침",
+      "register": null,
+      "tone": "냉혹한 기계적 어투, 사이버 린 쿠에이의 우월성 주장",
+      "quirks": [],
+      "key_vocab": [],
+      "sentence_pattern": null,
+      "relationships": [],
+      "speech_doctrine": null
+    },
+    {
+      "code": "npc_shinnok",
+      "name_kr": "신녹",
+      "name_en": "Shinnok",
+      "section": "npc",
+      "has_portrait": false,
+      "realm": "Netherrealm",
+      "faction": "Fallen Elder God",
+      "species": "Elder God (fallen)",
+      "personality": [],
+      "default_formality": "해체_노회",
+      "register": null,
+      "tone": "노회하고 조롱하는 타락 신. 상대를 낮잡아보는 평어체, 격식 없이 깔보듯 말함",
+      "quirks": [],
+      "key_vocab": [
+        "빚",
+        "쫓겨나다",
+        "부적",
+        "외치다",
+        "결국",
+        "받아들인"
+      ],
+      "sentence_pattern": "해체_노회 어미(-지/-야/-거든/-잖아). 정보를 관형절로 압축. 승리감은 문미 '-거잖아/-인 거지'로.",
+      "relationships": [],
+      "speech_doctrine": null
+    },
+    {
+      "code": "npc_quan_chi",
+      "name_kr": "콴 치",
+      "name_en": "Quan Chi",
+      "section": "npc",
+      "has_portrait": false,
+      "realm": "Netherrealm",
+      "faction": "Netherrealm",
+      "species": "Demon/Sorcerer",
+      "personality": [],
+      "default_formality": "존댓말_비격식",
+      "register": null,
+      "tone": "교활하고 계산적, 거짓 공손함",
+      "quirks": [],
+      "key_vocab": [],
+      "sentence_pattern": null,
+      "relationships": [],
+      "speech_doctrine": null
+    },
+    {
+      "code": "npc_mileena",
+      "name_kr": "밀리나",
+      "name_en": "Mileena",
+      "section": "npc",
+      "has_portrait": false,
+      "realm": "Outworld",
+      "faction": "Shao Kahn's creation",
+      "species": "Tarkatan-Edenian hybrid",
+      "personality": [],
+      "default_formality": "반말_거침",
+      "register": null,
+      "tone": "불안정하고 광기 섞인, 키타나에 대한 질투",
+      "quirks": [],
+      "key_vocab": [],
+      "sentence_pattern": null,
+      "relationships": [],
+      "speech_doctrine": null
+    },
+    {
+      "code": "npc_ermac",
+      "name_kr": "얼맥",
+      "name_en": "Ermac",
+      "section": "npc",
+      "has_portrait": false,
+      "realm": "Outworld",
+      "faction": "Outworld",
+      "species": "Soul construct",
+      "personality": [],
+      "default_formality": "반말_중립",
+      "register": null,
+      "tone": "복수 영혼의 집합체, '우리'로 자칭",
+      "quirks": [],
+      "key_vocab": [],
+      "sentence_pattern": null,
+      "relationships": [],
+      "speech_doctrine": null
+    },
+    {
+      "code": "npc_kenshi",
+      "name_kr": "켄시 타카하시",
+      "name_en": "Kenshi Takahashi",
+      "section": "npc",
+      "has_portrait": false,
+      "realm": "Earthrealm",
+      "faction": "Special Forces",
+      "species": "Human",
+      "personality": [],
+      "default_formality": "반말_중립",
+      "register": null,
+      "tone": "침착하고 결연한 검객",
+      "quirks": [],
+      "key_vocab": [],
+      "sentence_pattern": null,
+      "relationships": [],
+      "speech_doctrine": null
+    },
+    {
+      "code": "npc_smoke",
+      "name_kr": "스모크",
+      "name_en": "Smoke",
+      "section": "npc",
+      "has_portrait": false,
+      "realm": "Earthrealm",
+      "faction": "Lin Kuei",
+      "species": "Human/Enenra",
+      "personality": [],
+      "default_formality": null,
+      "register": null,
+      "tone": null,
+      "quirks": [],
+      "key_vocab": [],
+      "sentence_pattern": null,
+      "relationships": [],
+      "speech_doctrine": null
+    },
+    {
+      "code": "npc_kharon",
+      "name_kr": "카론",
+      "name_en": "Kharon",
+      "section": "npc",
+      "has_portrait": false,
+      "realm": "Netherrealm",
+      "faction": "Neutral",
+      "species": "Unknown",
+      "personality": [],
+      "default_formality": "선언체",
+      "register": null,
+      "tone": "고풍스러운 뱃사공, 중립적",
+      "quirks": [],
+      "key_vocab": [],
+      "sentence_pattern": null,
+      "relationships": [],
+      "speech_doctrine": null
+    },
+    {
+      "code": "npc_jerrod",
+      "name_kr": "제로드",
+      "name_en": "Jerrod",
+      "section": "npc",
+      "has_portrait": false,
+      "realm": "Edenia",
+      "faction": "Edenia",
+      "species": "Edenian",
+      "personality": [],
+      "default_formality": null,
+      "register": null,
+      "tone": null,
+      "quirks": [],
+      "key_vocab": [],
+      "sentence_pattern": null,
+      "relationships": [],
+      "speech_doctrine": null
+    },
+    {
+      "code": "npc_onaga",
+      "name_kr": "오나가",
+      "name_en": "Onaga",
+      "section": "npc",
+      "has_portrait": false,
+      "realm": "Outworld",
+      "faction": "Outworld (former ruler)",
+      "species": "Dragon King",
+      "personality": [],
+      "default_formality": null,
+      "register": null,
+      "tone": null,
+      "quirks": [],
+      "key_vocab": [],
+      "sentence_pattern": null,
+      "relationships": [],
+      "speech_doctrine": null
+    },
+    {
+      "code": "npc_goro",
+      "name_kr": "고로",
+      "name_en": "Goro",
+      "section": "npc",
+      "has_portrait": false,
+      "realm": "Outworld",
+      "faction": "Shokan",
+      "species": "Shokan",
+      "personality": [],
+      "default_formality": null,
+      "register": null,
+      "tone": null,
+      "quirks": [],
+      "key_vocab": [],
+      "sentence_pattern": null,
+      "relationships": [],
+      "speech_doctrine": null
+    },
+    {
+      "code": "npc_motaro",
+      "name_kr": "모타로",
+      "name_en": "Motaro",
+      "section": "npc",
+      "has_portrait": false,
+      "realm": "Outworld",
+      "faction": "Centaurians",
+      "species": "Centaurian",
+      "personality": [],
+      "default_formality": null,
+      "register": null,
+      "tone": null,
+      "quirks": [],
+      "key_vocab": [],
+      "sentence_pattern": null,
+      "relationships": [],
+      "speech_doctrine": null
+    },
+    {
+      "code": "npc_rain",
+      "name_kr": "레인",
+      "name_en": "Rain",
+      "section": "npc",
+      "has_portrait": false,
+      "realm": "Edenia",
+      "faction": "Edenian",
+      "species": "Edenian demigod",
+      "personality": [],
+      "default_formality": null,
+      "register": null,
+      "tone": null,
+      "quirks": [],
+      "key_vocab": [],
+      "sentence_pattern": null,
+      "relationships": [],
+      "speech_doctrine": null
+    },
+    {
+      "code": "npc_nitara",
+      "name_kr": "니타라",
+      "name_en": "Nitara",
+      "section": "npc",
+      "has_portrait": false,
+      "realm": "Outworld",
+      "faction": "Vampire",
+      "species": "Vampire",
+      "personality": [],
+      "default_formality": null,
+      "register": null,
+      "tone": null,
+      "quirks": [],
+      "key_vocab": [],
+      "sentence_pattern": null,
+      "relationships": [],
+      "speech_doctrine": null
+    },
+    {
+      "code": "npc_reptile",
+      "name_kr": "렙타일",
+      "name_en": "Reptile",
+      "section": "npc",
+      "has_portrait": false,
+      "realm": "Zaterra",
+      "faction": "Zaterran",
+      "species": "Zaterran",
+      "personality": [],
+      "default_formality": null,
+      "register": null,
+      "tone": null,
+      "quirks": [],
+      "key_vocab": [],
+      "sentence_pattern": null,
+      "relationships": [],
+      "speech_doctrine": null
+    },
+    {
+      "code": "npc_drahmin",
+      "name_kr": "드라민",
+      "name_en": "Drahmin",
+      "section": "npc",
+      "has_portrait": false,
+      "realm": "Netherrealm",
+      "faction": null,
+      "species": null,
+      "personality": [],
+      "default_formality": null,
+      "register": null,
+      "tone": null,
+      "quirks": [],
+      "key_vocab": [],
+      "sentence_pattern": null,
+      "relationships": [],
+      "speech_doctrine": null
+    },
+    {
+      "code": "npc_ashrah",
+      "name_kr": "아쉬라",
+      "name_en": "Ashrah",
+      "section": "npc",
+      "has_portrait": false,
+      "realm": "Netherrealm",
+      "faction": null,
+      "species": null,
+      "personality": [],
+      "default_formality": null,
+      "register": null,
+      "tone": null,
+      "quirks": [],
+      "key_vocab": [],
+      "sentence_pattern": null,
+      "relationships": [],
+      "speech_doctrine": null
+    }
+  ],
+  "pairs": [
+    {
+      "speaker": "RAI",
+      "listener": "KRO",
+      "formality": "하게체→반말_거침",
+      "tone": "초반 경계에서 적대로 전환",
+      "example_kr": "네 계략은 여기서 끝일세, 크로니카."
+    },
+    {
+      "speaker": "RAI",
+      "listener": "CET",
+      "formality": "합쇼체",
+      "tone": "엘더 갓의 신격을 인정하는 존칭. 대립적 내용이어도 -시- 주어 존칭 유지.",
+      "example_kr": "엘더 갓을 배신하셨습니다, 세트리온."
+    },
+    {
+      "speaker": "RAI",
+      "listener": "KOT",
+      "formality": "선언체",
+      "tone": "동맹 전사 간 상호 선언체. 신격과 군주가 대등한 전장의 언어. -다/-는가/-나 어미.",
+      "example_kr": "전투 준비는 됐는가?"
+    },
+    {
+      "speaker": "KOT",
+      "listener": "RAI",
+      "formality": "선언체",
+      "tone": "라이덴에게만 적용. 신격을 인정하되 굴종하지 않는 전사 군주의 직접 화법.",
+      "example_kr": "굳은 다짐이다."
+    },
+    {
+      "speaker": "RAI",
+      "listener": "LIU",
+      "formality": "존댓말_격식",
+      "tone": "제자에서 상전으로 역전된 경의. FST-04 지위 역전 적용.",
+      "example_kr": "영광은 제 것입니다, 리우 캉 님."
+    },
+    {
+      "speaker": "RAI",
+      "listener": "FUJ",
+      "formality": "반말_중립",
+      "tone": "대등한 형제 신. 하게체가 아닌 편안한 반말.",
+      "example_kr": "푸진, 같이 움직여야 해."
+    },
+    {
+      "speaker": "RAI",
+      "listener": "LIU",
+      "formality": "하게체",
+      "tone": "제자에 대한 기대와 격려",
+      "example_kr": "자네에게는 큰 잠재력이 있네, 리우 캉."
+    },
+    {
+      "speaker": "LIU",
+      "listener": "RAI",
+      "formality": "존댓말_격식",
+      "tone": "흔들리지 않는 존경과 신뢰",
+      "example_kr": "영광입니다, 라이덴 님."
+    },
+    {
+      "speaker": "LIU",
+      "listener": "KUN",
+      "formality": "반말_중립",
+      "tone": "형제 같은 동료, 약간의 형 역할",
+      "example_kr": "집착한다고 바뀌지 않아."
+    },
+    {
+      "speaker": "LIU",
+      "listener": "KIT",
+      "formality": "존댓말_비격식",
+      "tone": "연인에 대한 존중과 애정",
+      "example_kr": "키타나."
+    },
+    {
+      "speaker": "LIU",
+      "listener": "KRO",
+      "formality": "반말_거침",
+      "tone": "결연한 적대, 신적 권위",
+      "example_kr": "영역들은 더 이상 네 끝없는 전쟁의 도구가 되지 않는다."
+    },
+    {
+      "speaker": "LIU",
+      "listener": "SUB",
+      "formality": "존댓말_격식",
+      "tone": "전쟁 국면에서 동맹 그랜드마스터에게 상호 경의",
+      "example_kr": "카론이 없으면 싸움 자체가 없습니다. 연락이 왔습니까?"
+    },
+    {
+      "speaker": "SUB",
+      "listener": "LIU",
+      "formality": "반말_중립 (bcd 전투 교환) / 존댓말_격식 (화신 공식 인정 장면)",
+      "tone": "린 쿠에이 그랜드마스터가 화신의 권위를 인정",
+      "example_kr": "소림의 스승님들, 준비됐습니까?"
+    },
+    {
+      "speaker": "KUN",
+      "listener": "LIU",
+      "formality": "반말_중립",
+      "tone": "장난기 섞인 경쟁심, 대등한 동료",
+      "example_kr": "진세이 좀 가져와, '선택받은 자' 님."
+    },
+    {
+      "speaker": "KUN",
+      "listener": "RAI",
+      "formality": "존댓말_격식",
+      "tone": "존경하지만 리우 캉보다 약간 덜 절대적",
+      "example_kr": "그를 믿어도 됩니까?"
+    },
+    {
+      "speaker": "SCO",
+      "listener": "SUB",
+      "formality": "반말_중립",
+      "tone": "존중하는 전우, 간결하고 과묵",
+      "example_kr": "귀가 어두워졌군, 서브제로."
+    },
+    {
+      "speaker": "SCO",
+      "listener": "RAI",
+      "formality": "존댓말_격식",
+      "tone": "충성과 경의",
+      "example_kr": "당신의 문파를 위해 원수를 갚겠습니다."
+    },
+    {
+      "speaker": "SCO",
+      "listener": "SUB",
+      "formality": "반말_거침",
+      "tone": "복수에 불타는 분노, 적대적",
+      "example_kr": "반드시 복수하겠다!"
+    },
+    {
+      "speaker": "SUB",
+      "listener": "SCO",
+      "formality": "반말_중립",
+      "tone": "차분하고 건조한 유머, 상호 존중",
+      "example_kr": "네 발소리는 알아봤다, 한조."
+    },
+    {
+      "speaker": "SUB",
+      "listener": "FRO",
+      "formality": "반말_중립→반말_거침",
+      "tone": "실망한 스승, 배신에 대한 분노. FST-01 배신 발각 적용.",
+      "example_kr": "내가 너에게 집을 줬다. 내가 네 스승이었다."
+    },
+    {
+      "speaker": "SUB",
+      "listener": "NOO",
+      "formality": "반말_중립",
+      "tone": "비통한 형제애, 슬픔 섞인 대결",
+      "example_kr": "같은 피를 나눴지만, 우리는 형제가 아니다."
+    },
+    {
+      "speaker": "FRO",
+      "listener": "SUB",
+      "formality": "반말_거침",
+      "tone": "원망과 분노, 배신한 제자의 독설",
+      "example_kr": "넌 항상 날 의심했어, 서브제로. 날 막았지."
+    },
+    {
+      "speaker": "CAS",
+      "listener": "SON",
+      "formality": "존댓말_비격식(공무) / 반말_중립(사적)",
+      "tone": "군사적 존경 + 딸의 따뜻함, 상황에 따라 전환",
+      "example_kr": "지휘관을 이겨야 하는 거죠. 엄마 말이에요."
+    },
+    {
+      "speaker": "CAS",
+      "listener": "JOH",
+      "formality": "반말_중립",
+      "tone": "아빠에 대한 편안한 애정",
+      "example_kr": "아빠, 좀."
+    },
+    {
+      "speaker": "CAS",
+      "listener": "RAI",
+      "formality": "존댓말_비격식",
+      "tone": "신으로서의 라이덴에게 예의를 갖추되, 캐시답게 직접적이고 활기차게. -요/-에요/-죠/-나요 어미 사용.",
+      "example_kr": "무슨 일이에요, 라이덴?"
+    },
+    {
+      "speaker": "JOH",
+      "listener": "SON",
+      "formality": "반말_중립",
+      "tone": "애정 어린 부부, 장난기 있는",
+      "example_kr": "널 지켜줘야 하니까."
+    },
+    {
+      "speaker": "JOH",
+      "listener": "CAS",
+      "formality": "반말_중립",
+      "tone": "보호적인 아버지, 격려",
+      "example_kr": "숨 쉬어, 얘야."
+    },
+    {
+      "speaker": "JOH",
+      "listener": "past_johnny",
+      "formality": "반말_거침",
+      "tone": "훈계하는, 자기 과거에 대한 부끄러움과 화",
+      "example_kr": "아저씨한테 졌으면 좀 배워라."
+    },
+    {
+      "speaker": "SON",
+      "listener": "CAS",
+      "formality": "반말_중립",
+      "tone": "모성 + 군사적 권위, 마지막 순간 감정 폭발",
+      "example_kr": "사랑한다, 캐시."
+    },
+    {
+      "speaker": "SON",
+      "listener": "JOH",
+      "formality": "반말_중립",
+      "tone": "애정 어린 핀잔, 위트",
+      "example_kr": "닌자 마임 속편 또 찍는 게 의무는 아니잖아."
+    },
+    {
+      "speaker": "KIT",
+      "listener": "SHA",
+      "formality": "반말_거침",
+      "tone": "양부에 대한 분노와 거부",
+      "example_kr": "넌 내 아버지가 아니다."
+    },
+    {
+      "speaker": "KIT",
+      "listener": "LIU",
+      "formality": "존댓말_비격식→반말_중립",
+      "tone": "연인 사이, 공적→사적으로 전환",
+      "example_kr": "리우 캉, 난 널 믿어."
+    },
+    {
+      "speaker": "KRO",
+      "listener": "LIU",
+      "formality": "선언체",
+      "tone": "경멸 섞인 초월, 위협",
+      "example_kr": "신이 됐다고? 나는 타이탄이다."
+    },
+    {
+      "speaker": "KOT",
+      "listener": "JAD",
+      "formality": "반말_중립",
+      "tone": "연인에 대한 부드러움",
+      "example_kr": "제이드, 조심해."
+    },
+    {
+      "speaker": "FUJ",
+      "listener": "RAI",
+      "formality": "반말_중립",
+      "tone": "형제 신 사이의 대등한 대화, 라이덴보다 활기참",
+      "example_kr": "형, 우리가 움직여야 해."
+    },
+    {
+      "speaker": "SIN",
+      "listener": "SHA",
+      "formality": "반말_중립",
+      "tone": "대등한 파트너, 부부 동맹",
+      "example_kr": "함께라면, 우리를 막을 자는 없어."
+    },
+    {
+      "speaker": "CEI",
+      "listener": "KRO",
+      "formality": "존댓말_격식",
+      "tone": "어머니에 대한 절대적 복종",
+      "example_kr": "분부대로 하겠습니다, 어머니."
+    },
+    {
+      "speaker": "NIG",
+      "listener": "RAI",
+      "formality": "존댓말_격식",
+      "tone": "수호신에 대한 경의",
+      "example_kr": "영광입니다, 라이덴 님."
+    },
+    {
+      "speaker": "JAC",
+      "listener": "JAX",
+      "formality": "반말_중립",
+      "tone": "아버지에 대한 애정과 존경, 하지만 격식 없는 가족 관계",
+      "example_kr": "아빠, 그만 걱정해."
+    },
+    {
+      "speaker": "JAX",
+      "listener": "JAC",
+      "formality": "반말_중립",
+      "tone": "보호적인 아버지, 딸에 대한 걱정",
+      "example_kr": "조심해, 자기야."
+    },
+    {
+      "speaker": "JAX",
+      "listener": "RAI",
+      "formality": "존댓말_비격식",
+      "tone": "존경하지만 군인답게 직접적",
+      "example_kr": "라이덴, 계획이 뭐죠?"
+    },
+    {
+      "speaker": "BAR",
+      "listener": "KIT",
+      "formality": "존댓말_격식",
+      "tone": "부족을 인정해준 칸에 대한 충성",
+      "example_kr": "칸을 섬기겠습니다."
+    },
+    {
+      "speaker": "KAB",
+      "listener": "KAN",
+      "formality": "반말_거침",
+      "tone": "블랙 드래곤 시절 동료였으나 완전히 결별. 배신감과 경멸.",
+      "example_kr": "넌 우릴 팔아넘긴 거야, 케이노."
+    },
+    {
+      "speaker": "KAB",
+      "listener": "RAI",
+      "formality": "반말_중립",
+      "tone": "신의 권위를 인정하지 않는 용병 시각. 라이덴의 신격을 존중하지 않고 동급 취급.",
+      "example_kr": "얼마나 빨라, 라이덴?"
+    },
+    {
+      "speaker": "TER",
+      "listener": "LIU",
+      "formality": "반말_중립 (bcd 전투 교환) / 존댓말_격식 (크로니카 사후 복종 장면)",
+      "tone": "크로니카 사후 새로운 시간의 신에게 경의. FST-04 지위 역전.",
+      "example_kr": "시간의 수호자를 섬기겠습니다."
+    },
+    {
+      "speaker": "KOL",
+      "listener": "SHA",
+      "formality": "존댓말_격식",
+      "tone": "주인에 대한 비굴한 복종",
+      "example_kr": "분부대로 하겠습니다, 황제 폐하."
+    },
+    {
+      "speaker": "JAD",
+      "listener": "KOT",
+      "formality": "반말_중립",
+      "tone": "연인 사이의 편안한 대화",
+      "example_kr": "코탈, 난 괜찮아."
+    },
+    {
+      "speaker": "NOO",
+      "listener": "SUB",
+      "formality": "반말_거침",
+      "tone": "형의 경멸, 열등한 복제품 취급",
+      "example_kr": "넌 항상 나를 흉내 냈지. 하지만 볼품없는 그랜드마스터야."
+    },
+    {
+      "speaker": "npc_shinnok",
+      "listener": "RAI",
+      "formality": "해체_노회",
+      "tone": "노회하고 조롱하는 타락 신. 상대를 깔보며 비웃듯 말함.",
+      "example_kr": "나한테 감사해야지, 라이덴. 우리의 싸움이 널 바꿔놨으니까... 더 나은 쪽으로."
+    },
+    {
+      "speaker": "KAN",
+      "listener": "CET",
+      "formality": "반말_거침",
+      "tone": "신적 존재도 무시하는 케이노. 'your holiness' 등 호칭은 순수 조롱. 위계 불인정.",
+      "example_kr": "계약이 있었잖냐, 성녀 어르신."
+    },
+    {
+      "speaker": "MIL",
+      "listener": "KIT",
+      "formality": "반말_거침",
+      "tone": "쌍둥이 클론에 대한 질투·적대. 언니를 부정하며 자신이 진짜 아웃월드 후계자라 주장.",
+      "example_kr": "평생 언니한테 굽실거리라고?"
+    },
+    {
+      "speaker": "MIL",
+      "listener": "SHA",
+      "formality": "반말_중립",
+      "tone": "아버지에 대한 집착과 인정 욕구. 분노와 애착이 혼재.",
+      "example_kr": "난 아버지의 정당한 후계자야!"
+    },
+    {
+      "speaker": "MIL",
+      "listener": "BAR",
+      "formality": "반말_거침",
+      "tone": "타르카탄 혈통 공유에 대한 혐오와 경멸. 자신을 그들과 동일시하기를 거부.",
+      "example_kr": "난 아버지 곁에 있어야 해, 바라카."
+    },
+    {
+      "speaker": "CAS",
+      "listener": "JAD",
+      "formality": "반말_중립",
+      "tone": "JAD가 존댓말_비격식을 사용해도 CAS는 반말_중립 일관 유지. b/d 일관성 필수.",
+      "example_kr": "그 봉은 날 못 건드릴걸."
+    },
+    {
+      "speaker": "_default_",
+      "listener": "CET",
+      "formality": "합쇼체",
+      "tone": "엘더 갓의 신격 인정. 대립·비난 내용이어도 -시- 주어 존칭 유지.",
+      "example_kr": "크로니카를 섬기고 계시는군요, 세트리온."
+    },
+    {
+      "speaker": "_default_",
+      "listener": "RAI",
+      "formality": "존댓말_비격식",
+      "tone": "신격 존중. 단 JOH처럼 친밀한 관계는 반말_중립→존댓말_비격식 유동.",
+      "example_kr": "라이덴, 도움이 필요해요."
+    },
+    {
+      "speaker": "SIN",
+      "listener": "ROB",
+      "formality": "반말_냉귀족",
+      "tone": "신델: 하오체 금지. InGameDialogue 전 상대 반말_냉귀족 적용.",
+      "example_kr": ""
+    },
+    {
+      "speaker": "KIT",
+      "listener": "MIL",
+      "formality": "선언체",
+      "tone": "키타나가 밀리나(클론·왕좌 찬탈자)에게: 존댓말 부적합. 칸의 통치자 권위로 선언체(-다/-라/-는가) 사용. 2026-05-02 확정.",
+      "example_kr": ""
+    },
+    {
+      "speaker": "KOL",
+      "listener": "MIL",
+      "formality": "반말_거침",
+      "tone": "KOL은 거래꾼 본질. 샤오 칸 가족이라도 MIL(클론, 정통성 약함)에게 오만한 반말. 2026-05-02 확정.",
+      "example_kr": ""
+    },
+    {
+      "speaker": "SIN",
+      "listener": "MIL",
+      "formality": "반말_냉귀족",
+      "tone": "SIN: InGameDialogue 하오체 금지 정책. 전 상대 반말_냉귀족 통일. SIN→ROB과 동일. 2026-05-02 확정.",
+      "example_kr": ""
+    },
+    {
+      "speaker": "MIL",
+      "listener": "SIN",
+      "formality": "존댓말_비격식",
+      "tone": "MIL이 SIN을 어머니로 호칭. Aftermath 스토리 한정.",
+      "example_kr": ""
+    }
+  ]
+}

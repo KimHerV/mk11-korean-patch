@@ -1,0 +1,6 @@
+name = "mk11-feedback"
+main = "feedback-worker.js"
+compatibility_date = "2024-01-01"
+
+# deploy: npx wrangler deploy
+# set env var: npx wrangler secret put GITHUB_TOKEN

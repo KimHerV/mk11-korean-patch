@@ -1,0 +1,40 @@
+# Local dev tools
+dev_preview.ps1
+
+# Build artifacts
+*.exe
+*.bak
+*.iss.bak
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor
+.vscode/
+*.swp
+
+# Installer build
+installer/output/
+installer/tmp/
+installer/app/build/
+installer/app/dist/
+installer/app/*.spec
+installer/app/payload/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+manager/build/
+manager/dist/
+manager/*.spec
+
+# Wrangler / Cloudflare
+**/.wrangler/
+.dev.vars
+node_modules/
+
+# Misc
+landing/assets/hero_backup.mp4

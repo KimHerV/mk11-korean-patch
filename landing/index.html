@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mortal Kombat 11 Korean Patch</title>
+  <meta name="description" content="Unofficial Korean localization patch for Mortal Kombat 11" />
+  <link rel="stylesheet" href="style.css" />
+  <script src="content.js"></script>
+  <script src="lucide.min.js"></script>
+</head>
+<body>
+
+  <!-- ── Language toggle ──────────────────────────────────────── -->
+  <div class="lang-toggle" aria-label="Language selector">
+    <button class="lang-btn active" data-lang="kr" onclick="setLocale('kr')">KR</button>
+    <button class="lang-btn"        data-lang="en" onclick="setLocale('en')">EN</button>
+  </div>
+
+  <!-- ── HERO ─────────────────────────────────────────────── -->
+  <header class="hero">
+    <video class="hero-video" autoplay loop muted playsinline preload="auto">
+      <source src="assets/hero.mp4" type="video/mp4" />
+    </video>
+
+    <div class="hero-inner">
+      <p class="hero-eyebrow" data-i18n="hero.eyebrow"></p>
+      <h1 class="hero-title"><span data-i18n="hero.title_en"></span><span class="hero-title-kr" data-i18n="hero.title_kr"></span></h1>
+      <p class="hero-subtitle" data-i18n="hero.subtitle"></p>
+      <div class="hero-actions">
+        <a href="#install" class="btn btn-primary">
+          <span data-i18n="hero.btn_download"></span>
+        </a>
+        <a href="#feedback" class="btn btn-secondary" data-i18n="hero.btn_feedback"></a>
+      </div>
+      <p class="hero-legal" data-i18n="hero.legal"></p>
+      <p class="hero-credit" data-i18n="hero.credit"></p>
+    </div>
+  </header>
+
+  <!-- ── STATS ─────────────────────────────────────────────── -->
+  <section class="stats">
+    <div class="container stats-grid">
+      <div class="stat-item">
+        <span class="stat-number" data-i18n="stats.s1_num"></span>
+        <span class="stat-label" data-i18n="stats.s1_label"></span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-number" data-i18n="stats.s2_num"></span>
+        <span class="stat-label" data-i18n="stats.s2_label"></span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-number" data-i18n="stats.s3_num"></span>
+        <span class="stat-label" data-i18n="stats.s3_label"></span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-number" id="total-downloads">—</span>
+        <span class="stat-label" data-i18n="stats.s4_label"></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── SCREENSHOTS ──────────────────────────────────────── -->
+  <section class="section carousel-section" id="screenshots">
+    <div class="container">
+      <h2 class="section-title" data-i18n="screenshots.heading"></h2>
+      <p class="section-sub" data-i18n="screenshots.sub"></p>
+    </div>
+
+    <div class="carousel" role="region" aria-label="Screenshot carousel">
+      <div class="carousel-viewport">
+        <div class="carousel-track" id="carousel-track">
+
+          <figure class="carousel-slide" data-i18n-label="screenshots.slide1_label">
+            <img src="assets/screenshot-charselect.jpg" alt="Character select screen in Korean" loading="lazy" />
+          </figure>
+
+          <figure class="carousel-slide" data-i18n-label="screenshots.slide2_label">
+            <img src="assets/screenshot-story.jpg" alt="Story mode with Korean subtitles" loading="lazy" />
+          </figure>
+
+          <figure class="carousel-slide" data-i18n-label="screenshots.slide3_label">
+            <img src="assets/screenshot-dialogue.jpg" alt="Battle dialogue in Korean" loading="lazy" />
+          </figure>
+
+          <figure class="carousel-slide" data-i18n-label="screenshots.slide4_label">
+            <img src="assets/screenshot-movelist.jpg" alt="Movelist in Korean" loading="lazy" />
+          </figure>
+
+          <figure class="carousel-slide" data-i18n-label="screenshots.slide5_label">
+            <img src="assets/screenshot-tutorial.jpg" alt="Tutorial with Korean text" loading="lazy" />
+          </figure>
+
+          <figure class="carousel-slide" data-i18n-label="screenshots.slide6_label">
+            <img src="assets/screenshot-items.jpg" alt="Customization items in Korean" loading="lazy" />
+          </figure>
+
+        </div>
+      </div>
+
+      <button class="carousel-arrow carousel-arrow--prev" id="carousel-prev" aria-label="Previous">&#8249;</button>
+      <button class="carousel-arrow carousel-arrow--next" id="carousel-next" aria-label="Next">&#8250;</button>
+
+      <div class="carousel-footer">
+        <span class="carousel-caption" id="carousel-caption"></span>
+        <div class="carousel-dots" id="carousel-dots"></div>
+        <span class="carousel-counter" id="carousel-counter"></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── FEATURES ─────────────────────────────────────────── -->
+  <section class="section section-dark" id="features">
+    <div class="container">
+      <h2 class="section-title" data-i18n="features.heading"></h2>
+      <div class="features-grid">
+        <div class="feature-card">
+          <span class="feature-icon">&#9654;</span>
+          <h3 data-i18n="features.card1_title"></h3>
+          <p data-i18n="features.card1_desc"></p>
+        </div>
+        <div class="feature-card">
+          <span class="feature-icon">&#9650;</span>
+          <h3 data-i18n="features.card2_title"></h3>
+          <p data-i18n="features.card2_desc"></p>
+        </div>
+        <div class="feature-card">
+          <span class="feature-icon">&#9632;</span>
+          <h3 data-i18n="features.card3_title"></h3>
+          <p data-i18n="features.card3_desc"></p>
+        </div>
+        <div class="feature-card">
+          <span class="feature-icon">&#9670;</span>
+          <h3 data-i18n="features.card4_title"></h3>
+          <p data-i18n="features.card4_desc"></p>
+        </div>
+        <div class="feature-card">
+          <span class="feature-icon">&#9733;</span>
+          <h3 data-i18n="features.card5_title"></h3>
+          <p data-i18n="features.card5_desc"></p>
+        </div>
+        <div class="feature-card">
+          <span class="feature-icon">&#9679;</span>
+          <h3 data-i18n="features.card6_title"></h3>
+          <p data-i18n="features.card6_desc"></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── ENGINE VISUALIZER ──────────────────────────────── -->
+  <section class="section section-dark" id="engine">
+    <div class="container">
+      <div class="engine-heading-row">
+        <h2 class="section-title" data-i18n="engine.heading"></h2>
+        <span class="engine-wip-badge" data-i18n="engine.wip"></span>
+      </div>
+      <p class="section-sub" data-i18n="engine.sub"></p>
+
+      <div class="engine-filter-bar" id="engine-filter-bar"></div>
+
+      <div class="engine-layout">
+        <div class="engine-graph-wrap">
+          <svg id="engine-svg"></svg>
+          <div class="engine-panel" id="engine-panel" hidden>
+            <div id="engine-panel-inner"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── ABOUT ───────────────────────────────────────────── -->
+  <section class="section" id="about">
+    <div class="container container-narrow">
+      <h2 class="section-title" data-i18n="about.heading"></h2>
+      <p class="section-sub" data-i18n="about.sub"></p>
+
+      <div class="about-collapse" id="about-collapse">
+        <div class="about-timeline">
+
+          <div class="about-entry">
+            <div class="about-marker"></div>
+            <div class="about-body">
+              <span class="about-date" data-i18n="about.e0_date"></span>
+              <h3 data-i18n="about.e0_title"></h3>
+              <p data-i18n="about.e0_body"></p>
+            </div>
+          </div>
+
+          <div class="about-entry">
+            <div class="about-marker"></div>
+            <div class="about-body">
+              <span class="about-date" data-i18n="about.e1_date"></span>
+              <h3 data-i18n="about.e1_title"></h3>
+              <p data-i18n="about.e1_body"></p>
+            </div>
+          </div>
+
+          <div class="about-entry">
+            <div class="about-marker"></div>
+            <div class="about-body">
+              <span class="about-date" data-i18n="about.e2_date"></span>
+              <h3 data-i18n="about.e2_title"></h3>
+              <p data-i18n="about.e2_body"></p>
+            </div>
+          </div>
+
+          <div class="about-entry">
+            <div class="about-marker about-marker--gold"></div>
+            <div class="about-body">
+              <span class="about-date" data-i18n="about.e3_date"></span>
+              <h3 data-i18n="about.e3_title"></h3>
+              <p data-i18n="about.e3_body"></p>
+            </div>
+          </div>
+
+          <div class="about-entry">
+            <div class="about-marker about-marker--gold"></div>
+            <div class="about-body">
+              <span class="about-date" data-i18n="about.e4_date"></span>
+              <h3 data-i18n="about.e4_title"></h3>
+              <p data-i18n="about.e4_body"></p>
+            </div>
+          </div>
+
+          <div class="about-entry">
+            <div class="about-marker"></div>
+            <div class="about-body">
+              <span class="about-date" data-i18n="about.e5_date"></span>
+              <h3 data-i18n="about.e5_title"></h3>
+              <p data-i18n="about.e5_body"></p>
+            </div>
+          </div>
+
+          <div class="about-entry">
+            <div class="about-marker"></div>
+            <div class="about-body">
+              <span class="about-date" data-i18n="about.e6_date"></span>
+              <h3 data-i18n="about.e6_title"></h3>
+              <p data-i18n="about.e6_body"></p>
+            </div>
+          </div>
+
+          <div class="about-entry">
+            <div class="about-marker about-marker--gold"></div>
+            <div class="about-body">
+              <span class="about-date" data-i18n="about.e7_date"></span>
+              <h3 data-i18n="about.e7_title"></h3>
+              <p data-i18n="about.e7_body"></p>
+            </div>
+          </div>
+
+        </div>
+        <div class="about-gradient" id="about-gradient"></div>
+      </div>
+
+      <button class="about-toggle" id="about-toggle" type="button">
+        <span id="about-toggle-more" data-i18n="about.toggle_more"></span>
+        <span id="about-toggle-less" data-i18n="about.toggle_less" hidden></span>
+        <svg class="about-toggle-icon" id="about-toggle-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+
+    </div>
+  </section>
+
+  <!-- ── INSTALL ──────────────────────────────────────────── -->
+  <section class="section" id="install">
+    <div class="container">
+      <h2 class="section-title" data-i18n="install.heading"></h2>
+      <ol class="install-steps">
+        <li>
+          <span class="step-num">1</span>
+          <div>
+            <strong data-i18n="install.step1_title"></strong>
+            <p data-i18n="install.step1_desc"></p>
+          </div>
+        </li>
+        <li>
+          <span class="step-num">2</span>
+          <div>
+            <strong data-i18n="install.step2_title"></strong>
+            <p data-i18n="install.step2_desc"></p>
+          </div>
+        </li>
+        <li>
+          <span class="step-num">3</span>
+          <div>
+            <strong data-i18n="install.step3_title"></strong>
+            <p data-i18n="install.step3_desc"></p>
+          </div>
+        </li>
+        <li>
+          <span class="step-num">4</span>
+          <div>
+            <strong data-i18n="install.step4_title"></strong>
+            <p data-i18n="install.step4_desc"></p>
+          </div>
+        </li>
+      </ol>
+      <div class="install-manifest">
+        <p class="manifest-title" data-i18n="install.manifest_heading"></p>
+        <dl class="manifest-list">
+          <div class="manifest-row">
+            <dt data-i18n="install.manifest_f1_name"></dt>
+            <dd data-i18n="install.manifest_f1_desc"></dd>
+          </div>
+          <div class="manifest-row">
+            <dt data-i18n="install.manifest_f2_name"></dt>
+            <dd data-i18n="install.manifest_f2_desc"></dd>
+          </div>
+          <div class="manifest-row">
+            <dt data-i18n="install.manifest_f3_name"></dt>
+            <dd data-i18n="install.manifest_f3_desc"></dd>
+          </div>
+          <div class="manifest-row">
+            <dt data-i18n="install.manifest_f4_name"></dt>
+            <dd data-i18n="install.manifest_f4_desc"></dd>
+          </div>
+          <div class="manifest-row">
+            <dt data-i18n="install.manifest_f5_name"></dt>
+            <dd data-i18n="install.manifest_f5_desc"></dd>
+          </div>
+          <div class="manifest-row">
+            <dt data-i18n="install.manifest_f6_name"></dt>
+            <dd data-i18n="install.manifest_f6_desc"></dd>
+          </div>
+        </dl>
+      </div>
+      <div class="install-safety">
+        <ul>
+          <li data-i18n="install.safety1"></li>
+          <li data-i18n="install.safety2"></li>
+          <li data-i18n="install.safety3"></li>
+        </ul>
+      </div>
+      <div class="install-cta">
+        <a id="download-btn" href="https://github.com/KimHerV/mk11-korean-patch/releases/latest" class="btn btn-primary" target="_blank" rel="noopener" data-i18n="install.btn_download"></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── FEEDBACK ─────────────────────────────────────────── -->
+  <section class="section section-dark" id="feedback">
+    <div class="container container-narrow">
+      <h2 class="section-title" data-i18n="feedback.heading"></h2>
+      <p class="section-sub" data-i18n="feedback.sub"></p>
+
+      <form id="feedback-form" class="feedback-form" novalidate>
+        <div class="form-row">
+          <label for="category" data-i18n="feedback.label_category"></label>
+          <select id="category" name="category">
+
+            <option value="" disabled selected data-i18n="feedback.opt_placeholder"></option>
+            <option value="story"    data-i18n="feedback.opt_story"></option>
+            <option value="ingame"   data-i18n="feedback.opt_ingame"></option>
+            <option value="movelist" data-i18n="feedback.opt_movelist"></option>
+            <option value="tutorial" data-i18n="feedback.opt_tutorial"></option>
+            <option value="items"    data-i18n="feedback.opt_items"></option>
+            <option value="ui"       data-i18n="feedback.opt_ui"></option>
+            <option value="krypt"    data-i18n="feedback.opt_krypt"></option>
+            <option value="other"    data-i18n="feedback.opt_other"></option>
+          </select>
+          <span class="field-error" id="error-category"></span>
+        </div>
+
+        <div class="form-row" id="subcategory-row" hidden>
+          <label for="subcategory">
+            <span data-i18n="feedback.label_subcategory"></span>
+            <span class="label-hint" data-i18n="feedback.label_subcategory_hint"></span>
+          </label>
+          <select id="subcategory" name="subcategory">
+            <option value="" disabled selected data-i18n="feedback.opt_sub_placeholder"></option>
+          </select>
+        </div>
+
+        <div class="form-row" id="char-row" hidden>
+          <label><span data-i18n="feedback.label_characters"></span> <span class="required">*</span></label>
+          <div class="char-vs-row">
+            <button type="button" id="char-btn-a" class="char-select-btn" aria-haspopup="dialog">
+              <span id="char-btn-a-text" data-i18n="feedback.char_placeholder_a"></span>
+            </button>
+            <span class="char-vs-divider">VS</span>
+            <button type="button" id="char-btn-b" class="char-select-btn" aria-haspopup="dialog" disabled>
+              <span id="char-btn-b-text" data-i18n="feedback.char_placeholder_b"></span>
+            </button>
+          </div>
+          <input type="hidden" id="character_a" name="character_a" />
+          <input type="hidden" id="character_b" name="character_b" />
+          <span class="field-error" id="error-chars"></span>
+        </div>
+
+        <div class="form-row">
+          <label for="original">
+            <span data-i18n="feedback.label_original"></span>
+            <span class="label-hint" data-i18n="feedback.label_original_hint"></span>
+          </label>
+          <input type="text" id="original" name="original"
+            data-i18n-placeholder="feedback.placeholder_original" />
+        </div>
+
+        <div class="form-row">
+          <label for="suggestion">
+            <span data-i18n="feedback.label_suggestion"></span>
+            <span class="required">*</span>
+          </label>
+          <textarea id="suggestion" name="suggestion" rows="4"
+            data-i18n-placeholder="feedback.placeholder_suggestion"></textarea>
+          <span class="field-error" id="error-suggestion"></span>
+        </div>
+        <div class="form-row">
+          <label for="nickname">
+            <span data-i18n="feedback.label_nickname"></span>
+            <span class="label-hint" data-i18n="feedback.label_nickname_hint"></span>
+          </label>
+          <input type="text" id="nickname" name="nickname"
+            data-i18n-placeholder="feedback.placeholder_nickname"
+            data-i18n-default="feedback.nickname_default"
+            value="익명"
+            maxlength="30" />
+        </div>
+        <div class="form-footer">
+          <button type="submit" class="btn btn-primary" id="submit-btn" data-i18n="feedback.btn_submit"></button>
+          <p class="form-notice" data-i18n="feedback.notice"></p>
+        </div>
+        <div id="form-result" class="form-result" hidden></div>
+      </form>
+    </div>
+  </section>
+
+  <!-- ── FOOTER ───────────────────────────────────────────── -->
+  <footer class="footer">
+    <div class="container">
+      <p class="footer-title" data-i18n="footer.title"></p>
+      <p class="footer-credit" data-i18n="footer.credit"></p>
+      <p class="footer-links">
+        <a href="https://github.com/KimHerV/mk11-korean-patch" target="_blank" rel="noopener">GitHub</a>
+        <span class="divider">·</span>
+        <a href="https://github.com/KimHerV/mk11-korean-patch/releases" target="_blank" rel="noopener" data-i18n="footer.release_notes"></a>
+        <span class="divider">·</span>
+        <a href="https://github.com/KimHerV/mk11-korean-patch/issues" target="_blank" rel="noopener" data-i18n="footer.issue_tracker"></a>
+      </p>
+      <p class="footer-legal" data-i18n="footer.legal"></p>
+    </div>
+  </footer>
+
+  <!-- ── CHARACTER PICKER MODAL ───────────────────────────── -->
+  <div id="char-picker" class="char-picker" role="dialog" aria-modal="true" hidden>
+    <div class="char-picker-backdrop" id="char-picker-backdrop"></div>
+    <div class="char-picker-panel">
+      <div class="char-picker-header">
+        <span class="char-picker-title" data-i18n="feedback.char_picker_title"></span>
+        <button class="char-picker-close" id="char-picker-close" aria-label="닫기">&#10005;</button>
+      </div>
+      <div class="char-picker-status" id="char-picker-status">
+        <div class="cps-slot cps-slot--a" id="cps-slot-a">
+          <span class="cps-name cps-name--a" id="cps-name-a">—</span>
+        </div>
+        <span class="cps-vs">VS</span>
+        <div class="cps-slot cps-slot--b" id="cps-slot-b">
+          <span class="cps-name cps-name--b" id="cps-name-b">—</span>
+        </div>
+      </div>
+      <div class="char-grid" id="char-grid"></div>
+      <div class="char-picker-footer">
+        <button type="button" id="char-picker-confirm" class="btn btn-primary" data-i18n="feedback.char_picker_confirm"></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── ONLINE MODAL ─────────────────────────────────────── -->
+  <div id="online-modal" class="online-modal" role="dialog" aria-modal="true" aria-labelledby="online-modal-title" hidden>
+    <div class="online-modal-backdrop" id="online-modal-backdrop"></div>
+    <div class="online-modal-box">
+      <div class="online-modal-header">
+        <h2 class="online-modal-title" id="online-modal-title" data-i18n="online.heading"></h2>
+        <button class="online-modal-close" id="online-modal-close" aria-label="닫기">&#10005;</button>
+      </div>
+      <div class="online-modal-body">
+        <p data-i18n="online.p1"></p>
+        <p data-i18n="online.p2"></p>
+        <p data-i18n="online.p3"></p>
+      </div>
+      <div class="online-modal-footer">
+        <button type="button" class="btn btn-secondary" id="online-modal-cancel" data-i18n="online.btn_cancel"></button>
+        <button type="button" class="btn btn-primary" id="online-modal-confirm" data-i18n="online.btn_confirm"></button>
+      </div>
+    </div>
+  </div>
+
+  <script src="data/foundation_viz.js"></script>
+  <script src="d3.min.js"></script>
+  <script src="script.js"></script>
+  <script src="loading.js"></script>
+
+  <!-- ── MUSIC PLAYER ──────────────────────────────────────── -->
+  <div id="yt-iframe" style="position:fixed;bottom:-9999px;width:1px;height:1px;opacity:0;pointer-events:none;" aria-hidden="true"></div>
+
+  <div id="music-player" class="music-player">
+
+    <!-- Left: album art + track info -->
+    <div class="mp-info">
+      <img class="mp-thumb" src="assets/mk11_icon.png" alt="MK11" />
+      <div class="mp-meta">
+        <div class="mp-title-wrap">
+          <span id="music-title-link" class="mp-title-link" role="button" tabindex="0" aria-label="View on YouTube">
+            <span id="music-title" class="mp-title">Mortal Kombat 11 OST</span>
+          </span>
+        </div>
+        <span class="mp-sub">Official Soundtrack · WB Games</span>
+      </div>
+    </div>
+
+    <!-- Play button: direct grid child. Desktop=top center, mobile=right. -->
+    <button id="music-play" class="mp-btn mp-btn--play" aria-label="Play">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg>
+    </button>
+
+    <!-- Center: progress bar (desktop) / bottom bar (mobile) -->
+    <div class="mp-center">
+      <div class="mp-progress-row">
+        <span id="music-time" class="mp-time">0:00</span>
+        <div id="music-progress-bar" class="mp-progress-bar" role="slider" aria-label="Playback position">
+          <div id="music-progress-fill" class="mp-progress-fill"></div>
+        </div>
+        <span id="music-duration" class="mp-time">0:00</span>
+      </div>
+    </div>
+
+    <!-- Right: volume -->
+    <div class="mp-right">
+      <button id="music-mute" class="mp-btn" aria-label="Mute/unmute"></button>
+      <input type="range" id="music-vol" class="mp-vol-slider" min="0" max="100" value="50" aria-label="Volume" />
+    </div>
+
+    <!-- Muted autoplay hint -->
+    <div id="music-unmute-hint" class="mp-unmute-hint" role="button" tabindex="0" aria-label="Unmute">
+      <svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor"><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/></svg>
+      <span data-i18n="player.unmute_hint">소리 켜기</span>
+    </div>
+
+  </div>
+
+  <script src="player.js"></script>
+  <script>lucide.createIcons();</script>
+  <script>
+  (function () {
+    var collapse  = document.getElementById('about-collapse');
+    var toggleBtn = document.getElementById('about-toggle');
+    var moreSpan  = document.getElementById('about-toggle-more');
+    var lessSpan  = document.getElementById('about-toggle-less');
+    var icon      = document.getElementById('about-toggle-icon');
+
+    toggleBtn.addEventListener('click', function () {
+      var open = collapse.classList.toggle('about-collapse--open');
+      moreSpan.hidden = open;
+      lessSpan.hidden = !open;
+      if (open) {
+        icon.style.transform = 'rotate(180deg)';
+      } else {
+        icon.style.transform = '';
+        collapse.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  }());
+
+  (function () {
+    var modal    = document.getElementById('online-modal');
+    var backdrop = document.getElementById('online-modal-backdrop');
+    var closeBtn = document.getElementById('online-modal-close');
+    var cancelBtn = document.getElementById('online-modal-cancel');
+    var confirmBtn = document.getElementById('online-modal-confirm');
+    var downloadBtn = document.getElementById('download-btn');
+    var downloadUrl = '';
+
+    function openModal(url) {
+      downloadUrl = url;
+      modal.hidden = false;
+      document.body.style.overflow = 'hidden';
+      confirmBtn.focus();
+    }
+
+    function closeModal() {
+      modal.hidden = true;
+      document.body.style.overflow = '';
+      if (downloadBtn) downloadBtn.focus();
+    }
+
+    if (downloadBtn) {
+      downloadBtn.addEventListener('click', function (e) {
+        e.preventDefault();
+        openModal(this.href);
+      });
+    }
+
+    confirmBtn.addEventListener('click', function () {
+      window.open(downloadUrl, '_blank', 'noopener,noreferrer');
+      closeModal();
+    });
+
+    [closeBtn, cancelBtn, backdrop].forEach(function (el) {
+      el.addEventListener('click', closeModal);
+    });
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && !modal.hidden) closeModal();
+    });
+  }());
+  </script>
+</body>
+</html>

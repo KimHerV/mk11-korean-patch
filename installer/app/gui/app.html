@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>Mortal Kombat 11 Korean Patch</title>
+  <link rel="stylesheet" href="design-system.css" />
+  <style>
+    /* NanumSquare Neo */
+    @font-face {
+      font-family: 'NanumSquare Neo';
+      src: url('kor.woff2') format('woff2');
+      font-weight: 100 900;
+      font-style: normal;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: var(--font-ui);
+      background: var(--bg);
+      color: var(--text);
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      user-select: none;
+      -webkit-user-select: none;
+      overflow: hidden;
+    }
+
+    /* .btn sizing (colors/hover from design-system.css) */
+    .btn { padding: 8px 22px; font-size: 12px; border-radius: 3px; line-height: 1.4; }
+
+    /* ── Banner ── */
+    .banner {
+      position: relative;
+      width: 100%;
+      height: 180px;
+      flex-shrink: 0;
+      overflow: hidden;
+    }
+    .banner-img {
+      width: 100%; height: 100%;
+      object-fit: cover; object-position: center;
+      display: block;
+    }
+    .banner-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to bottom, rgba(0,0,0,0.08) 0%, rgba(0,0,0,0.62) 100%);
+    }
+    .banner-content {
+      position: absolute; inset: 0;
+      display: flex; flex-direction: column;
+      justify-content: flex-end;
+      padding: 18px 24px;
+    }
+    .banner-title-en {
+      font-size: 12px; font-weight: 700;
+      letter-spacing: .18em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 3px;
+    }
+    .banner-title-kr {
+      font-size: 22px; font-weight: 700;
+      letter-spacing: .03em; color: var(--text);
+    }
+    .banner-ver {
+      position: absolute; bottom: 16px; right: 20px;
+      font-size: 12px; color: rgba(240,236,224,0.48);
+      letter-spacing: .04em;
+    }
+
+    /* ── Stepper ── */
+
+    /* ── Pages ── */
+    .page { display: none; flex: 1; flex-direction: column; overflow: hidden; min-height: 0; }
+    .page.active { display: flex; }
+    .page-body { flex: 1; overflow-y: auto; padding: 20px 28px 0; position: relative; }
+    .page-footer {
+      padding: 12px 28px 16px;
+      border-top: 1px solid var(--border);
+      display: flex; justify-content: flex-end; align-items: center; gap: 10px;
+      flex-shrink: 0;
+    }
+
+    /* ── Scroll hint (info page only) ── */
+    .scroll-hint {
+      position: sticky;
+      bottom: 0;
+      display: flex; flex-direction: column; align-items: center; gap: 12px;
+      padding: 20px 0 12px;
+      background: linear-gradient(transparent, var(--bg) 55%);
+      pointer-events: none;
+      transition: opacity .4s;
+    }
+    .scroll-hint.hidden { opacity: 0; }
+    .scroll-hint-arrow {
+      width: 16px; height: 16px;
+      display: flex; align-items: center; justify-content: center;
+      animation: bounce-down 1.4s ease-in-out infinite;
+    }
+    .scroll-hint-arrow::before {
+      content: '';
+      width: 10px; height: 10px;
+      border-right: 2px solid var(--text-muted);
+      border-bottom: 2px solid var(--text-muted);
+      transform: rotate(45deg);
+      flex-shrink: 0;
+    }
+    @keyframes bounce-down {
+      0%, 100% { transform: translateY(0); }
+      50%       { transform: translateY(5px); }
+    }
+    .scroll-hint-text {
+      font-size: 12px; color: var(--text-muted);
+      letter-spacing: .04em;
+    }
+
+    /* ── Buttons (colors/hover from design-system.css) ── */
+    .btn:disabled { opacity: .35; }
+
+    /* ── Section title ── */
+    .sec-title {
+      font-size: 12px; font-weight: 700;
+      color: var(--gold-dim); letter-spacing: .1em; text-transform: uppercase;
+      margin-bottom: 10px; padding-bottom: 6px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    /* ── Install list ── */
+    .install-list {
+      display: flex; flex-direction: column;
+      border: 1px solid var(--border); border-radius: 4px;
+      overflow: hidden; margin-bottom: 12px;
+    }
+    .install-item {
+      display: flex; align-items: center; gap: 14px;
+      padding: 13px 16px;
+      background: var(--surface-raised);
+    }
+    .install-item + .install-item { border-top: 1px solid var(--border); }
+    .install-dot {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: var(--gold-dim); flex-shrink: 0;
+    }
+    .install-body { flex: 1; min-width: 0; }
+    .install-name { font-size: 12px; font-weight: 700; color: var(--text); }
+    .install-desc { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+    .install-badge {
+      font-size: 11px; font-weight: 700; letter-spacing: .04em;
+      color: var(--gold-dim);
+      border: 1px solid var(--gold-dim); border-radius: 3px;
+      padding: 2px 8px; flex-shrink: 0;
+      background: rgba(122,96,48,.12);
+    }
+    .install-badge.danger {
+      color: var(--danger);
+      border-color: var(--danger);
+      background: rgba(204,51,51,.1);
+    }
+    .install-badge.muted {
+      color: var(--text-muted);
+      border-color: var(--border);
+      background: transparent;
+    }
+    .install-credits {
+      font-size: 12px; color: var(--text-muted);
+      margin-bottom: 20px; line-height: 1.6;
+    }
+
+    /* ── Notice ── */
+    .notice { font-size: 12px; color: var(--text-muted); line-height: 1.8; }
+    .notice-item::before { content: '※ '; color: var(--gold-dim); }
+
+    /* ── Custom checkbox + agreement ── */
+    .agree-row {
+      display: flex; align-items: flex-start; gap: 10px;
+      margin-top: 16px; padding: 12px 14px;
+      background: var(--surface-raised);
+      border: 1px solid var(--border); border-radius: 4px;
+      cursor: pointer;
+      transition: border-color .15s, background .15s;
+    }
+    .agree-row:hover   { border-color: var(--gold-dim); }
+    .agree-row.checked { border-color: var(--gold-dim); background: #141000; }
+
+    .agree-check {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 16px; height: 16px;
+      flex-shrink: 0; margin-top: 1px;
+      background: var(--surface-raised);
+      border: 1.5px solid var(--border);
+      border-radius: 3px;
+      cursor: pointer;
+      position: relative;
+      transition: background .15s, border-color .15s;
+    }
+    .agree-check:hover { border-color: var(--gold-dim); }
+    .agree-check:checked {
+      background: var(--gold);
+      border-color: var(--gold);
+    }
+    .agree-check:checked::after {
+      content: '';
+      position: absolute;
+      left: 4px; top: 0px;
+      width: 5px; height: 10px;
+      border-right: 2px solid #000;
+      border-bottom: 2px solid #000;
+      transform: rotate(40deg);
+    }
+
+    .agree-label {
+      font-size: 12px; color: var(--text-muted);
+      line-height: 1.6; cursor: pointer;
+    }
+
+    /* ── Path ── */
+    .path-cards { display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px; }
+    .path-card {
+      padding: 12px 14px;
+      background: var(--surface-raised);
+      border: 1px solid var(--border); border-radius: 4px;
+      cursor: pointer; transition: border-color .15s;
+    }
+    .path-card:hover    { border-color: var(--gold-dim); }
+    .path-card.selected { border-color: var(--gold); background: #1a1500; }
+    .path-card-label { font-size: 12px; color: var(--gold-dim); margin-bottom: 4px; letter-spacing: .06em; }
+    .path-card-path  {
+      font-size: 12px; color: var(--text);
+      font-family: 'Consolas', monospace; word-break: break-all;
+    }
+
+    .path-manual { display: flex; gap: 8px; align-items: stretch; margin-top: 4px; }
+    .path-input {
+      flex: 1;
+      background: var(--surface-raised);
+      border: 1px solid var(--border); border-radius: 3px;
+      padding: 8px 10px;
+      color: var(--text);
+      font-family: var(--font-ui);
+      font-size: 12px; line-height: 1.4;
+      outline: none;
+    }
+    .path-input::placeholder { color: var(--text-muted); opacity: 1; }
+    .path-input:focus { border-color: var(--gold-dim); }
+    .path-input.error { border-color: var(--danger); }
+    .path-input.ok    { border-color: var(--success); }
+
+    .path-feedback { font-size: 12px; margin-top: 6px; min-height: 18px; }
+    .path-feedback.ok    { color: var(--success); }
+    .path-feedback.error { color: var(--danger); }
+
+    /* ── Summary ── */
+    .summary-rows { display: flex; flex-direction: column; gap: 10px; }
+    .summary-row  { display: flex; gap: 16px; font-size: 12px; }
+    .summary-key  { color: var(--text-muted); min-width: 80px; flex-shrink: 0; }
+    .summary-val  { color: var(--text); word-break: break-all; }
+
+    /* ── Progress ── */
+    .progress-wrap { margin: 32px 0 12px; }
+    .progress-bar-bg { height: 3px; background: var(--border); border-radius: 2px; overflow: hidden; }
+    .progress-bar-fill { height: 100%; background: var(--gold); border-radius: 2px; transition: width .4s ease; width: 0%; }
+    .progress-status { font-size: 12px; color: var(--text-muted); margin-top: 10px; }
+    .progress-pct    { font-size: 12px; color: var(--gold); text-align: right; }
+
+    /* ── Done header (공통 컴포넌트) ── */
+    .done-header {
+      display: flex; flex-direction: column;
+      align-items: center; text-align: center;
+      gap: 14px; margin-bottom: 24px;
+    }
+    .done-header svg {
+      width: 48px !important; height: 48px !important;
+      color: var(--success);
+      stroke: currentColor; stroke-width: 1.5;
+      flex-shrink: 0;
+    }
+    .done-header-text { display: flex; flex-direction: column; gap: 4px; }
+    .done-header-title {
+      font-size: 18px; font-weight: 700; color: var(--gold);
+    }
+    .done-header-sub {
+      font-size: 12px; color: var(--text-muted);
+    }
+    /* btn-danger (design-system 강제 적용) */
+    .btn.btn-danger {
+      background: var(--danger) !important;
+      color: #fff !important;
+      border: 1px solid var(--danger) !important;
+    }
+    .btn.btn-danger:not(:disabled):hover {
+      background: #e03a3a !important;
+      border-color: #e03a3a !important;
+    }
+    .steam-notice {
+      background: var(--surface-raised);
+      border: 1px solid var(--border); border-radius: 4px;
+      padding: 14px 16px;
+      font-size: 12px; color: var(--text-muted); line-height: 1.8;
+    }
+    .steam-notice strong { color: var(--gold); }
+
+    .mt8  { margin-top:  8px; }
+    .mt16 { margin-top: 16px; }
+    .mt20 { margin-top: 20px; }
+  </style>
+  <script src="lucide.min.js"></script>
+</head>
+<body>
+
+<!-- Banner -->
+<div class="banner">
+  <img class="banner-img" src="banner.png" alt="" />
+  <div class="banner-overlay"></div>
+  <div class="banner-content">
+    <div class="banner-title-en">Mortal Kombat 11</div>
+    <div class="banner-title-kr" id="banner-title-kr">한글 패치 설치</div>
+  </div>
+  <div class="banner-ver" id="banner-ver"></div>
+</div>
+
+<!-- ── PAGE 0: INFO ── -->
+<div class="page active" id="page-info">
+  <div class="page-body" id="info-body">
+    <div class="sec-title">자동으로 설치되는 항목</div>
+    <div class="install-list">
+      <div class="install-item">
+        <div class="install-dot"></div>
+        <div class="install-body">
+          <div class="install-name">한글 번역 텍스트</div>
+          <div class="install-desc">53,000+ 항목 (스토리 · 무브리스트 · UI · DLC · 인게임 대사 전체)</div>
+        </div>
+        <div class="install-badge">자동</div>
+      </div>
+      <div class="install-item">
+        <div class="install-dot"></div>
+        <div class="install-body">
+          <div class="install-name">한글 글리프 텍스처</div>
+          <div class="install-desc">나눔스퀘어 네오 - 게임 내 한글 렌더링</div>
+        </div>
+        <div class="install-badge">자동</div>
+      </div>
+      <div class="install-item">
+        <div class="install-dot"></div>
+        <div class="install-body">
+          <div class="install-name">번역 로더 플러그인</div>
+          <div class="install-desc">한글 번역 파일 로드 허용 - 게임 파일 무변조</div>
+        </div>
+        <div class="install-badge">자동</div>
+      </div>
+      <div class="install-item">
+        <div class="install-dot"></div>
+        <div class="install-body">
+          <div class="install-name">패치 관리 도구</div>
+          <div class="install-desc">상태 확인 · 재적용 · 업데이트 감지</div>
+        </div>
+        <div class="install-badge">자동</div>
+      </div>
+    </div>
+    <p class="install-credits">오픈소스 구성요소: Ultimate ASI Loader · ASIMK11</p>
+
+    <div class="notice">
+      <div class="notice-item">게임 실행 파일(.exe) 무변조. 번역 텍스트·폰트만 변경</div>
+      <div class="notice-item">테스트 환경 기준 온라인 플레이 가능 확인 (비공식 패치 특성상 온라인 사용은 본인 책임)</div>
+      <div class="notice-item">원본 파일은 설치 전 자동 백업 → 제거 시 복구</div>
+    </div>
+
+    <div class="agree-row" id="agree-row" onclick="toggleAgree()">
+      <input class="agree-check" type="checkbox" id="agree-check"
+             onclick="event.stopPropagation(); toggleAgree()" />
+      <label class="agree-label">
+        이 패치는 비공식 팬 번역이며 WB Games / NetherRealm Studios와 무관합니다.
+        원본 파일은 설치 전 자동으로 백업되며 제거 시 복구됩니다.
+      </label>
+    </div>
+
+    <!-- Scroll hint -->
+    <div class="scroll-hint" id="scroll-hint">
+      <div class="scroll-hint-arrow"></div>
+      <span class="scroll-hint-text">아래로 스크롤하여 내용 확인</span>
+    </div>
+  </div>
+  <div class="page-footer">
+    <button class="btn btn-gold" id="btn-next-info" disabled onclick="goToPath()">다음</button>
+  </div>
+</div>
+
+<!-- ── PAGE 1: PATH ── -->
+<div class="page" id="page-path">
+  <div class="page-body">
+    <p class="notice mt8" style="margin-bottom:14px">
+      MK11이 설치된 <strong style="color:var(--text)">최상위 게임 폴더</strong>를 선택하세요.
+    </p>
+    <div class="path-cards" id="auto-cards"></div>
+    <div class="sec-title mt16">직접 선택</div>
+    <div class="path-manual">
+      <input class="path-input" id="manual-input" type="text"
+             placeholder="게임 폴더 경로..." oninput="onManualInput()" />
+      <button class="btn btn-outline" onclick="browseManual()">찾기</button>
+    </div>
+    <div class="path-feedback" id="path-feedback"></div>
+  </div>
+  <div class="page-footer">
+    <button class="btn btn-ghost" onclick="goPage('info')">이전</button>
+    <button class="btn btn-gold" id="btn-next-path" disabled onclick="goToSummary()">다음</button>
+  </div>
+</div>
+
+<!-- ── PAGE 2: SUMMARY ── -->
+<div class="page" id="page-summary">
+  <div class="page-body">
+    <div class="sec-title">설치 요약</div>
+    <div class="summary-rows">
+      <div class="summary-row">
+        <span class="summary-key">게임 경로</span>
+        <span class="summary-val" id="sum-path">—</span>
+      </div>
+      <div class="summary-row">
+        <span class="summary-key">패치 버전</span>
+        <span class="summary-val" id="sum-ver">—</span>
+      </div>
+      <div class="summary-row">
+        <span class="summary-key">백업 위치</span>
+        <span class="summary-val" id="sum-backup">—</span>
+      </div>
+      <div class="summary-row">
+        <span class="summary-key">바로 가기</span>
+        <span class="summary-val">바탕화면 · 시작 메뉴</span>
+      </div>
+    </div>
+    <p class="notice mt20">위 내용을 확인 후 <strong style="color:var(--gold)">설치 시작</strong>을 클릭하세요.</p>
+  </div>
+  <div class="page-footer">
+    <button class="btn btn-ghost" onclick="goPage('path')">이전</button>
+    <button class="btn btn-gold"  onclick="startInstall()">설치 시작</button>
+  </div>
+</div>
+
+<!-- ── PAGE 3: PROGRESS ── -->
+<div class="page" id="page-progress">
+  <div class="page-body">
+    <div class="progress-wrap">
+      <div style="display:flex;justify-content:space-between;margin-bottom:8px">
+        <span class="progress-status" id="prog-status">준비 중...</span>
+        <span class="progress-pct"    id="prog-pct">0%</span>
+      </div>
+      <div class="progress-bar-bg">
+        <div class="progress-bar-fill" id="prog-bar"></div>
+      </div>
+    </div>
+  </div>
+  <div class="page-footer">
+    <span style="font-size:12px;color:var(--text-muted)">설치 중에는 창을 닫지 마세요.</span>
+  </div>
+</div>
+
+<!-- ── PAGE 4: DONE ── -->
+<div class="page" id="page-done">
+  <div class="page-body" style="padding:28px 32px;overflow-y:auto;display:flex;flex-direction:column;align-items:center">
+    <div class="done-header">
+      <i data-lucide="check-circle"></i>
+      <div class="done-header-text">
+        <div class="done-header-title">설치 완료</div>
+        <div class="done-header-sub">MK11 한글 패치가 성공적으로 설치됐습니다.</div>
+      </div>
+    </div>
+    <div class="steam-notice" style="width:100%">
+      <strong>마지막 단계</strong><br>
+      Steam → 라이브러리 → Mortal Kombat 11 → 속성 → 언어<br>
+      → <strong>중국어 간체(Simplified Chinese)</strong> 로 변경하세요.
+    </div>
+  </div>
+  <div class="page-footer">
+    <button class="btn btn-outline" onclick="closeWindow()">닫기</button>
+    <button class="btn btn-gold"    onclick="launchManager()">관리 도구 실행</button>
+  </div>
+</div>
+
+<!-- ── UNINSTALL PAGE 1: CONFIRM ── -->
+<div class="page" id="page-uninstall-confirm">
+  <div class="page-body" style="padding:24px 32px;overflow-y:auto">
+    <div class="sec-title" style="margin-bottom:16px">MK11 한글 패치 제거</div>
+    <p style="font-size:13px;color:var(--text-muted);margin-bottom:20px">
+      다음 항목이 제거되고 원본 파일이 복구됩니다.
+    </p>
+    <div class="install-list" style="margin-bottom:20px">
+      <div class="install-item">
+        <div class="install-dot" style="background:var(--danger)"></div>
+        <div class="install-body">
+          <div class="install-name">패치 파일 제거</div>
+          <div class="install-desc">Coalesced.CHS, 한글 폰트: 원본으로 복구</div>
+        </div>
+        <div class="install-badge danger">제거</div>
+      </div>
+      <div class="install-item">
+        <div class="install-dot" style="background:var(--danger)"></div>
+        <div class="install-body">
+          <div class="install-name">로더 플러그인 제거</div>
+          <div class="install-desc">dinput8.dll, ASIMK11.asi/ini, libzmq: 완전 삭제</div>
+        </div>
+        <div class="install-badge danger">제거</div>
+      </div>
+      <div class="install-item">
+        <div class="install-dot" style="background:var(--text-muted)"></div>
+        <div class="install-body">
+          <div class="install-name">관리 도구 및 설정 제거</div>
+          <div class="install-desc">%APPDATA%\MK11KoreanPatch\ 전체 삭제</div>
+        </div>
+        <div class="install-badge muted">정리</div>
+      </div>
+    </div>
+    <div class="notice" style="margin-bottom:0">
+      <div class="notice-item">백업 파일이 있으면 원본으로 정확히 복구됩니다.</div>
+      <div class="notice-item">Steam 언어 설정은 직접 원복이 필요합니다 (중국어 간체 → 원하는 언어).</div>
+    </div>
+  </div>
+  <div class="page-footer">
+    <button class="btn btn-outline" onclick="closeWindow()">취소</button>
+    <button class="btn btn-danger" onclick="startUninstall()">제거 진행</button>
+  </div>
+</div>
+
+<!-- ── UNINSTALL PAGE 2: PROGRESS ── -->
+<div class="page" id="page-uninstalling">
+  <div class="page-body">
+    <div class="progress-wrap">
+      <div style="display:flex;justify-content:space-between;margin-bottom:8px">
+        <span class="progress-status" id="unprog-status">준비 중...</span>
+        <span class="progress-pct"    id="unprog-pct">0%</span>
+      </div>
+      <div class="progress-bar-bg">
+        <div class="progress-bar-fill" id="unprog-bar"></div>
+      </div>
+    </div>
+  </div>
+  <div class="page-footer">
+    <span style="font-size:12px;color:var(--text-muted)">제거 중에는 창을 닫지 마세요.</span>
+  </div>
+</div>
+
+<!-- ── UNINSTALL PAGE 3: DONE + VERIFY ── -->
+<div class="page" id="page-uninstall-done">
+  <div class="page-body" style="padding:24px 32px;overflow-y:auto">
+    <div class="done-header">
+      <i data-lucide="check-circle"></i>
+      <div class="done-header-text">
+        <div class="done-header-title">제거 완료</div>
+        <div class="done-header-sub">원본 파일 복구 결과를 확인하세요.</div>
+      </div>
+    </div>
+    <div class="sec-title" style="margin-bottom:10px">파일별 복구 검증</div>
+    <div id="restore-results" style="display:flex;flex-direction:column;gap:6px"></div>
+    <div class="notice" style="margin-top:16px">
+      <div class="notice-item">Steam 언어 설정을 직접 변경해주세요 (중국어 간체 → 원하는 언어).</div>
+    </div>
+  </div>
+  <div class="page-footer">
+    <button class="btn btn-gold" onclick="closeWindow()">닫기</button>
+  </div>
+</div>
+
+
+<script>
+  // ── Dev mock (브라우저 직접 열기용, pywebview 없을 때만 활성) ──
+  if (typeof window.pywebview === 'undefined') {
+    const INSTALL_STEPS   = ['원본 파일 백업 중...','AppData 파일 복사 중...','패치 파일 적용 중...','관리 도구 설치 중...','언인스톨러 저장 중...','설정 파일 저장 중...','바로 가기 생성 중...','언인스톨러 등록 중...','설치 완료!'];
+    const UNINSTALL_STEPS = ['게임 파일 복구 중...','게임 파일 복구 완료','CVD 플러그인 제거 중...','바로 가기 정리 중...','레지스트리 정리 중...','설정 파일 정리 중...'];
+    const _mock_progress = async (onProgress, onDone, steps) => {
+      for (let i = 0; i < steps.length; i++) {
+        await new Promise(r => setTimeout(r, 400));
+        const pct = Math.round((i + 1) / steps.length * 100);
+        if (onProgress) window[onProgress](`"${steps[i]}"`, pct);
+      }
+      if (onDone) window[onDone](true);
+    };
+    window.pywebview = { api: {
+      detect_paths: async () => ({ steam: 'C:\\Program Files (x86)\\Steam\\steamapps\\common\\Mortal Kombat 11', epic: '', version: 'v1.0 (2026-05-03)' }),
+      validate_path: async (p) => p.length > 5 ? { ok: true } : { ok: false, reason: '경로가 너무 짧습니다.' },
+      browse_path: async () => ({ ok: true, path: 'C:\\Program Files (x86)\\Steam\\steamapps\\common\\Mortal Kombat 11', reason: '' }),
+      start_install: async (path) => { _mock_progress('onProgress', 'onInstallDone', INSTALL_STEPS); },
+      launch_manager: async () => { alert('[DEV] 매니저 실행'); },
+      do_uninstall: async () => { _mock_progress('onUninstallProgress', null, UNINSTALL_STEPS).then(() => window.onUninstallDone && window.onUninstallDone(true, [
+        {file:'Coalesced.CHS',            status:'ok',      note:'원본 복구 완료'},
+        {file:'ui_c_inGameFonts_chs.xxx', status:'ok',      note:'원본 복구 완료'},
+        {file:'dinput8.dll',              status:'removed', note:'플러그인 제거'},
+        {file:'ASIMK11.asi',              status:'removed', note:'플러그인 제거'},
+        {file:'ASIMK11.ini',              status:'removed', note:'플러그인 제거'},
+        {file:'libzmq-v120-mt-4_3_4.dll', status:'removed', note:'플러그인 제거'},
+      ])); },
+      open_url: async (url) => { window.open(url, '_blank'); },
+      close: async () => { alert('[DEV] 창 닫기'); },
+    }};
+    document.addEventListener('DOMContentLoaded', () => setTimeout(() => window.dispatchEvent(new Event('pywebviewready')), 80));
+  }
+
+  let _selectedPath  = '';
+  let _detectedPaths = { steam: '', epic: '' };
+  let _version       = '';
+  let _agreed        = false;
+
+  // 언인스톨 모드 감지
+  const _uninstallMode = new URLSearchParams(window.location.search).get('mode') === 'uninstall';
+
+  window.addEventListener('pywebviewready', async () => {
+    if (_uninstallMode) {
+      document.getElementById('banner-title-kr').textContent = '한글 패치 제거';
+      goPage('uninstall-confirm');
+      return;
+    }
+    const d = await window.pywebview.api.detect_paths();
+    _detectedPaths = d;
+    _version = d.version || '';
+    document.getElementById('banner-ver').textContent = _version;
+    document.getElementById('sum-ver').textContent    = _version;
+  });
+
+  // ── 스크롤 힌트 ──
+
+  (function () {
+    const body = document.getElementById('info-body');
+    const hint = document.getElementById('scroll-hint');
+    function checkScroll() {
+      const atBottom = body.scrollHeight - body.scrollTop <= body.clientHeight + 8;
+      hint.classList.toggle('hidden', atBottom);
+    }
+    body.addEventListener('scroll', checkScroll);
+    // initial check after content renders
+    requestAnimationFrame(checkScroll);
+  })();
+
+  // ── 동의 ──
+
+  function toggleAgree() {
+    _agreed = !_agreed;
+    document.getElementById('agree-check').checked = _agreed;
+    document.getElementById('agree-row').classList.toggle('checked', _agreed);
+    document.getElementById('btn-next-info').disabled = !_agreed;
+  }
+
+  // ── 페이지 전환 ──
+
+  function goPage(name) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById('page-' + name).classList.add('active');
+    lucide.createIcons();
+  }
+
+  // ── 경로 ──
+
+  function goToPath() { buildAutoCards(); goPage('path'); }
+
+  function buildAutoCards() {
+    const container = document.getElementById('auto-cards');
+    const fb        = document.getElementById('path-feedback');
+    container.innerHTML = '';
+    fb.textContent  = '';
+    fb.className    = 'path-feedback';
+    const entries = [];
+    if (_detectedPaths.steam) entries.push({ label: 'STEAM 자동 감지', path: _detectedPaths.steam });
+    if (_detectedPaths.epic)  entries.push({ label: 'EPIC 자동 감지',  path: _detectedPaths.epic  });
+    if (entries.length) {
+      entries.forEach(e => {
+        const card = document.createElement('div');
+        card.className = 'path-card';
+        card.innerHTML = `<div class="path-card-label">${e.label}</div><div class="path-card-path">${e.path}</div>`;
+        card.onclick = () => selectPath(e.path, card);
+        container.appendChild(card);
+      });
+    } else {
+      fb.textContent = '게임 경로를 자동으로 찾지 못했습니다. 직접 선택해 주세요.';
+      fb.className   = 'path-feedback error';
+    }
+  }
+
+  function selectPath(path, card) {
+    document.querySelectorAll('.path-card').forEach(c => c.classList.remove('selected'));
+    if (card) card.classList.add('selected');
+    _selectedPath = path;
+    document.getElementById('manual-input').value = '';
+    document.getElementById('path-feedback').textContent = '';
+    document.getElementById('path-feedback').className = 'path-feedback';
+    document.getElementById('btn-next-path').disabled = false;
+  }
+
+  let _debounce;
+  function onManualInput() {
+    clearTimeout(_debounce);
+    _debounce = setTimeout(validateManual, 400);
+  }
+
+  async function validateManual() {
+    const val   = document.getElementById('manual-input').value.trim();
+    const input = document.getElementById('manual-input');
+    const fb    = document.getElementById('path-feedback');
+    if (!val) {
+      input.className = 'path-input'; fb.textContent = '';
+      _selectedPath = ''; document.getElementById('btn-next-path').disabled = true;
+      return;
+    }
+    const r = await window.pywebview.api.validate_path(val);
+    if (r.ok) {
+      input.className = 'path-input ok';
+      fb.textContent  = '✓ 올바른 MK11 폴더입니다.';
+      fb.className    = 'path-feedback ok';
+      _selectedPath   = val;
+      document.querySelectorAll('.path-card').forEach(c => c.classList.remove('selected'));
+      document.getElementById('btn-next-path').disabled = false;
+    } else {
+      input.className = 'path-input error';
+      fb.textContent  = r.reason || '올바른 MK11 폴더가 아닙니다.';
+      fb.className    = 'path-feedback error';
+      _selectedPath   = '';
+      document.getElementById('btn-next-path').disabled = true;
+    }
+  }
+
+  async function browseManual() {
+    const r     = await window.pywebview.api.browse_path();
+    const input = document.getElementById('manual-input');
+    const fb    = document.getElementById('path-feedback');
+    if (r.cancelled) return;
+    input.value = r.path || '';
+    document.querySelectorAll('.path-card').forEach(c => c.classList.remove('selected'));
+    if (r.ok) {
+      input.className = 'path-input ok';
+      fb.textContent  = '✓ 올바른 MK11 폴더입니다.';
+      fb.className    = 'path-feedback ok';
+      _selectedPath   = r.path;
+      document.getElementById('btn-next-path').disabled = false;
+    } else {
+      input.className = 'path-input error';
+      fb.textContent  = r.reason || '올바른 MK11 폴더가 아닙니다.';
+      fb.className    = 'path-feedback error';
+      _selectedPath   = '';
+      document.getElementById('btn-next-path').disabled = true;
+    }
+  }
+
+  // ── 요약 ──
+
+  function goToSummary() {
+    if (!_selectedPath) return;
+    document.getElementById('sum-path').textContent   = _selectedPath;
+    document.getElementById('sum-backup').textContent = _selectedPath + '\\_backup_korean_patch\\';
+    goPage('summary');
+  }
+
+  // ── 설치 ──
+
+  function startInstall() {
+    goPage('progress');
+    window.pywebview.api.start_install(_selectedPath);
+  }
+
+  // ── 언인스톨 ──
+
+  function startUninstall() {
+    goPage('uninstalling');
+    window.pywebview.api.do_uninstall();
+  }
+
+  function onUninstallProgress(msg, pct) {
+    document.getElementById('unprog-status').textContent = msg;
+    document.getElementById('unprog-pct').textContent    = pct + '%';
+    document.getElementById('unprog-bar').style.width    = pct + '%';
+  }
+
+  function onUninstallDone(ok, results) {
+    const container = document.getElementById('restore-results');
+    container.innerHTML = '';
+    const STATUS_ICON = { ok: '✓', removed: '✓', no_backup: '○', mismatch: '!', error: '✗' };
+    const STATUS_COLOR = { ok: 'var(--success)', removed: 'var(--text-muted)', no_backup: 'var(--text-muted)', mismatch: 'var(--warning)', error: 'var(--danger)' };
+    (results || []).forEach(r => {
+      const row = document.createElement('div');
+      row.style.cssText = 'display:flex;align-items:center;gap:10px;padding:7px 12px;background:var(--surface-raised);border-radius:6px;font-size:12px';
+      const icon = document.createElement('span');
+      icon.textContent = STATUS_ICON[r.status] || '?';
+      icon.style.cssText = `font-weight:700;color:${STATUS_COLOR[r.status] || 'var(--text)'};width:14px;flex-shrink:0;text-align:center`;
+      const name = document.createElement('span');
+      name.textContent = r.file;
+      name.style.cssText = 'flex:1;color:var(--text);font-family:monospace;font-size:11px';
+      const note = document.createElement('span');
+      note.textContent = r.note;
+      note.style.cssText = `color:${STATUS_COLOR[r.status] || 'var(--text-muted)'}`;
+      row.appendChild(icon); row.appendChild(name); row.appendChild(note);
+      container.appendChild(row);
+    });
+    goPage('uninstall-done');
+  }
+
+  // ── 설치 진행 ──
+
+  function onProgress(msg, pct) {
+    document.getElementById('prog-status').textContent = msg;
+    document.getElementById('prog-pct').textContent    = pct + '%';
+    document.getElementById('prog-bar').style.width    = pct + '%';
+  }
+
+  function onInstallDone(ok, errMsg) {
+    if (ok) {
+      goPage('done');
+    } else {
+      document.getElementById('prog-status').textContent = '오류: ' + (errMsg || '알 수 없는 오류');
+      document.getElementById('prog-status').style.color = 'var(--danger)';
+    }
+  }
+
+  // ── 완료 ──
+
+  function launchManager() {
+    window.pywebview.api.launch_manager();
+    window.pywebview.api.close();
+  }
+
+  function closeWindow() { window.pywebview.api.close(); }
+  function openUrl(url)  { window.pywebview.api.open_url(url); }
+</script>
+<script>lucide.createIcons();</script>
+</body>
+</html>
