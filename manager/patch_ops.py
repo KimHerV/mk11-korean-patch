@@ -97,6 +97,16 @@ class PatchOps:
                     'reason': '번역 파일이 게임 폴더에 없습니다. 인스톨러를 다시 실행하세요.',
                     'game_path': game_path}
 
+        expected_hash = self.config.get('patch_hash', '')
+        if expected_hash:
+            try:
+                if _sha256(game_file) != expected_hash:
+                    return {**base, 'state': 'OVERWRITTEN',
+                            'reason': '게임 폴더의 번역 파일이 변경되었습니다. 게임 업데이트나 다른 도구가 덮어썼을 수 있습니다. 인스톨러를 다시 실행하시면 한글 패치가 재적용됩니다.',
+                            'game_path': game_path}
+            except Exception:
+                pass
+
         return {**base, 'state': 'PATCHED', 'game_path': game_path}
 
     # ── Patch Apply (internal, used for updates) ─────────────
