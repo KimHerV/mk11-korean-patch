@@ -395,7 +395,7 @@
     // ── Dev mock (브라우저 직접 열기용, pywebview 없을 때만 활성) ──
     if (typeof window.pywebview === 'undefined') {
       window.pywebview = { api: {
-        get_status: async () => ({ state: 'PATCHED', game_path: 'C:\\Games\\MK11', backup_dir: 'C:\\Games\\MK11\\_backup_korean_patch', installed_version: '1.0', installed_version_display: 'v1.0 (2026-05-03)' }),
+        get_status: async () => ({ state: 'PATCHED', game_path: 'C:\\Games\\MK11', backup_dir: 'C:\\Games\\MK11\\_backup_korean_patch', installed_version: '1.0', installed_version_display: 'v1.0 (2026-05-04)' }),
         check_update: async () => ({ ok: true, update_available: false, asset_urls: [] }),
         apply_update: async (j) => { setTimeout(() => { onUpdateProgress(50, '다운로드 중...'); }, 300); setTimeout(() => onUpdateDone(true), 1200); },
         launch_game: async () => { alert('[DEV] 게임 실행'); return { ok: true }; },

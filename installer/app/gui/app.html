@@ -170,6 +170,24 @@
     .notice { font-size: 12px; color: var(--text-muted); line-height: 1.8; }
     .notice-item::before { content: '※ '; color: var(--gold-dim); }
 
+    /* ── Exclude list (수행하지 않는 일) ── */
+    .exclude-list {
+      display: flex; flex-direction: column; gap: 8px;
+      margin-top: 4px; margin-bottom: 12px;
+      padding: 12px 16px;
+      background: var(--surface-raised);
+      border: 1px solid var(--border); border-radius: 4px;
+    }
+    .exclude-item {
+      font-size: 12px; color: var(--text-muted); line-height: 1.6;
+      padding-left: 18px; position: relative;
+    }
+    .exclude-item::before {
+      content: '×';
+      position: absolute; left: 0; top: 0;
+      color: var(--gold-dim); font-weight: 700;
+    }
+
     /* ── Custom checkbox + agreement ── */
     .agree-row {
       display: flex; align-items: flex-start; gap: 10px;
@@ -357,10 +375,17 @@
         <div class="install-badge">자동</div>
       </div>
     </div>
-    <p class="install-credits">오픈소스 구성요소: Ultimate ASI Loader · ASIMK11</p>
+    <p class="install-credits">오픈소스 구성요소: Ultimate ASI Loader · ASIMK11 · ZeroMQ · libsodium</p>
 
+    <div class="sec-title" style="margin-top:18px">본 패치가 수행하지 않는 일</div>
+    <div class="exclude-list">
+      <div class="exclude-item">치트, 언락, DLC 우회, 승부 조작 등 부정 행위</div>
+      <div class="exclude-item">게임 폴더 외 다른 파일·프로그램 변경</div>
+      <div class="exclude-item">외부 서버와의 통신 또는 사용자 정보 수집</div>
+    </div>
+
+    <div class="sec-title" style="margin-top:18px">안내</div>
     <div class="notice">
-      <div class="notice-item">게임 실행 파일(.exe) 무변조. 번역 텍스트·폰트만 변경</div>
       <div class="notice-item">테스트 환경 기준 온라인 플레이 가능 확인 (비공식 패치 특성상 온라인 사용은 본인 책임)</div>
       <div class="notice-item">원본 파일은 설치 전 자동 백업 → 제거 시 복구</div>
     </div>
@@ -369,8 +394,7 @@
       <input class="agree-check" type="checkbox" id="agree-check"
              onclick="event.stopPropagation(); toggleAgree()" />
       <label class="agree-label">
-        이 패치는 비공식 팬 번역이며 WB Games / NetherRealm Studios와 무관합니다.
-        원본 파일은 설치 전 자동으로 백업되며 제거 시 복구됩니다.
+        이 패치는 비공식 팬 번역이며 WB Games / NetherRealm Studios와 무관함을 이해합니다.
       </label>
     </div>
 
@@ -574,7 +598,7 @@
       if (onDone) window[onDone](true);
     };
     window.pywebview = { api: {
-      detect_paths: async () => ({ steam: 'C:\\Program Files (x86)\\Steam\\steamapps\\common\\Mortal Kombat 11', epic: '', version: 'v1.0 (2026-05-03)' }),
+      detect_paths: async () => ({ steam: 'C:\\Program Files (x86)\\Steam\\steamapps\\common\\Mortal Kombat 11', epic: '', version: 'v1.0 (2026-05-04)' }),
       validate_path: async (p) => p.length > 5 ? { ok: true } : { ok: false, reason: '경로가 너무 짧습니다.' },
       browse_path: async () => ({ ok: true, path: 'C:\\Program Files (x86)\\Steam\\steamapps\\common\\Mortal Kombat 11', reason: '' }),
       start_install: async (path) => { _mock_progress('onProgress', 'onInstallDone', INSTALL_STEPS); },

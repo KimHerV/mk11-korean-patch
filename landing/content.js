@@ -237,32 +237,32 @@ window.MK11_CONTENT = {
     en: "What this patch does"
   },
   "online.do_1": {
-    kr: "한글 번역 텍스트 및 폰트 파일을 게임 폴더에 복사",
+    kr: "한글 번역 텍스트와 폰트 파일을 게임 폴더에 복사",
     en: "Copies Korean translation text and font files into the game folder"
   },
   "online.do_2": {
-    kr: "게임 클라이언트의 자체 에셋 검증 로직을 메모리 단계에서 우회 (디스크 실행 파일은 변경하지 않음)",
-    en: "Bypasses the game client's asset integrity check in memory only (the executable on disk is not modified)"
+    kr: "한글 번역 파일이 게임에 정상 적용되도록 게임 내부 파일 검사를 잠시 우회 (게임 실행 파일 자체는 변경하지 않음)",
+    en: "Briefly bypasses the game's internal file check so the Korean translation files are accepted (the game executable itself is not modified)"
   },
   "online.do_3": {
-    kr: "이 우회를 위해 외부 오픈소스 DLL 4개 사용. 라이선스 상세는 <a href=\"https://github.com/KimHerV/mk11-korean-patch/blob/main/THIRD_PARTY_NOTICES.md\" target=\"_blank\" rel=\"noopener\">THIRD_PARTY_NOTICES ↗</a> 참조",
-    en: "Uses 4 third-party open-source DLLs for the bypass. See <a href=\"https://github.com/KimHerV/mk11-korean-patch/blob/main/THIRD_PARTY_NOTICES.md\" target=\"_blank\" rel=\"noopener\">THIRD_PARTY_NOTICES ↗</a> for full license details"
+    kr: "위 우회를 위해 오픈소스 구성요소 4개 사용. 라이선스 상세는 <a href=\"https://github.com/KimHerV/mk11-korean-patch/blob/main/THIRD_PARTY_NOTICES.md\" target=\"_blank\" rel=\"noopener\">THIRD_PARTY_NOTICES ↗</a> 참조",
+    en: "Uses 4 open-source components for the above bypass. See <a href=\"https://github.com/KimHerV/mk11-korean-patch/blob/main/THIRD_PARTY_NOTICES.md\" target=\"_blank\" rel=\"noopener\">THIRD_PARTY_NOTICES ↗</a> for full license details"
   },
   "online.dont_heading": {
     kr: "본 패치가 수행하지 않는 일",
     en: "What this patch does not do"
   },
   "online.dont_1": {
-    kr: "치트, 캐릭터/아이템 언락, DLC 우회, 게임플레이 로직·매치 결과·네트워크 패킷 변조",
-    en: "No cheats, character/item unlocks, DLC bypass, or modification of gameplay logic, match results, or network packets"
+    kr: "치트, 언락, DLC 우회, 승부 조작 등 부정 행위",
+    en: "No cheats, unlocks, DLC bypass, or match-result manipulation"
   },
   "online.dont_2": {
-    kr: "사용자 시스템 파일 변경, 백그라운드 통신, 텔레메트리 수집",
-    en: "No modification of user system files, background communication, or telemetry collection"
+    kr: "게임 폴더 외 다른 파일·프로그램 변경",
+    en: "No modification of files or programs outside the game folder"
   },
   "online.dont_3": {
-    kr: "Steam VAC, EAC, BattlEye와 충돌 가능성 있는 메모리 영역 접근",
-    en: "No access to memory regions that could conflict with Steam VAC, EAC, or BattlEye"
+    kr: "외부 서버와의 통신 또는 사용자 정보 수집",
+    en: "No communication with external servers, no user-data collection"
   },
   "online.p3": {
     kr: "다만 비공식 팬 제작 패치이므로 게임 업데이트, 플랫폼 정책, 사용자 환경에 따라 동작이 달라질 수 있습니다. 온라인 사용이 걱정되시는 경우 싱글 플레이 또는 오프라인 환경에서 먼저 사용해보시는 것을 권장드립니다.",
