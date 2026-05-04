@@ -36,6 +36,11 @@
         </a>
         <a href="#feedback" class="btn btn-secondary" data-i18n="hero.btn_feedback"></a>
       </div>
+      <div class="hero-platforms">
+        <img class="platform-icon active" src="assets/icons/steam.svg"          alt="Steam"          data-i18n-title="hero.platform_steam" />
+        <img class="platform-icon"        src="assets/icons/epic-games.svg"     alt="Epic Games"     data-i18n-title="hero.platform_epic" />
+        <img class="platform-icon"        src="assets/icons/microsoft-store.svg" alt="Microsoft Store" data-i18n-title="hero.platform_msstore" />
+      </div>
       <p class="hero-legal" data-i18n="hero.legal"></p>
       <p class="hero-credit" data-i18n="hero.credit"></p>
     </div>
@@ -277,6 +282,12 @@
           <div>
             <strong data-i18n="install.step1_title"></strong>
             <p data-i18n="install.step1_desc"></p>
+            <p class="step-prereq">
+              <span data-i18n="install.prereq_heading"></span>:
+              <a href="https://aka.ms/highdpimfc2013x64enu" target="_blank" rel="noopener" data-i18n="install.prereq_vc2013_name"></a>
+              ·
+              <a href="https://aka.ms/vs/17/release/vc_redist.x64.exe" target="_blank" rel="noopener" data-i18n="install.prereq_vc2022_name"></a>
+            </p>
           </div>
         </li>
         <li>
@@ -337,8 +348,8 @@
       <div class="install-safety">
         <ul>
           <li data-i18n="install.safety1"></li>
-          <li data-i18n="install.safety2"></li>
           <li data-i18n="install.safety3"></li>
+          <li data-i18n="install.safety2"></li>
         </ul>
       </div>
       <div class="install-cta">
@@ -534,7 +545,7 @@
 
     <!-- Play button: direct grid child. Desktop=top center, mobile=right. -->
     <button id="music-play" class="mp-btn mp-btn--play" aria-label="Play">
-      <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg>
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><polygon points="6 3 20 12 6 21 6 3"/></svg>
     </button>
 
     <!-- Center: progress bar (desktop) / bottom bar (mobile) -->

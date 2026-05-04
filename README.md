@@ -25,6 +25,15 @@
 
 ## Installation
 
+### Prerequisites
+
+This patch links against two Microsoft Visual C++ runtimes. Install both before running the patched game:
+
+- **[Visual C++ 2013 Redistributable (x64)](https://aka.ms/highdpimfc2013x64enu)** — required by `libzmq` and `libsodium`. **Not bundled with Windows 10/11.**
+- **[Visual C++ 2015–2022 Redistributable (x64)](https://aka.ms/vs/17/release/vc_redist.x64.exe)** — required by `ASIMK11.asi`. Usually present on Windows 10/11, but install if missing.
+
+If the game fails to launch with `Unable to load ASIMK11.asi. Error: 126`, verify both redistributables above are installed.
+
 ### 1. Download the installer
 
 **[MK11-Korean-Patch-Setup.exe](https://github.com/KimHerV/mk11-korean-patch/releases/latest)**

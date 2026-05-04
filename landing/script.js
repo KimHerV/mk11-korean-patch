@@ -26,6 +26,10 @@ function applyI18n() {
     var v = _t(el.dataset.i18nLabel);
     if (v !== undefined) el.dataset.label = v;
   });
+  document.querySelectorAll('[data-i18n-title]').forEach(function (el) {
+    var v = _t(el.dataset.i18nTitle);
+    if (v !== undefined) el.title = v;
+  });
 
   document.documentElement.lang = _locale === 'kr' ? 'ko' : 'en';
   document.querySelectorAll('.lang-btn').forEach(function (btn) {
@@ -43,33 +47,36 @@ function setLocale(locale) {
 
 applyI18n();
 
-// ── Fetch GitHub Release download count ───────────────────────
+// ── Fetch installer cumulative download count ────────────────
+// Source: stats Worker /public endpoint. Worker provides clobber-corrected
+// cumulative count across all releases (installer .exe only). The button
+// href still resolves through GitHub's latest-release API for the .exe URL.
 async function fetchReleaseStats() {
+  // Headline number from worker (cumulative installer across all versions)
+  try {
+    const res = await fetch('https://mk11-stats.elka2love.workers.dev/public');
+    if (res.ok) {
+      const { total_installs } = await res.json();
+      if (typeof total_installs === 'number' && total_installs > 0) {
+        const countEl = document.getElementById('download-count');
+        const totalEl = document.getElementById('total-downloads');
+        if (countEl) countEl.textContent = total_installs.toLocaleString('ko-KR') + '회';
+        if (totalEl) totalEl.textContent = total_installs.toLocaleString('ko-KR') + '회';
+      }
+    }
+  } catch (_) { /* fail silently */ }
+
+  // Resolve installer button href from the latest release
   try {
     const res = await fetch('https://api.github.com/repos/KimHerV/mk11-korean-patch/releases/latest');
     if (!res.ok) return;
     const data = await res.json();
-
-    // sum download counts across all assets
-    const total = (data.assets || []).reduce((sum, a) => sum + (a.download_count || 0), 0);
-
-    const countEl = document.getElementById('download-count');
-    const totalEl = document.getElementById('total-downloads');
-
-    if (total > 0) {
-      if (countEl) countEl.textContent = total.toLocaleString('ko-KR') + '회';
-      if (totalEl) totalEl.textContent = total.toLocaleString('ko-KR') + '회';
-    }
-
-    // replace download button href with direct asset URL
     const installer = (data.assets || []).find(a => a.name.endsWith('.exe'));
     if (installer) {
       const btn = document.getElementById('download-btn');
       if (btn) btn.href = installer.browser_download_url;
     }
-  } catch (_) {
-    // fail silently. UI renders normally.
-  }
+  } catch (_) { /* fail silently */ }
 }
 
 // ── Character Picker ───────────────────────────────────────────

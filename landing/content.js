@@ -26,6 +26,9 @@ window.MK11_CONTENT = {
     kr: "번역 피드백",
     en: "Translation Feedback"
   },
+  "hero.platform_steam":   { kr: "Steam · 지원",          en: "Steam · Supported" },
+  "hero.platform_epic":    { kr: "Epic Games · 미지원",   en: "Epic Games · Not supported" },
+  "hero.platform_msstore": { kr: "Microsoft Store · 미지원", en: "Microsoft Store · Not supported" },
   "hero.legal": {
     kr: "비공식 팬 제작 패치입니다. Mortal Kombat 11 및 관련 상표는 Warner Bros. Entertainment Inc. 및 NetherRealm Studios의 소유입니다. 본 패치는 한국 사용자를 위한 접근성 개선 목적으로 제작되었으며, 피드백은 언제든 환영입니다.",
     en: "Unofficial fan-made patch. Mortal Kombat 11 and all related trademarks are the property of Warner Bros. Entertainment Inc. and NetherRealm Studios. This patch was created for accessibility purposes for Korean-speaking players. Feedback is always welcome."
@@ -151,6 +154,10 @@ window.MK11_CONTENT = {
   // ── Install ───────────────────────────────────────────────────
   "install.heading": { kr: "설치 방법", en: "How to Install" },
 
+  "install.prereq_heading": { kr: "사전 요구사항", en: "Prerequisites" },
+  "install.prereq_vc2013_name": "Visual C++ 2013 (x64) ↗",
+  "install.prereq_vc2022_name": "Visual C++ 2015-2022 (x64) ↗",
+
   "install.step1_title": { kr: "인스톨러 다운로드",  en: "Download Installer" },
   "install.step1_desc": {
     kr: "아래 다운로드 버튼을 클릭하여 <code>MK11-Korean-Patch-Setup.exe</code>를 받으세요.",
@@ -163,8 +170,8 @@ window.MK11_CONTENT = {
   },
   "install.step3_title": { kr: "게임 언어 설정", en: "Set Game Language" },
   "install.step3_desc": {
-    kr: "Steam 게임 속성 → 언어 → <strong>중국어 간체(Simplified Chinese)</strong> 로 설정하세요.",
-    en: "Steam game properties → Language → <strong>Simplified Chinese</strong>."
+    kr: "Steam 게임 속성 → 언어 → <code>중국어 간체(Simplified Chinese)</code> 로 설정하세요.",
+    en: "Steam game properties → Language → <code>Simplified Chinese</code>."
   },
   "install.step4_title": { kr: "게임 실행", en: "Launch Game" },
   "install.step4_desc": {
