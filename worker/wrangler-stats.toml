@@ -12,4 +12,4 @@ binding = "MK11_STATS"
 id = "cb2ede4ebccc44f185dbeabcf44a4446"
 
 [triggers]
-crons = ["0 2 * * *"]
+crons = ["0 * * * *"]

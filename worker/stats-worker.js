@@ -1,10 +1,22 @@
 /**
  * MK11 Korean Patch: unified stats Worker
  *
- * Cron (daily 02:00 UTC): snapshot GitHub release download counts to KV
- * GET /stats?key=SECRET        : unified HTML dashboard
- * GET /stats?key=SECRET&fmt=json: raw JSON
- * GET /snapshot?key=SECRET     : manual snapshot trigger
+ * Cron (daily 02:00 UTC): snapshot GitHub release download counts to KV.
+ *   Per-release tracking with monotonic baseline correction so that
+ *   `gh release upload --clobber` (which resets a single asset's count)
+ *   never loses cumulative history.
+ *
+ * Routes:
+ *   GET /public                  : public JSON, total installer cumulative + latest CHS/font
+ *   GET /stats?key=SECRET        : unified HTML dashboard
+ *   GET /stats?key=SECRET&fmt=json : raw JSON
+ *   GET /snapshot?key=SECRET     : manual snapshot trigger
+ *
+ * KV schema:
+ *   day:YYYY-MM-DD  → snapshot { recorded_at, releases:{tag:{installer,coalesced,font,published_at}}, totals }
+ *   latest          → same as latest day:* (legacy mirror)
+ *   latest_raw      → { tag: {installer, coalesced, font} } last raw GitHub values (clobber detection)
+ *   baseline        → { tag: {installer, coalesced, font} } cumulative baseline added to raw
  */
 
 const GITHUB_REPO = 'KimHerV/mk11-korean-patch';
@@ -13,23 +25,119 @@ const CF_GQL      = 'https://api.cloudflare.com/client/v4/graphql';
 const ACCOUNT_ID  = '987455b8ac0de3b40c578b52c12feb98';
 const SITE_TAG    = 'a09a14b2b63a4624a68b36b876727ebf';
 
-// ── GitHub download counts ────────────────────────────────────
+// ── GitHub: fetch per-release raw counts ─────────────────────
 
-async function fetchGitHubCounts() {
-  const res = await fetch(`${GITHUB_API}/repos/${GITHUB_REPO}/releases`, {
-    headers: { 'User-Agent': 'mk11-stats-worker/1.0', Accept: 'application/vnd.github+json' },
-  });
+async function fetchGitHubReleases(env) {
+  const headers = { 'User-Agent': 'mk11-stats-worker/1.0', Accept: 'application/vnd.github+json' };
+  if (env && env.GITHUB_TOKEN) headers.Authorization = `Bearer ${env.GITHUB_TOKEN}`;
+  const res = await fetch(`${GITHUB_API}/repos/${GITHUB_REPO}/releases`, { headers });
   if (!res.ok) throw new Error(`GitHub API ${res.status}`);
   const releases = await res.json();
-  let installer = 0, coalesced = 0, font = 0;
+
+  // newest first from GitHub API; we keep that ordering
+  const out = {};
   for (const r of releases) {
+    const tag = r.tag_name || `id_${r.id}`;
+    let installer = 0, coalesced = 0, font = 0;
     for (const a of r.assets || []) {
-      if (a.name.endsWith('.exe'))       installer  += a.download_count;
-      if (a.name === 'Coalesced.CHS')    coalesced  += a.download_count;
-      if (a.name.endsWith('.xxx'))       font       += a.download_count;
+      if (a.name.endsWith('.exe'))    installer += a.download_count;
+      if (a.name === 'Coalesced.CHS') coalesced += a.download_count;
+      if (a.name.endsWith('.xxx'))    font      += a.download_count;
+    }
+    out[tag] = {
+      installer,
+      coalesced,
+      font,
+      published_at: (r.published_at || '').slice(0, 10),
+      _order: Object.keys(out).length, // 0 = latest
+    };
+  }
+  return out;
+}
+
+// ── Snapshot with baseline accumulation ──────────────────────
+
+function emptyAssetCounts() {
+  return { installer: 0, coalesced: 0, font: 0 };
+}
+
+async function takeSnapshot(env) {
+  const raw      = await fetchGitHubReleases(env);
+  const prevRaw  = JSON.parse((await env.MK11_STATS.get('latest_raw')) || '{}');
+  const baseline = JSON.parse((await env.MK11_STATS.get('baseline'))   || '{}');
+
+  // For each release+asset, detect clobber (raw decreased) and bank previous raw into baseline
+  for (const tag of Object.keys(raw)) {
+    const cur = raw[tag];
+    const prev = prevRaw[tag] || emptyAssetCounts();
+    if (!baseline[tag]) baseline[tag] = emptyAssetCounts();
+
+    for (const k of ['installer', 'coalesced', 'font']) {
+      if ((prev[k] || 0) > cur[k]) {
+        // clobber: previous raw value is now lost from GitHub side, preserve it
+        baseline[tag][k] = (baseline[tag][k] || 0) + (prev[k] || 0);
+      }
     }
   }
-  return { installer, coalesced, font, total: installer + coalesced + font };
+
+  // Build adjusted per-release snapshot
+  const releases = {};
+  let total_installer = 0;
+  for (const tag of Object.keys(raw)) {
+    const r = raw[tag];
+    const b = baseline[tag] || emptyAssetCounts();
+    releases[tag] = {
+      installer: r.installer + (b.installer || 0),
+      coalesced: r.coalesced + (b.coalesced || 0),
+      font:      r.font      + (b.font      || 0),
+      published_at: r.published_at,
+      is_latest: r._order === 0,
+    };
+    total_installer += releases[tag].installer;
+  }
+
+  // Latest release for CHS/font
+  const latestTag = Object.entries(raw)
+    .sort((a, b) => a[1]._order - b[1]._order)[0]?.[0];
+  const latest = latestTag ? releases[latestTag] : null;
+
+  const snap = {
+    recorded_at: new Date().toISOString(),
+    releases,
+    latest_tag: latestTag,
+    totals: {
+      installer:        total_installer,                    // sum across all releases
+      coalesced_latest: latest ? latest.coalesced : 0,      // latest release only
+      font_latest:      latest ? latest.font      : 0,      // latest release only
+    },
+  };
+
+  const date = new Date().toISOString().slice(0, 10);
+  // Strip raw values from latest_raw payload (only counts, no metadata)
+  const rawClean = {};
+  for (const tag of Object.keys(raw)) {
+    rawClean[tag] = {
+      installer: raw[tag].installer,
+      coalesced: raw[tag].coalesced,
+      font:      raw[tag].font,
+    };
+  }
+
+  await env.MK11_STATS.put(`day:${date}`, JSON.stringify(snap));
+  await env.MK11_STATS.put('latest',     JSON.stringify(snap));
+  await env.MK11_STATS.put('latest_raw', JSON.stringify(rawClean));
+  await env.MK11_STATS.put('baseline',   JSON.stringify(baseline));
+  return snap;
+}
+
+async function loadDays(env) {
+  const list = await env.MK11_STATS.list({ prefix: 'day:' });
+  const days = [];
+  for (const k of list.keys) {
+    const v = await env.MK11_STATS.get(k.name);
+    if (v) days.push({ date: k.name.slice(4), ...JSON.parse(v) });
+  }
+  return days.sort((a, b) => a.date.localeCompare(b.date));
 }
 
 // ── Cloudflare Web Analytics (GraphQL) ───────────────────────
@@ -133,51 +241,46 @@ async function fetchWebAnalytics(token, days = 30) {
   };
 }
 
-// ── KV helpers ───────────────────────────────────────────────
-
-async function takeSnapshot(env) {
-  const counts = await fetchGitHubCounts();
-  const date   = new Date().toISOString().slice(0, 10);
-  const snap   = { ...counts, recorded_at: new Date().toISOString() };
-  await env.MK11_STATS.put(`day:${date}`, JSON.stringify(snap));
-  await env.MK11_STATS.put('latest', JSON.stringify(snap));
-  return snap;
-}
-
-async function loadDays(env) {
-  const list = await env.MK11_STATS.list({ prefix: 'day:' });
-  const days = [];
-  for (const k of list.keys) {
-    const v = await env.MK11_STATS.get(k.name);
-    if (v) days.push({ date: k.name.slice(4), ...JSON.parse(v) });
-  }
-  return days.sort((a, b) => a.date.localeCompare(b.date));
-}
-
-// ── HTML renderer ────────────────────────────────────────────
+// ── HTML dashboard ───────────────────────────────────────────
 
 function renderHtml(dlDays, wa, days = 30, key = '') {
-  const latest   = dlDays[dlDays.length - 1] || {};
-  const withDelta = dlDays.map((d, i) => ({
-    ...d,
-    delta: i === 0 ? d.installer : d.installer - dlDays[i - 1].installer,
-  }));
+  const latestSnap = dlDays[dlDays.length - 1] || {};
+  const totals     = latestSnap.totals || { installer: 0, coalesced_latest: 0, font_latest: 0 };
+  const releases   = latestSnap.releases || {};
+
+  // Daily delta of total installer
+  const withDelta = dlDays.map((d, i) => {
+    const cur = d.totals?.installer || 0;
+    const prev = i === 0 ? 0 : (dlDays[i - 1].totals?.installer || 0);
+    return { date: d.date, installer: cur, delta: cur - prev };
+  });
   const maxDlDelta = Math.max(...withDelta.map(d => d.delta || 0), 1);
 
+  // Web Analytics totals
   const totalVisits    = wa.daily.reduce((s, d) => s + (d.sum?.visits || 0), 0);
   const totalPageViews = wa.daily.reduce((s, d) => s + (d.sum?.pageViews || 0), 0);
   const todayWa        = wa.daily[wa.daily.length - 1];
   const todayVisits    = todayWa?.sum?.visits || 0;
   const maxWaVisits    = Math.max(...wa.daily.map(d => d.sum?.visits || 0), 1);
 
+  // Per-version breakdown rows (sorted by published_at desc)
+  const versionRows = Object.entries(releases)
+    .sort((a, b) => (b[1].published_at || '').localeCompare(a[1].published_at || ''))
+    .map(([tag, r]) => `<tr>
+      <td>${tag}${r.is_latest ? ' <span class="badge">latest</span>' : ''}</td>
+      <td>${r.published_at || ''}</td>
+      <td class="g">${(r.installer || 0).toLocaleString()}</td>
+      <td>${(r.coalesced || 0).toLocaleString()}</td>
+      <td>${(r.font || 0).toLocaleString()}</td>
+    </tr>`).join('');
+
+  // Daily snapshot rows
   const dlRows = [...withDelta].reverse().map(d => {
     const bar = Math.round(((d.delta || 0) / maxDlDelta) * 80);
     return `<tr>
       <td>${d.date}</td>
-      <td class="g">${(d.installer||0).toLocaleString()}</td>
-      <td>+${(d.delta||0).toLocaleString()}</td>
-      <td>${(d.coalesced||0).toLocaleString()}</td>
-      <td>${(d.font||0).toLocaleString()}</td>
+      <td class="g">${(d.installer || 0).toLocaleString()}</td>
+      <td>+${(d.delta || 0).toLocaleString()}</td>
       <td><span class="bar" style="width:${bar}px"></span></td>
     </tr>`;
   }).join('');
@@ -196,27 +299,23 @@ function renderHtml(dlDays, wa, days = 30, key = '') {
 
   const refRows = wa.referrers
     .filter(r => r.dimensions?.refererHost)
-    .map(r => `<tr><td>${r.dimensions.refererHost}</td><td class="g">${(r.sum?.visits||0).toLocaleString()}</td></tr>`)
+    .map(r => `<tr><td>${r.dimensions.refererHost}</td><td class="g">${(r.sum?.visits || 0).toLocaleString()}</td></tr>`)
     .join('');
-
   const ctryRows = wa.countries
     .filter(c => c.dimensions?.clientCountryName)
-    .map(c => `<tr><td>${c.dimensions.clientCountryName}</td><td class="g">${(c.sum?.visits||0).toLocaleString()}</td></tr>`)
+    .map(c => `<tr><td>${c.dimensions.clientCountryName}</td><td class="g">${(c.sum?.visits || 0).toLocaleString()}</td></tr>`)
     .join('');
-
   const deviceRows = wa.devices
     .filter(d => d.dimensions?.deviceType)
-    .map(d => `<tr><td>${d.dimensions.deviceType}</td><td class="g">${(d.sum?.visits||0).toLocaleString()}</td></tr>`)
+    .map(d => `<tr><td>${d.dimensions.deviceType}</td><td class="g">${(d.sum?.visits || 0).toLocaleString()}</td></tr>`)
     .join('');
-
   const browserRows = wa.browsers
     .filter(b => b.dimensions?.browserFamily)
-    .map(b => `<tr><td>${b.dimensions.browserFamily}</td><td class="g">${(b.sum?.visits||0).toLocaleString()}</td></tr>`)
+    .map(b => `<tr><td>${b.dimensions.browserFamily}</td><td class="g">${(b.sum?.visits || 0).toLocaleString()}</td></tr>`)
     .join('');
-
   const osRows = wa.os
     .filter(o => o.dimensions?.osFamily)
-    .map(o => `<tr><td>${o.dimensions.osFamily}</td><td class="g">${(o.sum?.visits||0).toLocaleString()}</td></tr>`)
+    .map(o => `<tr><td>${o.dimensions.osFamily}</td><td class="g">${(o.sum?.visits || 0).toLocaleString()}</td></tr>`)
     .join('');
 
   return `<!DOCTYPE html>
@@ -241,6 +340,7 @@ function renderHtml(dlDays, wa, days = 30, key = '') {
   td { padding: 6px 10px; border-bottom: 1px solid #141414; }
   .g { color: #c9a84c; }
   .bar { display: inline-block; height: 7px; background: #7a6030; border-radius: 2px; vertical-align: middle; min-width: 2px; }
+  .badge { display: inline-block; font-size: 0.65rem; padding: 1px 6px; background: #1e1a0e; color: #c9a84c; border: 1px solid #7a6030; border-radius: 3px; margin-left: 4px; }
   .divider { border: none; border-top: 1px solid #1e1e1e; margin: 28px 0; }
   .period { display: flex; gap: 6px; margin: 12px 0 24px; }
   .period-btn { padding: 4px 12px; border-radius: 4px; font-size: 0.78rem; text-decoration: none; background: #1a1a1a; color: #888; border: 1px solid #2a2a2a; }
@@ -258,15 +358,23 @@ function renderHtml(dlDays, wa, days = 30, key = '') {
   ).join('')}
 </div>
 
-<h2>Downloads</h2>
+<h2>Headline KPIs</h2>
 <div class="cards">
-  <div class="card"><div class="num">${(latest.installer||0).toLocaleString()}</div><div class="lbl">Installer (.exe)</div></div>
-  <div class="card"><div class="num">${(latest.coalesced||0).toLocaleString()}</div><div class="lbl">Coalesced.CHS</div></div>
-  <div class="card"><div class="num">${(latest.font||0).toLocaleString()}</div><div class="lbl">Font Asset</div></div>
+  <div class="card"><div class="num">${(totals.installer || 0).toLocaleString()}</div><div class="lbl">Total Installs (all versions)</div></div>
+  <div class="card"><div class="num">${(totals.coalesced_latest || 0).toLocaleString()}</div><div class="lbl">Active Users (latest .CHS)</div></div>
+  <div class="card"><div class="num">${(totals.font_latest || 0).toLocaleString()}</div><div class="lbl">Font Patches (latest)</div></div>
   <div class="card"><div class="num">${dlDays.length}</div><div class="lbl">Days Tracked</div></div>
 </div>
+
+<h2>Per-Version Breakdown</h2>
 <table>
-  <thead><tr><th>Date</th><th>Installer</th><th>+Daily</th><th>Coalesced</th><th>Font</th><th>Trend</th></tr></thead>
+  <thead><tr><th>Version</th><th>Released</th><th>Installs</th><th>Active (.CHS)</th><th>Font (.xxx)</th></tr></thead>
+  <tbody>${versionRows || '<tr><td colspan="5" style="color:#444">No data yet</td></tr>'}</tbody>
+</table>
+
+<h2>Daily Installer Snapshots</h2>
+<table>
+  <thead><tr><th>Date</th><th>Installer (cumulative)</th><th>+Daily</th><th>Trend</th></tr></thead>
   <tbody>${dlRows}</tbody>
 </table>
 
@@ -274,8 +382,8 @@ function renderHtml(dlDays, wa, days = 30, key = '') {
 
 <h2>Landing Page (Web Analytics)</h2>
 <div class="cards">
-  <div class="card"><div class="num">${totalVisits.toLocaleString()}</div><div class="lbl">Visits (30d)</div></div>
-  <div class="card"><div class="num">${totalPageViews.toLocaleString()}</div><div class="lbl">Page Views (30d)</div></div>
+  <div class="card"><div class="num">${totalVisits.toLocaleString()}</div><div class="lbl">Visits (${days}d)</div></div>
+  <div class="card"><div class="num">${totalPageViews.toLocaleString()}</div><div class="lbl">Page Views (${days}d)</div></div>
   <div class="card"><div class="num">${todayVisits.toLocaleString()}</div><div class="lbl">Visits Today</div></div>
 </div>
 <table>
@@ -331,6 +439,11 @@ function renderHtml(dlDays, wa, days = 30, key = '') {
 
 // ── Worker entry ─────────────────────────────────────────────
 
+const CORS_HEADERS = {
+  'Access-Control-Allow-Origin':  '*',
+  'Access-Control-Allow-Methods': 'GET, OPTIONS',
+};
+
 export default {
   async scheduled(_event, env) {
     await takeSnapshot(env);
@@ -338,8 +451,28 @@ export default {
 
   async fetch(request, env) {
     const url = new URL(request.url);
-    const key = url.searchParams.get('key');
 
+    // Public endpoint: no auth, returns just the headline numbers
+    if (url.pathname === '/public') {
+      let snap = JSON.parse((await env.MK11_STATS.get('latest')) || 'null');
+      if (!snap) {
+        // Cold start: take a snapshot synchronously
+        snap = await takeSnapshot(env);
+      }
+      const t = snap.totals || {};
+      return new Response(JSON.stringify({
+        total_installs:    t.installer        || 0,
+        coalesced_latest:  t.coalesced_latest || 0,
+        font_latest:       t.font_latest      || 0,
+        latest_tag:        snap.latest_tag    || null,
+        recorded_at:       snap.recorded_at   || null,
+      }), {
+        headers: { 'Content-Type': 'application/json', 'Cache-Control': 'public, max-age=300', ...CORS_HEADERS },
+      });
+    }
+
+    // Authenticated endpoints
+    const key = url.searchParams.get('key');
     if (key !== env.STATS_KEY) {
       return new Response('Unauthorized', { status: 401 });
     }
