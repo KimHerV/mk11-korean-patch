@@ -98,6 +98,7 @@
       flex-shrink: 0;
       display: flex;
       align-items: center;
+      gap: 10px;
     }
 
     /* ── Toggle switch ── */
@@ -148,6 +149,27 @@
       z-index: 200; font-family: var(--font-ui); font-weight: 400;
     }
     .help-icon:hover::after { opacity: 1; }
+    .help-icon--warn {
+      border-color: var(--danger);
+      color: var(--danger);
+      animation: helpPulse 2s ease-in-out infinite;
+    }
+    .help-icon--warn::after {
+      width: 240px;
+      bottom: auto; top: calc(100% + 8px);
+      border-color: var(--danger);
+    }
+    @keyframes helpPulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(204, 51, 51, .4); }
+      50%      { box-shadow: 0 0 0 4px rgba(204, 51, 51, 0); }
+    }
+    .btn--warn {
+      border-color: var(--danger);
+      color: var(--danger);
+    }
+    .btn--warn:hover {
+      background: rgba(204, 51, 51, .1);
+    }
 
     .info-card:hover { border-color: var(--gold-dim); }
     .info-card--clickable { cursor: pointer; }
@@ -320,12 +342,13 @@
     </div>
 
     <!-- Card 2: 버전 -->
-    <div class="info-card">
+    <div class="info-card" id="card-version">
       <div class="card-body">
         <span class="card-label">설치된 버전</span>
         <span class="card-value" id="installed-ver">—</span>
       </div>
       <div class="card-action">
+        <span class="help-icon help-icon--warn" id="version-help" data-tip="" style="display:none">!</span>
         <button class="btn btn-outline btn-sm" id="btn-update-install"
                 onclick="startUpdate()" disabled>확인 중...</button>
       </div>
@@ -516,6 +539,12 @@
       const reason = document.getElementById('status-reason');
       dot.className = 'status-dot';
 
+      // 버전 카드 경고 표시 리셋 (상태 재진입 시 깨끗한 상태에서 시작)
+      const versionHelpReset = document.getElementById('version-help');
+      if (versionHelpReset) versionHelpReset.style.display = 'none';
+      const updateBtnReset = document.getElementById('btn-update-install');
+      if (updateBtnReset) updateBtnReset.classList.remove('btn--warn');
+
       if (s.state === 'PATCHED') {
         dot.classList.add('patched');
         reason.textContent = '';
@@ -538,7 +567,21 @@
       } else if (s.state === 'OVERWRITTEN') {
         dot.classList.add('broken');
         label.textContent  = '번역 파일이 변경됨';
-        reason.textContent = s.reason || '게임 업데이트 또는 다른 도구가 덮어썼을 수 있습니다. 인스톨러를 다시 실행해 주세요.';
+        reason.textContent = '';
+        _patchState = 'OVERWRITTEN';
+
+        // 버전 카드: 경고 표시
+        const helpIcon = document.getElementById('version-help');
+        if (helpIcon) {
+          helpIcon.setAttribute('data-tip', s.reason || '게임 폴더의 번역 파일이 변경되었습니다. 인스톨러를 다시 실행해 주세요.');
+          helpIcon.style.display = '';
+        }
+        const updateBtn = document.getElementById('btn-update-install');
+        if (updateBtn) {
+          updateBtn.textContent = '재설치 필요';
+          updateBtn.classList.add('btn--warn');
+          updateBtn.disabled = true;
+        }
       }
 
       equalizeCards();
@@ -546,12 +589,16 @@
 
     /* ── Latest version ── */
     async function loadLatestVersion() {
+      // OVERWRITTEN 상태에서는 "재설치 필요" 메시지 유지
+      if (_patchState === 'OVERWRITTEN') return;
+
       const btn = document.getElementById('btn-update-install');
       btn.textContent = '확인 중...';
       btn.className   = 'btn btn-outline btn-sm';
       btn.disabled    = true;
       try {
         const u = await window.pywebview.api.check_update();
+        if (_patchState === 'OVERWRITTEN') return;
         if (!u.ok) {
           btn.textContent = '확인 실패';
           return;
