@@ -203,6 +203,11 @@ window.MK11_CONTENT = {
     kr: "ASIMK11 의존 라이브러리 · <a href=\"https://github.com/zeromq/libzmq\" target=\"_blank\" rel=\"noopener\">ZeroMQ ↗</a>",
     en: "ASIMK11 dependency library · <a href=\"https://github.com/zeromq/libzmq\" target=\"_blank\" rel=\"noopener\">ZeroMQ ↗</a>"
   },
+  "install.manifest_f7_name": "libsodium.dll",
+  "install.manifest_f7_desc": {
+    kr: "ZeroMQ 의존 암호화 라이브러리 · <a href=\"https://github.com/jedisct1/libsodium\" target=\"_blank\" rel=\"noopener\">libsodium ↗</a>",
+    en: "ZeroMQ dependency cryptography library · <a href=\"https://github.com/jedisct1/libsodium\" target=\"_blank\" rel=\"noopener\">libsodium ↗</a>"
+  },
 
   "install.safety1": {
     kr: "실행 파일(.exe) · 게임 원본 파일 무변조",

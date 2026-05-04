@@ -21,6 +21,7 @@ PATCH_FILE_DIRS = {
     'ASIMK11.asi':              os.path.join('Binaries', 'Retail'),
     'ASIMK11.ini':              os.path.join('Binaries', 'Retail'),
     'libzmq-v120-mt-4_3_4.dll': os.path.join('Binaries', 'Retail'),
+    'libsodium.dll':            os.path.join('Binaries', 'Retail'),
 }
 
 # ── Path Detection ───────────────────────────────────────────
@@ -312,7 +313,7 @@ def uninstall(report=None) -> dict:
     # remove CVD plugin files
     if game_path and os.path.isdir(game_path):
         if report: report('CVD 플러그인 제거 중...', 55)
-        for filename in ['dinput8.dll', 'ASIMK11.asi', 'ASIMK11.ini', 'libzmq-v120-mt-4_3_4.dll']:
+        for filename in ['dinput8.dll', 'ASIMK11.asi', 'ASIMK11.ini', 'libzmq-v120-mt-4_3_4.dll', 'libsodium.dll']:
             p = os.path.join(game_path, 'Binaries', 'Retail', filename)
             if os.path.exists(p):
                 try:

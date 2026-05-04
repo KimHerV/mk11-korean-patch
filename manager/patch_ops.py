@@ -17,6 +17,7 @@ CVD_FILES = [
     'ASIMK11.asi',
     'ASIMK11.ini',
     'libzmq-v120-mt-4_3_4.dll',
+    'libsodium.dll',
 ]
 CVD_DIR = os.path.join('Binaries', 'Retail')
 
@@ -35,6 +36,7 @@ PATCH_FILE_DIRS = {
     'ASIMK11.asi':                 os.path.join('Binaries', 'Retail'),
     'ASIMK11.ini':                 os.path.join('Binaries', 'Retail'),
     'libzmq-v120-mt-4_3_4.dll':   os.path.join('Binaries', 'Retail'),
+    'libsodium.dll':               os.path.join('Binaries', 'Retail'),
 }
 
 ANCHOR_FILE = 'Coalesced.CHS'

@@ -58,6 +58,7 @@ Korean text and font will be active.
 | `ASIMK11.asi` | CVD bypass plugin ([ASI MK11](https://github.com/thethiny/ASIMK11)) |
 | `ASIMK11.ini` | Plugin config |
 | `libzmq-v120-mt-4_3_4.dll` | Plugin runtime dependency ([ZeroMQ](https://github.com/zeromq/libzmq)) |
+| `libsodium.dll` | ZeroMQ cryptography dependency ([libsodium](https://github.com/jedisct1/libsodium)) |
 
 **AppData (`%APPDATA%\MK11KoreanPatch\`):**
 
