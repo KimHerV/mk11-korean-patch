@@ -96,7 +96,10 @@ class Api:
     def launch_manager(self) -> None:
         path = os.path.join(APPDATA_DIR, 'mk11_kor_manager.exe')
         if os.path.exists(path):
-            os.startfile(path)
+            # explorer.exe delegates to the already-running (non-elevated) shell,
+            # so the UAC prompt surfaces correctly regardless of installer's own elevation state.
+            import subprocess
+            subprocess.Popen(['explorer.exe', path], close_fds=True)
 
     def do_uninstall(self) -> dict:
         def report(msg: str, pct: int = 0):
