@@ -5,7 +5,6 @@ compatibility_date = "2024-01-01"
 # deploy: npx wrangler deploy --config wrangler-stats.toml
 # set secret: npx wrangler secret put STATS_KEY --config wrangler-stats.toml
 # manual snapshot: GET https://mk11-stats.{subdomain}.workers.dev/snapshot?key=SECRET
-# dashboard: GET https://mk11-stats.{subdomain}.workers.dev/stats?key=SECRET
 
 [[kv_namespaces]]
 binding = "MK11_STATS"
