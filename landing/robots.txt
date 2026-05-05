@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://mk11-korean-patch.pages.dev/sitemap.xml
