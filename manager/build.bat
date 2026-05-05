@@ -5,6 +5,9 @@ echo [MK11 Kor Manager] Starting PyInstaller build...
 pyinstaller ^
   --onefile ^
   --noconsole ^
+  --noupx ^
+  --uac-admin ^
+  --version-file "version_info.txt" ^
   --name mk11_kor_manager ^
   --add-data "gui;gui" ^
   --icon "gui\app.ico" ^
