@@ -5,6 +5,8 @@ echo [MK11 Installer] Starting PyInstaller build...
 pyinstaller ^
   --onefile ^
   --noconsole ^
+  --noupx ^
+  --version-file "version_info.txt" ^
   --name MK11-Korean-Patch-Setup ^
   --add-data "gui;gui" ^
   --add-data "payload;payload" ^

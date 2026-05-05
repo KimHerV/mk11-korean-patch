@@ -1,0 +1,34 @@
+# UTF-8
+#
+# PE version metadata for MK11-Korean-Patch-Setup.exe.
+# Adding company / description / copyright reduces AV ML false-positive
+# weight by signalling "legitimate authored binary" instead of stripped EXE.
+
+VSVersionInfo(
+  ffi=FixedFileInfo(
+    filevers=(1, 0, 0, 0),
+    prodvers=(1, 0, 0, 0),
+    mask=0x3f,
+    flags=0x0,
+    OS=0x40004,
+    fileType=0x1,
+    subtype=0x0,
+    date=(0, 0)
+  ),
+  kids=[
+    StringFileInfo(
+      [
+      StringTable(
+        u'040904B0',
+        [StringStruct(u'CompanyName', u'KimHerV'),
+        StringStruct(u'FileDescription', u'MK11 Korean Translation Patch Installer'),
+        StringStruct(u'FileVersion', u'1.0.0.0'),
+        StringStruct(u'InternalName', u'MK11-Korean-Patch-Setup'),
+        StringStruct(u'LegalCopyright', u'Open source non-commercial fan project. github.com/KimHerV/mk11-korean-patch'),
+        StringStruct(u'OriginalFilename', u'MK11-Korean-Patch-Setup.exe'),
+        StringStruct(u'ProductName', u'MK11 Korean Patch'),
+        StringStruct(u'ProductVersion', u'1.0.0.0')])
+      ]),
+    VarFileInfo([VarStruct(u'Translation', [1033, 1200])])
+  ]
+)
