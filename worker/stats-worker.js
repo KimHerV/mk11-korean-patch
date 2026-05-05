@@ -146,6 +146,10 @@ async function fetchWebAnalytics(token, days = 30) {
   const since = new Date(Date.now() - days * 86400000).toISOString().slice(0, 10);
   const today = new Date().toISOString().slice(0, 10);
 
+  // Cloudflare deprecated several RUM dimensions in 2025 (clientCountryName,
+  // refererHost, deviceType, browserFamily, osFamily, pageViews). The full
+  // breakdown lives in the Cloudflare dashboard now; this worker keeps only
+  // the daily visits + pageload count for a fast headline view.
   const query = `{
     viewer {
       accounts(filter: {accountTag: "${ACCOUNT_ID}"}) {
@@ -158,68 +162,15 @@ async function fetchWebAnalytics(token, days = 30) {
           limit: 1000
           orderBy: [date_ASC]
         ) {
-          sum { visits pageViews }
+          sum { visits }
+          count
           dimensions { date }
-        }
-        referrers: rumPageloadEventsAdaptiveGroups(
-          filter: { AND: [
-            { date_geq: "${since}" }
-            { siteTag: "${SITE_TAG}" }
-          ]}
-          limit: 8
-          orderBy: [sum_visits_DESC]
-        ) {
-          sum { visits }
-          dimensions { refererHost }
-        }
-        countries: rumPageloadEventsAdaptiveGroups(
-          filter: { AND: [
-            { date_geq: "${since}" }
-            { siteTag: "${SITE_TAG}" }
-          ]}
-          limit: 8
-          orderBy: [sum_visits_DESC]
-        ) {
-          sum { visits }
-          dimensions { clientCountryName }
-        }
-        devices: rumPageloadEventsAdaptiveGroups(
-          filter: { AND: [
-            { date_geq: "${since}" }
-            { siteTag: "${SITE_TAG}" }
-          ]}
-          limit: 5
-          orderBy: [sum_visits_DESC]
-        ) {
-          sum { visits }
-          dimensions { deviceType }
-        }
-        browsers: rumPageloadEventsAdaptiveGroups(
-          filter: { AND: [
-            { date_geq: "${since}" }
-            { siteTag: "${SITE_TAG}" }
-          ]}
-          limit: 8
-          orderBy: [sum_visits_DESC]
-        ) {
-          sum { visits }
-          dimensions { browserFamily }
-        }
-        os: rumPageloadEventsAdaptiveGroups(
-          filter: { AND: [
-            { date_geq: "${since}" }
-            { siteTag: "${SITE_TAG}" }
-          ]}
-          limit: 8
-          orderBy: [sum_visits_DESC]
-        ) {
-          sum { visits }
-          dimensions { osFamily }
         }
       }
     }
   }`;
 
+  if (!token) throw new Error('CF_ANALYTICS_TOKEN secret is not set');
   const res = await fetch(CF_GQL, {
     method: 'POST',
     headers: {
@@ -228,16 +179,20 @@ async function fetchWebAnalytics(token, days = 30) {
     },
     body: JSON.stringify({ query }),
   });
-  if (!res.ok) throw new Error(`CF GraphQL ${res.status}`);
+  if (!res.ok) {
+    const body = await res.text().catch(() => '<no body>');
+    throw new Error(`CF GraphQL HTTP ${res.status}: ${body.slice(0, 500)}`);
+  }
   const json = await res.json();
+  if (json.errors) {
+    throw new Error(`CF GraphQL errors: ${JSON.stringify(json.errors).slice(0, 500)}`);
+  }
   const acct = json?.data?.viewer?.accounts?.[0];
+  if (!acct) {
+    throw new Error(`CF GraphQL: no account in response (data=${JSON.stringify(json?.data || {}).slice(0, 300)})`);
+  }
   return {
-    daily:     acct?.daily     || [],
-    referrers: acct?.referrers || [],
-    countries: acct?.countries || [],
-    devices:   acct?.devices   || [],
-    browsers:  acct?.browsers  || [],
-    os:        acct?.os        || [],
+    daily: acct?.daily || [],
   };
 }
 
@@ -258,7 +213,7 @@ function renderHtml(dlDays, wa, days = 30, key = '') {
 
   // Web Analytics totals
   const totalVisits    = wa.daily.reduce((s, d) => s + (d.sum?.visits || 0), 0);
-  const totalPageViews = wa.daily.reduce((s, d) => s + (d.sum?.pageViews || 0), 0);
+  const totalPageViews = wa.daily.reduce((s, d) => s + (d.count || 0), 0);
   const todayWa        = wa.daily[wa.daily.length - 1];
   const todayVisits    = todayWa?.sum?.visits || 0;
   const maxWaVisits    = Math.max(...wa.daily.map(d => d.sum?.visits || 0), 1);
@@ -287,7 +242,7 @@ function renderHtml(dlDays, wa, days = 30, key = '') {
 
   const waRows = [...wa.daily].reverse().map(d => {
     const v   = d.sum?.visits || 0;
-    const pv  = d.sum?.pageViews || 0;
+    const pv  = d.count || 0;
     const bar = Math.round((v / maxWaVisits) * 80);
     return `<tr>
       <td>${d.dimensions?.date || ''}</td>
@@ -296,27 +251,6 @@ function renderHtml(dlDays, wa, days = 30, key = '') {
       <td><span class="bar" style="width:${bar}px"></span></td>
     </tr>`;
   }).join('');
-
-  const refRows = wa.referrers
-    .filter(r => r.dimensions?.refererHost)
-    .map(r => `<tr><td>${r.dimensions.refererHost}</td><td class="g">${(r.sum?.visits || 0).toLocaleString()}</td></tr>`)
-    .join('');
-  const ctryRows = wa.countries
-    .filter(c => c.dimensions?.clientCountryName)
-    .map(c => `<tr><td>${c.dimensions.clientCountryName}</td><td class="g">${(c.sum?.visits || 0).toLocaleString()}</td></tr>`)
-    .join('');
-  const deviceRows = wa.devices
-    .filter(d => d.dimensions?.deviceType)
-    .map(d => `<tr><td>${d.dimensions.deviceType}</td><td class="g">${(d.sum?.visits || 0).toLocaleString()}</td></tr>`)
-    .join('');
-  const browserRows = wa.browsers
-    .filter(b => b.dimensions?.browserFamily)
-    .map(b => `<tr><td>${b.dimensions.browserFamily}</td><td class="g">${(b.sum?.visits || 0).toLocaleString()}</td></tr>`)
-    .join('');
-  const osRows = wa.os
-    .filter(o => o.dimensions?.osFamily)
-    .map(o => `<tr><td>${o.dimensions.osFamily}</td><td class="g">${(o.sum?.visits || 0).toLocaleString()}</td></tr>`)
-    .join('');
 
   return `<!DOCTYPE html>
 <html lang="en">
@@ -390,49 +324,7 @@ function renderHtml(dlDays, wa, days = 30, key = '') {
   <thead><tr><th>Date</th><th>Visits</th><th>Page Views</th><th>Trend</th></tr></thead>
   <tbody>${waRows}</tbody>
 </table>
-
-<div class="two-col">
-  <div>
-    <h2>Top Referrers</h2>
-    <table>
-      <thead><tr><th>Source</th><th>Visits</th></tr></thead>
-      <tbody>${refRows || '<tr><td colspan="2" style="color:#444">No data yet</td></tr>'}</tbody>
-    </table>
-  </div>
-  <div>
-    <h2>Top Countries</h2>
-    <table>
-      <thead><tr><th>Country</th><th>Visits</th></tr></thead>
-      <tbody>${ctryRows || '<tr><td colspan="2" style="color:#444">No data yet</td></tr>'}</tbody>
-    </table>
-  </div>
-</div>
-<div class="two-col">
-  <div>
-    <h2>Device Type</h2>
-    <table>
-      <thead><tr><th>Device</th><th>Visits</th></tr></thead>
-      <tbody>${deviceRows || '<tr><td colspan="2" style="color:#444">No data yet</td></tr>'}</tbody>
-    </table>
-  </div>
-  <div>
-    <h2>Browsers</h2>
-    <table>
-      <thead><tr><th>Browser</th><th>Visits</th></tr></thead>
-      <tbody>${browserRows || '<tr><td colspan="2" style="color:#444">No data yet</td></tr>'}</tbody>
-    </table>
-  </div>
-</div>
-<div class="two-col">
-  <div>
-    <h2>Operating Systems</h2>
-    <table>
-      <thead><tr><th>OS</th><th>Visits</th></tr></thead>
-      <tbody>${osRows || '<tr><td colspan="2" style="color:#444">No data yet</td></tr>'}</tbody>
-    </table>
-  </div>
-  <div></div>
-</div>
+<p class="sub" style="margin-top:16px">For country / device / browser / OS breakdown, open Cloudflare dashboard &rarr; Analytics &amp; Logs &rarr; Web Analytics.</p>
 </body>
 </html>`;
 }
@@ -484,11 +376,15 @@ export default {
       });
     }
 
+
     if (url.pathname === '/stats') {
       const days = Math.min(parseInt(url.searchParams.get('days') || '30', 10) || 30, 365);
       const [dlDays, wa] = await Promise.all([
         loadDays(env),
-        fetchWebAnalytics(env.CF_ANALYTICS_TOKEN, days).catch(() => ({ daily: [], referrers: [], countries: [], devices: [], browsers: [], os: [] })),
+        fetchWebAnalytics(env.CF_ANALYTICS_TOKEN, days).catch((err) => {
+          console.error('Web Analytics fetch failed:', err.message);
+          return { daily: [], referrers: [], countries: [], devices: [], browsers: [], os: [] };
+        }),
       ]);
 
       if (url.searchParams.get('fmt') === 'json') {
@@ -496,6 +392,7 @@ export default {
           headers: { 'Content-Type': 'application/json' },
         });
       }
+      // wa.daily comes in shape: [{ sum: {visits}, count, dimensions: {date} }, ...]
       return new Response(renderHtml(dlDays, wa, days, key), {
         headers: { 'Content-Type': 'text/html;charset=utf-8' },
       });
