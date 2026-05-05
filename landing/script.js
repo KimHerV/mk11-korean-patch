@@ -58,10 +58,11 @@ async function fetchReleaseStats() {
     if (res.ok) {
       const { total_installs } = await res.json();
       if (typeof total_installs === 'number' && total_installs > 0) {
+        const formatted = total_installs.toLocaleString('ko-KR');
         const countEl = document.getElementById('download-count');
         const totalEl = document.getElementById('total-downloads');
-        if (countEl) countEl.textContent = total_installs.toLocaleString('ko-KR') + '회';
-        if (totalEl) totalEl.textContent = total_installs.toLocaleString('ko-KR') + '회';
+        if (countEl) countEl.textContent = formatted;
+        if (totalEl) totalEl.textContent = formatted;
       }
     }
   } catch (_) { /* fail silently */ }

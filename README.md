@@ -53,6 +53,13 @@ Steam → Library → Mortal Kombat 11 → Properties → Language → **Simplif
 
 Korean text and font will be active.
 
+### Troubleshooting
+
+**Some antivirus programs may quarantine or auto-delete the installer.** This is a heuristic flag on unsigned EXEs and not specific to this patch. Major AVs (Microsoft Defender, Norton, McAfee, BitDefender, ESET, Avast/AVG, Trend Micro) have cleared this build per VirusTotal scan.
+
+- *Restore from quarantine*: open your antivirus program's quarantine / threat history → find the blocked entry → **Allow** or **Restore**
+- *Or temporarily exclude the Downloads folder*: open your antivirus settings → Exclusions / Exceptions → add the Downloads folder → re-download → remove the exclusion after install
+
 ---
 
 ### Installed files

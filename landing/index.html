@@ -62,7 +62,7 @@
         <span class="stat-label" data-i18n="stats.s3_label"></span>
       </div>
       <div class="stat-item">
-        <span class="stat-number" id="total-downloads">—</span>
+        <span class="stat-number"><span id="total-downloads">—</span><span data-i18n="stats.count_suffix"></span></span>
         <span class="stat-label" data-i18n="stats.s4_label"></span>
       </div>
     </div>
@@ -263,10 +263,10 @@
         <div class="about-gradient" id="about-gradient"></div>
       </div>
 
-      <button class="about-toggle" id="about-toggle" type="button">
+      <button class="about-toggle disclosure-toggle" id="about-toggle" type="button">
         <span id="about-toggle-more" data-i18n="about.toggle_more"></span>
         <span id="about-toggle-less" data-i18n="about.toggle_less" hidden></span>
-        <svg class="about-toggle-icon" id="about-toggle-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+        <i data-lucide="chevron-down" aria-hidden="true"></i>
       </button>
 
     </div>
@@ -355,6 +355,47 @@
       <div class="install-cta">
         <a id="download-btn" href="https://github.com/KimHerV/mk11-korean-patch/releases/latest" class="btn btn-primary" target="_blank" rel="noopener" data-i18n="install.btn_download"></a>
       </div>
+      <details class="install-trouble container container-narrow">
+        <summary class="disclosure-toggle">
+          <span data-i18n="trouble.heading"></span>
+          <i data-lucide="chevron-down" aria-hidden="true"></i>
+        </summary>
+        <div class="install-trouble-body">
+          <p data-i18n="trouble.cause"></p>
+          <div class="trouble-grid">
+            <div class="trouble-col-methods">
+              <h4 class="trouble-method" data-i18n="trouble.method1_title"></h4>
+              <ol class="trouble-steps">
+                <li data-i18n="trouble.method1_step1"></li>
+                <li data-i18n="trouble.method1_step2"></li>
+                <li data-i18n="trouble.method1_step3"></li>
+              </ol>
+              <h4 class="trouble-method" data-i18n="trouble.method2_title"></h4>
+              <ol class="trouble-steps">
+                <li data-i18n="trouble.method2_step1"></li>
+                <li data-i18n="trouble.method2_step2"></li>
+                <li data-i18n="trouble.method2_step3"></li>
+                <li data-i18n="trouble.method2_step4"></li>
+              </ol>
+            </div>
+            <div class="trouble-col-scan">
+              <h4 class="trouble-method" data-i18n="trouble.scan_heading"></h4>
+              <ul class="trouble-scan-list">
+                <li><i data-lucide="check" aria-hidden="true"></i><span>Microsoft Defender</span></li>
+                <li><i data-lucide="check" aria-hidden="true"></i><span>Norton</span></li>
+                <li><i data-lucide="check" aria-hidden="true"></i><span>McAfee</span></li>
+                <li><i data-lucide="check" aria-hidden="true"></i><span>BitDefender</span></li>
+                <li><i data-lucide="check" aria-hidden="true"></i><span>ESET</span></li>
+                <li><i data-lucide="check" aria-hidden="true"></i><span>Avast</span></li>
+                <li><i data-lucide="check" aria-hidden="true"></i><span>AVG</span></li>
+                <li><i data-lucide="check" aria-hidden="true"></i><span>Trend Micro</span></li>
+              </ul>
+              <p class="trouble-scan-note" data-i18n="trouble.scan_note"></p>
+            </div>
+          </div>
+          <p class="trouble-footer" data-i18n="trouble.footer"></p>
+        </div>
+      </details>
     </div>
   </section>
 
@@ -581,16 +622,13 @@
     var toggleBtn = document.getElementById('about-toggle');
     var moreSpan  = document.getElementById('about-toggle-more');
     var lessSpan  = document.getElementById('about-toggle-less');
-    var icon      = document.getElementById('about-toggle-icon');
 
     toggleBtn.addEventListener('click', function () {
       var open = collapse.classList.toggle('about-collapse--open');
+      toggleBtn.classList.toggle('is-open', open);
       moreSpan.hidden = open;
       lessSpan.hidden = !open;
-      if (open) {
-        icon.style.transform = 'rotate(180deg)';
-      } else {
-        icon.style.transform = '';
+      if (!open) {
         collapse.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
     });

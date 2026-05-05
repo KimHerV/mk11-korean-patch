@@ -42,7 +42,8 @@ window.MK11_CONTENT = {
   "stats.s2_label": { kr: "번역 항목",     en: "Translated Entries" },
   "stats.s3_num":   { kr: "37개",          en: "37" },
   "stats.s3_label": { kr: "번역 파일",     en: "Translation Files" },
-  "stats.s4_label": { kr: "총 다운로드",   en: "Total Downloads" },
+  "stats.s4_label":  { kr: "총 다운로드",   en: "Total Downloads" },
+  "stats.count_suffix": { kr: "회", en: "" },
 
   // ── Screenshots ───────────────────────────────────────────────
   "screenshots.heading": { kr: "스크린샷",              en: "Screenshots" },
@@ -231,6 +232,64 @@ window.MK11_CONTENT = {
   "install.btn_download": {
     kr: "최신 버전 다운로드",
     en: "Download Latest Version"
+  },
+
+  // ── Troubleshooting (Defender) ────────────────────────────────
+  "trouble.heading": {
+    kr: "Windows에서 다운로드가 차단될 때",
+    en: "When Windows Blocks the Download"
+  },
+  "trouble.cause": {
+    kr: "코드 서명되지 않은 인스톨러에 대해 일부 백신의 머신러닝 휴리스틱이 자동으로 격리하거나 삭제할 수 있습니다. 본 인스톨러는 PyInstaller 기반으로 빌드되어 있으며, 이 패키징 방식은 다른 PyInstaller 도구에서도 일부 ML 백신의 false positive가 보고되는 알려진 패턴입니다. 주요 백신은 정상 판정을 받았으나, 사용 중이신 환경에서 차단될 경우 아래 절차로 복원·진행하실 수 있습니다.",
+    en: "Some antivirus programs use ML heuristics that may quarantine or auto-delete unsigned installers. This installer is built with PyInstaller, a packaging method known to produce ML false positives across many similar tools. Major AVs have cleared this patch, but if your environment blocks it, use either method below to restore or proceed."
+  },
+  "trouble.method1_title": {
+    kr: "방법 1: 격리 항목 복원",
+    en: "Method 1: Restore from quarantine"
+  },
+  "trouble.method1_step1": {
+    kr: "사용 중이신 백신 프로그램의 격리 함 또는 위협/보호 기록 열기",
+    en: "Open your antivirus program's quarantine or threat/protection history"
+  },
+  "trouble.method1_step2": {
+    kr: "차단된 인스톨러 항목 찾기",
+    en: "Find the blocked installer entry"
+  },
+  "trouble.method1_step3": {
+    kr: "복원 또는 허용 클릭",
+    en: "Click Restore or Allow"
+  },
+  "trouble.method2_title": {
+    kr: "방법 2: 다운로드 폴더 예외 처리 후 재다운로드",
+    en: "Method 2: Add download folder to exclusions, then re-download"
+  },
+  "trouble.method2_step1": {
+    kr: "백신 설정 → 예외 항목 또는 제외 항목 메뉴 열기",
+    en: "Open your antivirus settings → Exclusions or Exceptions"
+  },
+  "trouble.method2_step2": {
+    kr: "다운로드 폴더를 예외 경로로 추가",
+    en: "Add the Downloads folder as an exclusion"
+  },
+  "trouble.method2_step3": {
+    kr: "인스톨러 다시 다운로드 후 실행",
+    en: "Re-download the installer and run it"
+  },
+  "trouble.method2_step4": {
+    kr: "설치 완료 후 예외 항목 제거 권장",
+    en: "Remove the exclusion after install completes (recommended)"
+  },
+  "trouble.scan_heading": {
+    kr: "주요 백신 검진 결과",
+    en: "Major AV Scan Results"
+  },
+  "trouble.scan_note": {
+    kr: "VirusTotal 70여 개 엔진 기준",
+    en: "Per VirusTotal (70+ engines)"
+  },
+  "trouble.footer": {
+    kr: "본 패치는 <a href=\"https://github.com/KimHerV/mk11-korean-patch\" target=\"_blank\" rel=\"noopener\">오픈소스</a>로 전체 코드를 확인하실 수 있습니다. 자체 DLL 개발 및 인스톨러 패키징 방식 개선을 통해 플랫폼 지원 확장과 백신 오탐지 감소를 점진적으로 진행할 예정입니다.",
+    en: "This patch is <a href=\"https://github.com/KimHerV/mk11-korean-patch\" target=\"_blank\" rel=\"noopener\">open source</a> with the full code publicly reviewable. A custom DLL and installer packaging improvements are planned to gradually expand platform support and reduce AV false positives."
   },
 
   // ── Online ────────────────────────────────────────────────────
