@@ -96,50 +96,50 @@ window.MK11_CONTENT = {
   "about.e0_date":  { kr: "10여 년 전", en: "Years Ago" },
   "about.e0_title": { kr: "한글화의 시작", en: "The Beginning" },
   "about.e0_body": {
-    kr: "어린 시절, Half-Life: Counter-Strike의 AmxModX 서버 설정 파일의 주석 하나하나를 번역하며, 누군가에게 작은 도움이 되었을 때 느꼈던 기쁨. 그 순수했던 마음이 한글화에 대한 열정의 씨앗이 됐다.",
-    en: "Years ago, I translated server configuration comments in Half-Life: Counter-Strike's AmxModX files one by one, and felt a simple joy knowing it might help someone. That pure feeling became the seed of my passion for localization."
+    kr: "어린 시절, Half-Life: Counter-Strike의 AmxModX 서버 설정 파일에 달린 주석들을 하나씩 번역하며, 누군가에게 작은 도움이 되었을 때 느꼈던 기쁨이 있었다. 그 순수했던 경험이 한글화에 대한 오래된 관심의 씨앗이 됐다.",
+    en: "As a child, I translated the comments in Half-Life: Counter-Strike's AmxModX server configuration files one by one, and felt a small joy each time it helped someone. That innocent experience planted a long-standing interest in localization."
   },
 
   "about.e1_date":  "2026. 03. 21",
   "about.e1_title": { kr: "시작: 한글 없음", en: "Start: No Korean" },
   "about.e1_body": {
-    kr: "MK11의 실행 파일에는 12개 언어가 하드코딩되어 있다. 한글은 그 목록에 없었다. 공식 지원이 불가능하다면, 방법은 하나였다. 이미 있는 언어 슬롯을 한글로 위장하는 것. 한글 문자 구조와 비슷한 중국어 간체(CHS) 슬롯을 선택했다.",
-    en: "MK11's executable has 12 hardcoded languages. Korean wasn't one of them. If official support wasn't possible, there was only one way: hijack an existing language slot. I chose Simplified Chinese (CHS), structurally the closest to Korean's character space."
+    kr: "MK11의 실행 파일에는 12개 언어가 하드코딩되어 있었다. 한글은 그 목록에 없었다. 공식 지원이 불가능하다면 방법은 하나였다. 이미 존재하는 언어 슬롯 중 하나를 한국어처럼 동작하게 만드는 것. 여러 가능성을 검토한 끝에 중국어 간체(CHS) 슬롯을 기준으로 접근하기로 했다.",
+    en: "MK11's executable had 12 hardcoded languages. Korean wasn't one of them. If official support wasn't possible, there was only one way left: take an existing language slot and make it behave like Korean. After weighing the options, the Simplified Chinese (CHS) slot was chosen as the basis."
   },
 
   "about.e2_date":  "2026. 03. 22–24",
   "about.e2_title": { kr: "암호화 해독", en: "Breaking the Encryption" },
   "about.e2_body": {
-    kr: "번역 파일인 <code>Coalesced.CHS</code>는 암호화되어 있었다. 다양한 시도 끝에 암호화 구조를 해독하는 데 성공했고, 39개 INI 파일과 수만 줄의 텍스트에 접근할 수 있었다. 진짜 작업이 이제 시작이었다.",
-    en: "The translation file <code>Coalesced.CHS</code> was encrypted. After numerous attempts, I cracked the encryption structure and gained access to 39 INI files and tens of thousands of lines of text. The real work was just beginning."
+    kr: "번역 파일인 <code>Coalesced.CHS</code>는 바로 읽을 수 없는 구조였다. 여러 분석 끝에 내부 데이터를 해독하는 데 성공했고, 39개 INI 파일과 수만 줄의 텍스트에 접근할 수 있었다. 비로소 실제 번역 작업을 시작할 수 있는 기반이 열렸다.",
+    en: "The translation file <code>Coalesced.CHS</code> wasn't something you could open and read. After a series of analyses, the internal data could finally be decoded, opening access to 39 INI files and tens of thousands of lines of text. Only then was the foundation for real translation work in place."
   },
 
   "about.e3_date":  "2026. 03. 25–28",
   "about.e3_title": { kr: "첫 번째 돌파: 한글이 화면에 뜨다", en: "First Breakthrough: Korean on Screen" },
   "about.e3_body": {
-    kr: "폰트 파일 교체는 처음 7번 모두 크래시로 끝났다. 게임이 글리프 이미지와는 별개로 UV 좌표 테이블을 따로 참조하고 있었는데, 그 구조가 공식 문서에 없었다. 인저스티스의 공식 한글 파일 안에서 Scaleform SDK 소스코드 단서를 발견했다. <code>Tag 1002</code>, <code>FontTextureInfo</code>. 그것을 해독하고 나서야 4,214개 한글 글리프를 정확히 화면에 표시할 수 있었다.",
-    en: "Font replacement crashed 7 times before success. The game referenced a UV coordinate table separately from glyph images, completely undocumented. I found a Scaleform SDK clue inside Injustice's official Korean file: <code>Tag 1002</code>, <code>FontTextureInfo</code>. After decoding it, all 4,214 Korean glyphs could be rendered correctly."
+    kr: "폰트 파일 교체는 처음 여러 차례 모두 크래시로 끝났다. 단순히 글리프 이미지를 바꾸는 것만으로는 해결되지 않았고, 게임이 글자를 배치하는 내부 규칙을 함께 이해해야 했다. 기존 작품의 공식 한국어 리소스와 관련 자료를 비교하며 그 구조를 추적했고, 마침내 한글 글리프를 화면에 안정적으로 표시하는 데 성공했다. 이때부터 프로젝트는 \"가능성\"이 아니라 \"실제로 끝까지 갈 수 있는 일\"이 됐다.",
+    en: "The first several attempts at font replacement all ended in crashes. Swapping glyph images alone didn't solve it; the internal rules the game used to lay text out had to be understood as well. Tracing that structure meant comparing the official Korean assets from a related title with other references. Eventually, Korean glyphs could be rendered on screen reliably. From that moment on, the project shifted from \"a possibility\" to \"something that could actually be carried through to the end.\""
   },
 
   "about.e4_date":  "2026. 04. 03",
-  "about.e4_title": { kr: "두 번째 돌파: 검증 시스템 우회", en: "Second Breakthrough: Bypassing Verification" },
+  "about.e4_title": { kr: "두 번째 돌파: 검증 시스템의 벽", en: "Second Breakthrough: The Wall of Asset Validation" },
   "about.e4_body": {
-    kr: "2026 최신 업데이트 이후로, CHS를 비롯한 모든 에셋을 SHA-1 해시로 검증한다. 파일 1바이트만 바꿔도 <em>\"Game data is corrupted\"</em> 메시지와 함께 게임이 종료된다. TOC 크기 수정, CVD 해시 교체, 파일 삭제 등 8가지 방법이 모두 실패했다. 결국 선택한 방법은 디스크 파일을 건드리지 않는 것, 실행 중 메모리에서 검증 분기를 직접 비활성화하는 방식으로 우회에 성공했다. 오픈소스 프로젝트가 큰 도움이 됐다.",
-    en: "After the 2026 update, all assets (including CHS files) are SHA-1 hash validated. One byte changed triggers <em>\"Game data is corrupted\"</em>. Eight methods failed: TOC size editing, CVD hash replacement, file deletion. The solution: don't touch the disk. Disable the validation branch in memory at runtime. An open-source project made it possible."
+    kr: "최신 빌드에서는 에셋 검증이 크게 강화되어, 작은 변경만으로도 게임이 정상적으로 로드되지 않는 문제가 생겼다. 여러 우회 시도가 실패한 끝에, 디스크의 원본 파일을 직접 바꾸지 않는 방향으로 해결책을 정리할 수 있었다. 이 과정에서는 기존 오픈소스 프로젝트의 도움도 컸다. 이 순간부터 패치는 단순한 번역 파일이 아니라, 실제 플레이 환경에서 동작하는 배포 가능한 형태로 나아가기 시작했다.",
+    en: "In the newer build, asset validation had been hardened to the point where even small changes prevented the game from loading properly. After several failed workarounds, the answer landed on a different angle: leave the original files on disk untouched. Existing open-source projects were a real help along the way. From that point on, the patch stopped being just a set of translated files and started becoming something that could actually be shipped and run in a real play environment."
   },
 
   "about.e5_date":  "2026. 04. 05–24",
   "about.e5_title": { kr: "번역 엔진: 언어 규칙 설계", en: "Translation Engine: Designing the Language Rules" },
   "about.e5_body": {
-    kr: "처음엔 기본 틀만 있었다. 37개 캐릭터 성격 축은 정리됐지만, LLM이 그것만으로 얼마나 부족한지 아직 몰랐다. 번역을 시작하면서 첫 번째 벽이 나타났다. 스토리 INI 파일에는 화자 정보가 없었다. 누가 말하는지 알아야 경어 수준을 정할 수 있었다. 그걸 해결하기 위해 AAA 데이터를 찾았다. <em>어쌔신크리드 오디세이</em>에서 경어가 캐릭터 관계를 반영한다는 원칙을 얻었다. <em>Steam UI</em>에서 UI 텍스트 표준을 가져왔다. <em>스트리트 파이터 5</em>에서 격투 게임 기술명 관행을 확인했다. Minty Fresh Death의 게임 스크립트 가이드가 화자 식별의 나침반이 됐다. 이렇게 Foundation이 세워졌고, 53,000줄을 번역하는 내내 보강됐다.",
-    en: "At first there was only a rough framework. Personality axes for all 37 characters were mapped out, but how much more the LLM would need wasn't yet understood. The first wall appeared when translation began: story INI files carry no speaker data. Knowing who speaks was the prerequisite for setting the right speech level. That sent the search into AAA data. <em>Assassin's Creed Odyssey</em> confirmed that honorifics reflect relationships, not just politeness. <em>Steam's Korean UI</em> provided the standard for UI text. <em>Street Fighter 5</em> showed how fighting game move names are handled in Korean. Minty Fresh Death's game script guide became the compass for speaker identification. That was how the Foundation was built, and it kept growing throughout all 53,000 lines."
+    kr: "처음엔 기본적인 틀만 있었다. 하지만 번역을 시작하자 곧 한계가 드러났다. 스토리 INI 파일에는 화자 정보가 없었고, 누가 누구에게 말하는지 알지 못하면 적절한 경어 수준을 정할 수 없었다. 이를 해결하기 위해 다양한 게임과 자료를 참고하며, 캐릭터 관계, UI 문장 규칙, 격투 게임 용어 관행, 화자 식별 기준을 하나씩 정리했다. 그렇게 Foundation이 세워졌고, 53,000여 개 항목을 번역하는 내내 계속 보강되었다.",
+    en: "At the start there was only a basic framework. The limits showed up the moment translation began. Story INI files carried no speaker information, and without knowing who was speaking to whom, the right level of speech politeness simply couldn't be decided. Working through that meant drawing on a range of games and references and gradually pinning down character relationships, conventions for UI phrasing, fighting-game terminology, and the criteria for identifying speakers. That is how the Foundation was built, and it kept being reinforced throughout the translation of more than 53,000 entries."
   },
 
   "about.e6_date":  "2026. 04. 26–05. 02",
-  "about.e6_title": { kr: "번역 엔진: 37인 캐릭터의 화법", en: "Translation Engine: A Voice for Each Character" },
+  "about.e6_title": { kr: "번역 엔진: 37인의 화법 정립", en: "Translation Engine: Establishing 37 Distinct Voices" },
   "about.e6_body": {
-    kr: "기존 엔진으로 전투 인트로 대사를 번역하기 시작했다. 69쌍. 그리고 멈췄다. 스캔 도구가 짧은 문장의 합니다/입니다 패턴을 감지하지 못하는 구조적 결함이 있었다. 402건의 위반. 전체를 리셋했다. 키 구조를 전수 분석했다. bcd - 세 키가 하나의 교환, 상대에 따라 같은 캐릭터의 경어 수준이 달라진다. 게임 스크립트 가이드는 전투 대사를 수록하지 않았다. 결국 각 캐릭터와 직접 마주 앉는 방법뿐이었다. 로보캅의 첫 번역은 엔진이 존댓말로 감지했다. 혼용을 거쳐 반말_단정으로 확정됐다. 람보의 첫 번역은 30대 구어체였다. 베트남 참전용사의 무게감을 찾는 데 재정비가 필요했다. 37개 캐릭터가 각자 그 과정을 거쳤다. 7일이 걸렸다.",
-    en: "Translation started with the existing engine on battle intro dialogue. 69 pairs in, it stopped. The scan tool had a structural flaw: it couldn't detect honorific violations in short sentences. 402 violations. Full reset. The key structure was audited from scratch. bcd: three keys form one exchange, and the same character speaks differently depending on the opponent. The game script guide didn't cover battle dialogue. In the end, there was only one way: sit down with each character directly. The engine had classified RoboCop's first translation as formal speech. It went through mixed forms before settling on all-declarative. Rambo's first translation read like casual Korean slang. Finding the weight of a Vietnam veteran took a full revision. All 37 characters went through that process. Seven days."
+    kr: "기존 엔진으로 전투 인트로 대사를 번역하기 시작했지만, 곧 구조적인 결함이 드러났다. 짧은 문장에서 말투 위반을 제대로 잡아내지 못했고, 전체를 다시 검토해야 하는 상황이 생겼다. 결국 일부 작업을 리셋하고, 키 구조를 전수 분석하며 캐릭터별 말투를 다시 세우기 시작했다. 상대에 따라 존댓말과 반말의 수준이 달라지는 구조까지 확인하면서, 37명의 캐릭터가 각자 자기 목소리를 가지도록 조정했다. 이 작업만 7일이 걸렸다.",
+    en: "Battle intro dialogue had started running through the existing engine when a structural flaw became clear. Tone violations in short sentences weren't being caught reliably, and a full re-examination was unavoidable. Part of the work was reset, the key structure was audited end to end, and each character's speech style was re-established from the ground up. As the structure revealed how the same character's politeness shifted depending on the opponent, all 37 characters were tuned until each had a voice of their own. That step alone took seven days."
   },
 
   "about.toggle_more": { kr: "더 보기", en: "Read more" },
@@ -148,8 +148,8 @@ window.MK11_CONTENT = {
   "about.e7_date":  "2026. 05. 02",
   "about.e7_title": { kr: "완성", en: "Complete" },
   "about.e7_body": {
-    kr: "42일간의 여정. 53,000줄. 번역 가능한 모든 항목이 한글로 옮겨졌다. v1.0이다. 실제 플레이에서만 나올 수 있는 엣지 케이스들이 남아 있다는 걸 안다. 피드백을 기다린다. 국내 정식 발매가 없어 이 명작을 포기하셨던 분들께, 페이탈리티의 짜릿함을 이제 한글로 선물드리고자 한다.",
-    en: "A 42-day journey. 53,000 lines. Every translatable entry is now in Korean. This is v1.0. Edge cases that only surface through actual play are still out there. I know that. Feedback is welcome. For those who gave up on this masterpiece without a Korean release: the thrill of a Fatality is now yours in Korean."
+    kr: "42일간의 여정 끝에, 번역 가능한 모든 항목이 한국어로 옮겨졌다. 총 53,000여 개 항목 규모의 v1.0이었다. 실제 플레이에서만 드러나는 엣지 케이스들이 여전히 남아 있다는 것도 알고 있었다. 그래서 이 버전은 끝이 아니라 첫 공개에 가깝다. 국내 정식 발매가 없어 이 작품을 포기하셨던 분들께, 이제는 그 경험을 한국어로 열어드리고 싶었다.",
+    en: "After a 42-day journey, every translatable entry had been moved into Korean. This was v1.0, with around 53,000 entries in total. Edge cases that only surface through actual play were certainly still out there, and that was clear from the start. In that sense, this version is less an ending than a first public release. For those who had given up on this title because it never received an official Korean release, the goal now is simply to open that experience back up in Korean."
   },
 
   // ── Install ───────────────────────────────────────────────────
