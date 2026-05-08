@@ -93,7 +93,7 @@ window.MK11_CONTENT = {
   "about.heading": { kr: "프로젝트 이야기",  en: "Project Story" },
   "about.sub":     { kr: "시작부터 배포까지", en: "From Start to Release" },
 
-  "about.e0_date":  { kr: "10여 년 전", en: "Years Ago" },
+  "about.e0_date":  { kr: "20여 년 전", en: "20+ Years Ago" },
   "about.e0_title": { kr: "한글화의 시작", en: "The Beginning" },
   "about.e0_body": {
     kr: "어린 시절, Half-Life: Counter-Strike의 AmxModX 서버 설정 파일에 달린 주석들을 하나씩 번역하며, 누군가에게 작은 도움이 되었을 때 느꼈던 기쁨이 있었다. 그 순수했던 경험이 한글화에 대한 오래된 관심의 씨앗이 됐다.",
