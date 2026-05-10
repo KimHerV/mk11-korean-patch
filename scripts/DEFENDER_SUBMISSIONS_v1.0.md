@@ -2,7 +2,7 @@
 
 **Submission URL**: <https://www.microsoft.com/en-us/wdsi/filesubmission>
 
-**Common form fields for all 5 submissions**:
+**Common form fields for all 6 submissions**:
 - **Customer category**: Software developer
 - **Reason for submission**: false positive
 - **Microsoft account**: required (any personal account)
@@ -16,9 +16,9 @@ Submit each file as a **separate submission**. The form accepts one or more file
 | Field | Value |
 |---|---|
 | **File** | `MK11-Korean-Patch-Setup.exe` |
-| **SHA256** | `19824608CFEBCA72FF16CBECD6BEA8FB7512AA1A6FA3A4810E34E7B70842074A` |
-| **Size** | 45,674,207 bytes |
-| **Detection name (if reported)** | `Trojan:Win32/Wacatac.B!ml` (typical ML heuristic) |
+| **SHA256** | `77B837DC862A9555E4E4B9F8340151C78EFEA194447522A4D81D33939783FC9A` |
+| **Size** | 45,674,764 bytes |
+| **Detection name (if reported)** | `Trojan:Win32/Wacatac.H!ml` (typical ML heuristic) |
 | **Source URL** | <https://github.com/KimHerV/mk11-korean-patch/releases/tag/v1.0> |
 
 ### Submission notes
@@ -172,9 +172,50 @@ Standard third-party library, no modification.
 
 ---
 
-## After all 5 submissions
+## 6. mk11_kor_manager.exe (Patch Manager)
 
-1. Save the confirmation pages or numbers from each submission
+| Field | Value |
+|---|---|
+| **File** | `mk11_kor_manager.exe` |
+| **SHA256** | `AAB55754F609853A1B1F9F5CB661772875C13523997761617BCD632E4246F282` |
+| **Size** | 19,852,582 bytes |
+| **Detection name (if reported)** | `Trojan:Win32/Wacatac.H!ml` (typical ML heuristic) |
+
+### Submission notes
+
+```
+Patch manager bundled inside MK11-Korean-Patch-Setup.exe installer
+(separately submitted). Extracted to %APPDATA%\MK11KoreanPatch\ at
+install time. Built with PyInstaller.
+
+Provides: patch status display, update check via GitHub API, CVD
+toggle (ASIMK11.ini write), game launch shortcut, and uninstall.
+
+Source code: https://github.com/KimHerV/mk11-korean-patch
+No data collection, no telemetry.
+
+ML heuristic flags appear to be triggered by the unsigned EXE pattern
+typical of game mod distributions.
+```
+
+---
+
+## Submission IDs (2026-05-06) — 결과 업데이트 2026-05-10
+
+| File | Submission ID | Status |
+|---|---|---|
+| `MK11-Korean-Patch-Setup.exe` | `cdeea0ba-24fe-404b-982e-2857eb60f2c1` | **Completed** |
+| `mk11_kor_manager.exe` | `ca8f47c6-2138-49c6-946e-495d347c17af` | **Completed** |
+| `dinput8.dll` | `46401b8b-508a-4bf3-82ec-5b64db2da928` | **Completed** |
+| `ASIMK11.asi` | `f5661a31-a277-48a9-acb7-df2fd93e80aa` | In progress |
+| `libzmq-v120-mt-4_3_4.dll` | `06f0b92c-97a5-48bf-a3a3-b91210f25c3e` | In progress |
+| `libsodium.dll` | `a5836ebe-1f7d-49ba-98b8-5729235d9b05` | In progress |
+
+---
+
+## After all 6 submissions
+
+1. Save the confirmation pages or numbers from each submission (6 total)
 2. Wait 24–72 hours for Microsoft response (per submission)
 3. Responses arrive via the email tied to the submitting Microsoft account
 4. Possible outcomes per file:
@@ -196,4 +237,5 @@ Get-FileHash ASIMK11.asi -Algorithm SHA256
 Get-FileHash dinput8.dll -Algorithm SHA256
 Get-FileHash libzmq-v120-mt-4_3_4.dll -Algorithm SHA256
 Get-FileHash libsodium.dll -Algorithm SHA256
+Get-FileHash mk11_kor_manager.exe -Algorithm SHA256
 ```

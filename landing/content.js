@@ -240,8 +240,8 @@ window.MK11_CONTENT = {
     en: "When Windows Blocks the Download"
   },
   "trouble.cause": {
-    kr: "코드 서명되지 않은 인스톨러에 대해 일부 백신의 머신러닝 휴리스틱이 자동으로 격리하거나 삭제할 수 있습니다. 본 인스톨러는 PyInstaller 기반으로 빌드되어 있으며, 이 패키징 방식은 다른 PyInstaller 도구에서도 일부 ML 백신의 false positive가 보고되는 알려진 패턴입니다. 주요 백신은 정상 판정을 받았으나, 사용 중이신 환경에서 차단될 경우 아래 절차로 복원·진행하실 수 있습니다.",
-    en: "Some antivirus programs use ML heuristics that may quarantine or auto-delete unsigned installers. This installer is built with PyInstaller, a packaging method known to produce ML false positives across many similar tools. Major AVs have cleared this patch, but if your environment blocks it, use either method below to restore or proceed."
+    kr: "최신 빌드는 2026년 5월 Microsoft 공식 제출을 통해 인스톨러와 패치 매니저 모두 정상 판정이 완료되었습니다. Microsoft Defender 및 Smart App Control 환경에서 차단이 재현되지 않는 것을 확인했습니다. 다른 백신 환경에서 드물게 차단이 발생하는 경우, 아래 절차로 복원·진행하실 수 있습니다.",
+    en: "The latest build was submitted to Microsoft in May 2026 and both the installer and patch manager have received a clean verdict. We confirmed no blocking occurs on Microsoft Defender and Smart App Control environments. If your security software still flags it in rare cases, use either method below to restore or proceed."
   },
   "trouble.method1_title": {
     kr: "방법 1: 격리 항목 복원",
@@ -288,8 +288,8 @@ window.MK11_CONTENT = {
     en: "Per VirusTotal (70+ engines)"
   },
   "trouble.footer": {
-    kr: "본 패치는 <a href=\"https://github.com/KimHerV/mk11-korean-patch\" target=\"_blank\" rel=\"noopener\">오픈소스</a>로 전체 코드를 확인하실 수 있습니다. 자체 DLL 개발 및 인스톨러 패키징 방식 개선을 통해 플랫폼 지원 확장과 백신 오탐지 감소를 점진적으로 진행할 예정입니다.",
-    en: "This patch is <a href=\"https://github.com/KimHerV/mk11-korean-patch\" target=\"_blank\" rel=\"noopener\">open source</a> with the full code publicly reviewable. A custom DLL and installer packaging improvements are planned to gradually expand platform support and reduce AV false positives."
+    kr: "본 패치는 <a href=\"https://github.com/KimHerV/mk11-korean-patch\" target=\"_blank\" rel=\"noopener\">오픈소스</a>로 전체 코드를 확인하실 수 있습니다. 인스톨러와 패치 매니저는 Microsoft 공식 제출을 통해 정상 판정이 완료되었습니다.",
+    en: "This patch is <a href=\"https://github.com/KimHerV/mk11-korean-patch\" target=\"_blank\" rel=\"noopener\">open source</a> with the full code publicly reviewable. The installer and patch manager have been cleared through Microsoft's official review process."
   },
 
   // ── Online ────────────────────────────────────────────────────

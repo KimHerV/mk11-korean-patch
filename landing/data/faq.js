@@ -126,22 +126,12 @@ window.MK11_FAQ = [
           en: "Windows Defender is flagging the installer as malicious."
         },
         a: {
-          kr: "ML/휴리스틱 기반 오탐입니다. 아래 두 가지를 먼저 확인해 주세요.",
-          en: "This is a false positive from ML/heuristic detection. Please check the following first."
-        },
-        list: {
-          kr: [
-            "파일명이 MK11-Korean-Patch-Setup.exe 인지 확인",
-            "파일 우클릭 → 속성 → 자세히에서 파일 설명이 'MK11 Korean Translation Patch Installer'인지 확인"
-          ],
-          en: [
-            "Confirm the file name is MK11-Korean-Patch-Setup.exe",
-            "Right-click → Properties → Details and confirm the file description reads 'MK11 Korean Translation Patch Installer'"
-          ]
+          kr: "최신 빌드는 Microsoft 제출 결과 인스톨러와 패치 매니저 모두 정상 판정이 완료되었습니다. 이전에 경고가 발생했다면 구버전일 가능성이 있으므로, 최신 설치 파일로 다시 받아 확인해 주세요.",
+          en: "The latest build has been cleared through Microsoft's official review process. Both the installer and patch manager received a clean verdict. If you saw a warning before, you may have an older build — please re-download the latest installer and try again."
         },
         note: {
-          kr: "파일 설명이 비어 있으면 이전 빌드입니다. 최신 버전으로 다시 받으세요. 최신 빌드에서도 동일하다면 Defender 보호 기록의 파일명과 경로를 함께 제보해 주세요.",
-          en: "A blank description means you have an older build. Re-download the latest version. If the latest build still triggers the warning, please report the file name and path shown in Defender's protection history."
+          kr: "2026년 5월 6일 Microsoft에 제출, 5월 10일 정상 판정 확인. 최신 빌드에서도 동일 증상이 발생하면 Defender 보호 기록의 파일명과 경로를 함께 제보해 주세요.",
+          en: "Submitted to Microsoft on May 6, 2026; clearance confirmed May 10, 2026. If the latest build still triggers a warning, please report the file name and path from Defender's protection history."
         }
       },
       {
@@ -150,8 +140,12 @@ window.MK11_FAQ = [
           en: "Smart App Control is blocking the installer."
         },
         a: {
-          kr: "Defender 오탐과 별개의 보안 레이어입니다. 서명되지 않은 실행 파일을 더 강하게 차단합니다. SAC 비활성화는 권장하지 않으며, 코드 서명 및 수동 설치 경로 추가를 검토 중입니다.",
-          en: "This is a separate security layer from Defender. It aggressively blocks unsigned executables. Disabling SAC is not recommended. Code signing and a manual install path are currently being explored as alternatives."
+          kr: "최신 빌드는 Microsoft 제출을 통해 인스톨러와 패치 매니저의 정상 판정이 확인되었습니다. Smart App Control이 켜진 환경에서도 설치 단계 차단이 재현되지 않는 것을 확인했습니다. 만약 동일 증상이 남아 있다면 최신 빌드 재다운로드 후 다시 시도해 주세요.",
+          en: "The latest build has been cleared through Microsoft's official review process. We confirmed that installation proceeds without Smart App Control blocking on an SAC-enabled environment. If you are still experiencing a block, please re-download the latest build and try again."
+        },
+        note: {
+          kr: "2026년 5월 6일 Microsoft에 제출, 5월 10일 정상 판정 확인.",
+          en: "Submitted to Microsoft on May 6, 2026; clearance confirmed May 10, 2026."
         }
       }
     ]

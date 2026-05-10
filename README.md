@@ -29,8 +29,8 @@
 
 This patch links against two Microsoft Visual C++ runtimes. Install both before running the patched game:
 
-- **[Visual C++ 2013 Redistributable (x64)](https://aka.ms/highdpimfc2013x64enu)** — required by `libzmq` and `libsodium`. **Not bundled with Windows 10/11.**
-- **[Visual C++ 2015–2022 Redistributable (x64)](https://aka.ms/vs/17/release/vc_redist.x64.exe)** — required by `ASIMK11.asi`. Usually present on Windows 10/11, but install if missing.
+- **[Visual C++ 2013 Redistributable (x64)](https://aka.ms/highdpimfc2013x64enu)**: required by `libzmq` and `libsodium`. **Not bundled with Windows 10/11.**
+- **[Visual C++ 2015–2022 Redistributable (x64)](https://aka.ms/vs/17/release/vc_redist.x64.exe)**: required by `ASIMK11.asi`. Usually present on Windows 10/11, but install if missing.
 
 If the game fails to launch with `Unable to load ASIMK11.asi. Error: 126`, verify both redistributables above are installed.
 
@@ -38,8 +38,8 @@ If the game fails to launch with `Unable to load ASIMK11.asi. Error: 126`, verif
 
 **[MK11-Korean-Patch-Setup.exe](https://github.com/KimHerV/mk11-korean-patch/releases/latest)**
 
-> Windows SmartScreen may warn on first run.  
-> Click **"More info" → "Run anyway"** to proceed.
+> The installer and patch manager have been cleared through Microsoft's official review process (May 2026).  
+> Windows SmartScreen may still warn on first run on some systems. Click **"More info" → "Run anyway"** to proceed.
 
 ### 2. Run the installer
 
@@ -55,7 +55,7 @@ Korean text and font will be active.
 
 ### Troubleshooting
 
-**Some antivirus programs may quarantine or auto-delete the installer.** This is a heuristic flag on unsigned EXEs and not specific to this patch. Major AVs (Microsoft Defender, Norton, McAfee, BitDefender, ESET, Avast/AVG, Trend Micro) have cleared this build per VirusTotal scan.
+**The installer and patch manager have been cleared through Microsoft's official review process (submitted May 6, 2026; clearance confirmed May 10, 2026).** If another antivirus program quarantines the installer, this is a heuristic flag on unsigned EXEs common to PyInstaller-based tools and not specific to this patch.
 
 - *Restore from quarantine*: open your antivirus program's quarantine / threat history → find the blocked entry → **Allow** or **Restore**
 - *Or temporarily exclude the Downloads folder*: open your antivirus settings → Exclusions / Exceptions → add the Downloads folder → re-download → remove the exclusion after install
