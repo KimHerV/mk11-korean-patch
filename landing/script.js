@@ -553,6 +553,31 @@ document.getElementById('feedback-form')?.addEventListener('submit', async (e) =
 
 fetchReleaseStats();
 
+// ── Live download counter sparkles ────────────────────────
+(function () {
+  var host = document.getElementById('stat-live');
+  if (!host) return;
+
+  // 4 sparkle positions around the number (x offset, base delay, duration)
+  var sparks = [
+    { x: '-28px', delay: '0s',    dur: '2.2s' },
+    { x:  '28px', delay: '0.55s', dur: '2.6s' },
+    { x: '-14px', delay: '1.1s',  dur: '2.0s' },
+    { x:  '16px', delay: '1.65s', dur: '2.4s' },
+  ];
+
+  sparks.forEach(function (s) {
+    var el = document.createElement('span');
+    el.className = 'live-spark';
+    el.textContent = '✦';
+    el.style.left = 'calc(50% + ' + s.x + ')';
+    el.style.top  = '18%';
+    el.style.setProperty('--spark-delay', s.delay);
+    el.style.setProperty('--spark-dur',   s.dur);
+    host.appendChild(el);
+  });
+})();
+
 // ── System info collection ────────────────────────────────────
 function _osFromUA() {
   var ua = navigator.userAgent;

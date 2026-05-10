@@ -88,6 +88,54 @@
 .anim-watch:nth-child(5) { transition-delay: 320ms; }
 .anim-watch:nth-child(6) { transition-delay: 400ms; }
 
+/* ── Live download counter ──────────────────────────────── */
+.stat-item--live {
+  position: relative;
+}
+
+/* Subtle gold glow pulse on the number */
+.stat-item--live .stat-number {
+  animation: live-pulse 3s ease-in-out infinite;
+}
+@keyframes live-pulse {
+  0%, 100% { color: var(--color-gold); }
+  50%       { color: var(--color-gold-bright);
+              text-shadow: 0 0 28px rgba(240,192,64,0.55); }
+}
+
+/* Red ● LIVE dot before the label */
+.stat-item--live .stat-label::before {
+  content: '●';
+  font-size: 0.5em;
+  color: var(--color-gold-bright);
+  margin-right: 5px;
+  display: inline-block;
+  vertical-align: middle;
+  animation: live-blink 1.8s ease-in-out infinite;
+}
+@keyframes live-blink {
+  0%, 100% { opacity: 1;    transform: scale(1);   }
+  50%       { opacity: 0.2; transform: scale(0.65); }
+}
+
+/* ✦ Sparkle particles (injected by JS) */
+.live-spark {
+  position: absolute;
+  font-size: 10px;
+  line-height: 1;
+  color: var(--color-gold-bright);
+  pointer-events: none;
+  user-select: none;
+  animation: spark-rise var(--spark-dur, 2s) ease-out infinite;
+  animation-delay: var(--spark-delay, 0s);
+  opacity: 0;
+}
+@keyframes spark-rise {
+  0%   { opacity: 0;   transform: translate(0, 0)     scale(0.4); }
+  20%  { opacity: 0.9; transform: translate(0, -10px)  scale(1);   }
+  100% { opacity: 0;   transform: translate(0, -30px)  scale(0.6); }
+}
+
 /* ── Reduced motion: accessibility override ─────────────── */
 @media (prefers-reduced-motion: reduce) {
   .hero-eyebrow,
@@ -111,5 +159,11 @@
     opacity: 1;
     transform: none;
     transition: none;
+  }
+  .stat-item--live .stat-number,
+  .stat-item--live .stat-label::before,
+  .live-spark {
+    animation: none;
+    opacity: 1;
   }
 }
