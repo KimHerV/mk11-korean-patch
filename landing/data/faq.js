@@ -1,0 +1,184 @@
+// MK11 한글 패치 · FAQ 데이터
+// 진실 소스 공급원: 이 파일을 수정하면 랜딩 페이지에 자동 반영됩니다.
+//
+// 구조:
+//   category  { kr, en }          카테고리 제목
+//   items[]
+//     q       { kr, en }          질문
+//     a       { kr, en }          답변 본문 (\n 으로 단락 구분)
+//     list    { kr[], en[] }      (선택) 글머리 목록
+//     note    { kr, en }          (선택) 하단 보충 설명
+
+window.MK11_FAQ = [
+  {
+    category: { kr: "기본 안내", en: "General" },
+    items: [
+      {
+        q: {
+          kr: "패치가 번역하는 내용은 무엇인가요?",
+          en: "What does this patch translate?"
+        },
+        a: {
+          kr: "스토리, UI, 튜토리얼, 무브리스트, 아이템, 크립트, DLC, 인게임 대사, Aftermath까지 번역 가능한 모든 항목을 반영했습니다. 비공식 팬 제작 패치로, 상업적 목적 없이 만들어졌습니다.",
+          en: "Story, UI, tutorials, movelists, items, the Krypt, DLC content, in-game dialogue, and Aftermath. All translatable content in the game. This is an unofficial fan-made patch with no commercial intent."
+        }
+      },
+      {
+        q: {
+          kr: "왜 게임 언어를 중국어 간체로 설정해야 하나요?",
+          en: "Why do I need to set the game language to Simplified Chinese?"
+        },
+        a: {
+          kr: "한글 패치는 게임 내 중국어 간체(CHS) 리소스 슬롯을 통해 적용됩니다. <strong>Steam 라이브러리에서 게임 우클릭 → 속성 → 언어</strong>에서 중국어 간체로 변경해야 합니다. 인게임 언어 설정에서 변경하는 것은 적용되지 않습니다.",
+          en: "The patch is applied through the Simplified Chinese (CHS) resource slot. You must change the language via <strong>Steam library → right-click game → Properties → Language</strong>. Changing it from within the game's own settings will not work."
+        }
+      }
+    ]
+  },
+  {
+    category: { kr: "설치", en: "Installation" },
+    items: [
+      {
+        q: {
+          kr: "설치·제거는 어떻게 되나요?",
+          en: "How does install and uninstall work?"
+        },
+        a: {
+          kr: "설치 시 원본 파일이 자동으로 백업됩니다. 매니저에서 제거를 실행하면 원본 상태(중국어 간체)로 복구됩니다. 영어로 플레이하려면 Steam 라이브러리에서 게임 우클릭 → 속성 → 언어에서 영어로 변경해 주세요.",
+          en: "Original files are automatically backed up at install time. Running uninstall in the manager restores them to Simplified Chinese. To play in English afterward, go to Steam library → right-click game → Properties → Language and switch to English."
+        },
+        note: {
+          kr: "게임 업데이트로 패치가 작동하지 않으면 매니저가 자동으로 감지해 안내합니다.",
+          en: "If a game update breaks the patch, the manager will detect it and notify you."
+        }
+      },
+      {
+        q: {
+          kr: "Steam 외 다른 환경에서 사용 가능한가요?",
+          en: "Does it work outside of Steam?"
+        },
+        a: {
+          kr: "Steam PC 버전 기준으로 온라인 포함 정상 동작을 확인했습니다. Epic Games 버전은 미검증입니다. Steam Deck은 파일 수동 복사로 동작했다는 보고는 있지만, 공식 지원 범위는 아닙니다.",
+          en: "Confirmed working on Steam PC, including online play. The Epic Games version has not been tested. Steam Deck has been reported working via manual file copy, but is not officially supported."
+        }
+      }
+    ]
+  },
+  {
+    category: { kr: "4K 컷신", en: "4K Cinematics" },
+    items: [
+      {
+        q: {
+          kr: "4K Cinematic Pack을 설치했는데 컷신이 일반 해상도입니다.",
+          en: "I installed the 4K Cinematic Pack but cinematics still look standard."
+        },
+        a: {
+          kr: "MK11의 오래된 동작 방식 때문입니다. 게임이 Movies_4k 폴더를 직접 읽지 않고 Movies 폴더를 기준으로 재생합니다.\n해결 방법: Movies_4k 안의 파일들을 Movies 폴더에 덮어쓰세요. Movies_4k가 Movies의 모든 파일을 포함하지는 않으므로, 기존 파일을 삭제하지 말고 덮어쓰는 방식으로만 진행해야 합니다.",
+          en: "This is a long-standing MK11 behavior. The game reads cinematics from the Movies folder, not Movies_4k, even with the pack installed.\nFix: Copy files from Movies_4k into the Movies folder. Do not delete existing Movies files. Overwrite only, since Movies_4k does not contain every file in Movies."
+        },
+        note: {
+          kr: "4K 팩을 설치하지 않으셨다면 이 작업은 필요 없습니다.",
+          en: "If you haven't installed the 4K pack, no action is needed."
+        }
+      }
+    ]
+  },
+  {
+    category: { kr: "오류 · 보안", en: "Errors & Security" },
+    items: [
+      {
+        q: {
+          kr: "\"Unable to load ASIMK11.asi. Error: 126\" 오류가 뜹니다.",
+          en: "I see \"Unable to load ASIMK11.asi. Error: 126\"."
+        },
+        a: {
+          kr: "의존성 파일 누락이 원인입니다. 아래 순서로 확인해 주세요.",
+          en: "A missing dependency is the likely cause. Try the following in order."
+        },
+        list: {
+          kr: [
+            "최신 인스톨러로 재설치",
+            "<a href='https://aka.ms/highdpimfc2013x64enu' target='_blank' rel='noopener'>Visual C++ 2013 Redistributable (x64) ↗</a> 설치"
+          ],
+          en: [
+            "Re-install using the latest installer",
+            "Install <a href='https://aka.ms/highdpimfc2013x64enu' target='_blank' rel='noopener'>Visual C++ 2013 Redistributable (x64) ↗</a>"
+          ]
+        },
+        note: {
+          kr: "해결되지 않으면 에러 문구와 인스톨러 버전을 피드백으로 제보해 주세요.",
+          en: "If the issue persists, please report the exact error and installer version via the feedback form."
+        }
+      },
+      {
+        q: {
+          kr: "설치했는데 패치가 적용되지 않거나 게임에 문제가 생겼습니다.",
+          en: "The patch installed but isn't working, or the game has issues."
+        },
+        a: {
+          kr: "Steam 라이브러리에서 게임 우클릭 → 속성 → 언어가 중국어 간체로 설정되어 있는지 먼저 확인해 주세요. 인게임 언어 설정은 적용되지 않습니다. 설치 경로와 보안 프로그램 차단 여부도 함께 확인하시면 좋습니다.\n프레임 드랍이나 오디오 끊김은 패치가 원인일 가능성이 낮습니다. DX11/DX12 설정, 드라이버, 원본 게임 환경을 먼저 점검해 주세요.",
+          en: "First, check Steam library → right-click game → Properties → Language and confirm it is set to Simplified Chinese. The in-game language setting will not apply the patch. Also check the install path and whether any security software blocked the patch.\nFrame drops and audio stuttering are unlikely to be caused by the patch. Check DX11/DX12 settings, driver, and base game environment first."
+        }
+      },
+      {
+        q: {
+          kr: "Windows Defender가 설치 파일을 악성으로 탐지합니다.",
+          en: "Windows Defender is flagging the installer as malicious."
+        },
+        a: {
+          kr: "ML/휴리스틱 기반 오탐입니다. 아래 두 가지를 먼저 확인해 주세요.",
+          en: "This is a false positive from ML/heuristic detection. Please check the following first."
+        },
+        list: {
+          kr: [
+            "파일명이 MK11-Korean-Patch-Setup.exe 인지 확인",
+            "파일 우클릭 → 속성 → 자세히에서 파일 설명이 'MK11 Korean Translation Patch Installer'인지 확인"
+          ],
+          en: [
+            "Confirm the file name is MK11-Korean-Patch-Setup.exe",
+            "Right-click → Properties → Details and confirm the file description reads 'MK11 Korean Translation Patch Installer'"
+          ]
+        },
+        note: {
+          kr: "파일 설명이 비어 있으면 이전 빌드입니다. 최신 버전으로 다시 받으세요. 최신 빌드에서도 동일하다면 Defender 보호 기록의 파일명과 경로를 함께 제보해 주세요.",
+          en: "A blank description means you have an older build. Re-download the latest version. If the latest build still triggers the warning, please report the file name and path shown in Defender's protection history."
+        }
+      },
+      {
+        q: {
+          kr: "Smart App Control이 설치 파일을 차단합니다.",
+          en: "Smart App Control is blocking the installer."
+        },
+        a: {
+          kr: "Defender 오탐과 별개의 보안 레이어입니다. 서명되지 않은 실행 파일을 더 강하게 차단합니다. SAC 비활성화는 권장하지 않으며, 코드 서명 및 수동 설치 경로 추가를 검토 중입니다.",
+          en: "This is a separate security layer from Defender. It aggressively blocks unsigned executables. Disabling SAC is not recommended. Code signing and a manual install path are currently being explored as alternatives."
+        }
+      }
+    ]
+  },
+  {
+    category: { kr: "기타", en: "Other" },
+    items: [
+      {
+        q: {
+          kr: "왜 DLL 파일이 포함되나요?",
+          en: "Why does the patch include DLL files?"
+        },
+        a: {
+          kr: "MK11은 번역 파일과 폰트만 교체해서는 정상 로드되지 않는 구조입니다. 패치 적용을 위한 최소한의 외부 구성 요소가 필요합니다. 사용된 오픈소스 라이브러리와 라이선스 정보는 GitHub의 <a href='https://github.com/KimHerV/mk11-korean-patch/blob/main/THIRD_PARTY_NOTICES.md' target='_blank' rel='noopener'>THIRD_PARTY_NOTICES.md ↗</a>에서 확인할 수 있습니다.",
+          en: "MK11's architecture requires more than replacing translation files and fonts. A minimal set of external components is needed for the patch to load correctly. The open-source libraries and their licenses are listed in <a href='https://github.com/KimHerV/mk11-korean-patch/blob/main/THIRD_PARTY_NOTICES.md' target='_blank' rel='noopener'>THIRD_PARTY_NOTICES.md ↗</a> on GitHub."
+        }
+      },
+      {
+        q: {
+          kr: "오역이나 오류를 제보하고 싶습니다.",
+          en: "I want to report a mistranslation or an error."
+        },
+        a: {
+          kr: "이 페이지 하단의 피드백 폼을 이용해 주세요. 문제 위치(스토리/메뉴/무브리스트 등)와 현재 표시 문구를 함께 남겨주시면 빠르게 확인할 수 있습니다.",
+          en: "Use the feedback form at the bottom of this page. Include the location (story/menu/movelist/etc.) and the current text to help us find and fix the issue faster."
+        }
+      }
+    ]
+  }
+];

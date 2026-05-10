@@ -77,6 +77,8 @@ async function fetchReleaseStats() {
       const btn = document.getElementById('download-btn');
       if (btn) btn.href = installer.browser_download_url;
     }
+    const versionEl = document.getElementById('download-version');
+    if (versionEl && data.tag_name) versionEl.textContent = data.tag_name;
   } catch (_) { /* fail silently */ }
 }
 
@@ -496,6 +498,7 @@ document.getElementById('feedback-form')?.addEventListener('submit', async (e) =
 
   if (hasError) return;
 
+  const siCb = document.getElementById('include-sysinfo');
   const payload = {
     category:    form.category.value,
     subcategory: form.subcategory?.value || null,
@@ -504,6 +507,8 @@ document.getElementById('feedback-form')?.addEventListener('submit', async (e) =
     original:    form.original?.value.trim() || null,
     suggestion:  form.suggestion.value.trim(),
     nickname:    form.nickname.value.trim() || '익명',
+    screenshot:  null, /* disabled temporarily */
+    system_info: (siCb && siCb.checked && window._getSysInfo) ? window._getSysInfo() : null,
   };
 
   btn.disabled = true;
@@ -528,6 +533,11 @@ document.getElementById('feedback-form')?.addEventListener('submit', async (e) =
       // restore nickname default after reset
       const nn = document.getElementById('nickname');
       if (nn) nn.value = _t('feedback.nickname_default') || '익명';
+      // clear screenshot + sysinfo
+      if (window._ss && window._ss.reset) window._ss.reset();
+      if (siCb) { siCb.checked = false; }
+      const siPrev = document.getElementById('sysinfo-preview');
+      if (siPrev) siPrev.hidden = true;
     } else {
       throw new Error('server error');
     }
@@ -542,6 +552,118 @@ document.getElementById('feedback-form')?.addEventListener('submit', async (e) =
 });
 
 fetchReleaseStats();
+
+// ── System info collection ────────────────────────────────────
+function _osFromUA() {
+  var ua = navigator.userAgent;
+  if (/Windows NT 10\.0/.test(ua))    return 'Windows 10 / 11';
+  if (/Windows NT 6\.3/.test(ua))     return 'Windows 8.1';
+  if (/Windows NT 6\.1/.test(ua))     return 'Windows 7';
+  if (/Mac OS X/.test(ua))            return 'macOS';
+  if (/Linux/.test(ua))               return 'Linux';
+  return 'Unknown';
+}
+
+async function collectSystemInfo() {
+  var os = _osFromUA();
+
+  // Chromium: high-entropy hints distinguish Win10 vs Win11 + build string
+  if (navigator.userAgentData) {
+    try {
+      var hd = await navigator.userAgentData.getHighEntropyValues(['platform', 'platformVersion']);
+      if (hd.platform === 'Windows') {
+        var major = parseInt((hd.platformVersion || '').split('.')[0], 10);
+        os = (major >= 13 ? 'Windows 11' : 'Windows 10') + ' (build ' + hd.platformVersion + ')';
+      } else if (hd.platform) {
+        os = hd.platform;
+      }
+    } catch (e) {}
+  }
+
+  var gpu = 'Unknown';
+  try {
+    var canvas = document.createElement('canvas');
+    var gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+    if (gl) {
+      var ext = gl.getExtension('WEBGL_debug_renderer_info');
+      if (ext) gpu = gl.getParameter(ext.UNMASKED_RENDERER_WEBGL);
+    }
+  } catch (e) {}
+
+  var dpr   = window.devicePixelRatio || 1;
+  var scale = screen.width + '\xd7' + screen.height + ' (' + dpr + '\xd7)';
+
+  return { os: os, gpu: gpu, display: scale };
+}
+
+/* SCREENSHOT: disabled temporarily
+(function () {
+  var fileInput = document.getElementById('screenshot');
+  var preview   = document.getElementById('screenshot-preview');
+  var caption   = document.getElementById('screenshot-caption');
+  var filename  = document.getElementById('screenshot-filename');
+  var removeBtn = document.getElementById('screenshot-remove');
+  var warn      = document.getElementById('screenshot-warn');
+
+  var MAX = 2 * 1024 * 1024; // 2MB
+
+  window._ss = {
+    base64: null,
+    reset: function () {
+      window._ss.base64 = null;
+      if (fileInput) fileInput.value = '';
+      if (preview)  { preview.hidden = true; preview.src = ''; }
+      if (caption)  caption.hidden = true;
+      if (filename) filename.textContent = '';
+      if (warn)     warn.hidden = true;
+    }
+  };
+
+  if (!fileInput) return;
+
+  fileInput.addEventListener('change', function () {
+    var file = fileInput.files[0];
+    if (!file) return;
+    if (file.size > MAX) {
+      warn.hidden = false;
+      fileInput.value = '';
+      return;
+    }
+    warn.hidden = true;
+    var reader = new FileReader();
+    reader.onload = function (e) {
+      window._ss.base64 = e.target.result;
+      preview.src = e.target.result;
+      preview.hidden = false;
+      if (filename) filename.textContent = file.name;
+      if (caption)  caption.hidden = false;
+    };
+    reader.readAsDataURL(file);
+  });
+
+  if (removeBtn) removeBtn.addEventListener('click', window._ss.reset);
+})();
+*/
+
+// ── System info checkbox ──────────────────────────────────────
+(function () {
+  var cb      = document.getElementById('include-sysinfo');
+  var preview = document.getElementById('sysinfo-preview');
+  if (!cb || !preview) return;
+
+  var _stored = null;
+  window._getSysInfo = function () { return _stored; };
+
+  cb.addEventListener('change', function () {
+    if (!cb.checked) { preview.hidden = true; _stored = null; return; }
+    preview.textContent = '수집 중...';
+    preview.hidden = false;
+    collectSystemInfo().then(function (info) {
+      _stored = info;
+      preview.textContent = 'OS: ' + info.os + '\nGPU: ' + info.gpu + '\nDisplay: ' + info.display;
+    });
+  });
+})();
 
 // ── Carousel ──────────────────────────────────────────────────
 (function () {
@@ -1143,4 +1265,119 @@ fetchReleaseStats();
     }
     if (state.selected) renderPanel(state.selected, state.pair);
   };
+})();
+
+// ── FAQ ───────────────────────────────────────────────────────
+(function () {
+  var faqList = document.getElementById('faq-list');
+  if (!faqList || !window.MK11_FAQ) return;
+
+  function pick(obj) {
+    if (!obj) return '';
+    if (typeof obj === 'string') return obj;
+    return obj[_locale] !== undefined ? obj[_locale] : (obj.kr || '');
+  }
+
+  function renderFaq() {
+    var html = window.MK11_FAQ.map(function (cat) {
+      var catLabel = pick(cat.category);
+      var items = cat.items.map(function (item) {
+        var q = pick(item.q);
+        var aText = pick(item.a);
+
+        // Paragraph lines (split on \n)
+        var paras = aText.split('\n').filter(Boolean).map(function (line) {
+          return '<p>' + line + '</p>';
+        }).join('');
+
+        // Optional bullet list
+        var listHtml = '';
+        if (item.list) {
+          var bullets = pick(item.list);
+          if (Array.isArray(bullets) && bullets.length) {
+            listHtml = '<ul class="faq-list">' +
+              bullets.map(function (b) { return '<li>' + b + '</li>'; }).join('') +
+              '</ul>';
+          }
+        }
+
+        // Optional note
+        var noteHtml = item.note
+          ? '<p class="faq-note">' + pick(item.note) + '</p>'
+          : '';
+
+        return '<details class="faq-item" name="faq">' +
+          '<summary class="disclosure-toggle faq-q">' + q +
+          '<i data-lucide="chevron-down" aria-hidden="true"></i>' +
+          '</summary>' +
+          '<div class="faq-a">' + paras + listHtml + noteHtml + '</div>' +
+          '</details>';
+      }).join('');
+
+      return '<div class="faq-category">' +
+        '<h3 class="faq-cat-title">' + catLabel + '</h3>' +
+        items +
+        '</div>';
+    }).join('');
+
+    faqList.innerHTML = html;
+    if (window.lucide) lucide.createIcons();
+  }
+
+  renderFaq();
+
+  var _origApply = window.applyI18n;
+  window.applyI18n = function () {
+    if (_origApply) _origApply();
+    renderFaq();
+  };
+})();
+
+// ── FAQ exclusive accordion (fallback for browsers without <details name>) ──
+(function () {
+  document.addEventListener('toggle', function (e) {
+    if (!e.target.classList.contains('faq-item') || !e.target.open) return;
+    document.querySelectorAll('.faq-item').forEach(function (el) {
+      if (el !== e.target && el.open) el.open = false;
+    });
+  }, true);
+})();
+
+// ── Scroll entrance animations ────────────────────────────
+(function () {
+  if (!window.IntersectionObserver) return;
+
+  var selectors = [
+    '.stat-item',
+    '.feature-card',
+    '.about-entry',
+    '.install-steps > li',
+    '.faq-category',
+    '.feedback-form',
+    '.section-title',
+    '.section-sub',
+    '.install-manifest',
+    '.install-safety',
+    '.install-cta',
+    '.install-trouble',
+  ];
+
+  selectors.forEach(function (sel) {
+    document.querySelectorAll(sel).forEach(function (el) {
+      el.classList.add('anim-watch');
+    });
+  });
+
+  var observer = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('anim-visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -32px 0px' });
+
+  document.querySelectorAll('.anim-watch').forEach(function (el) {
+    observer.observe(el);
+  });
 })();

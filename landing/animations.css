@@ -1,0 +1,115 @@
+/* ═══════════════════════════════════════════════════════════
+   MK11 Korean Patch: Animation System
+   Single source of truth for all entrance animations.
+   Import order: after design-system.css, before style.css overrides.
+   ═══════════════════════════════════════════════════════════ */
+
+/* ── Timing tokens ──────────────────────────────────────── */
+:root {
+  --anim-ease-out:   cubic-bezier(0.16, 1, 0.3, 1);   /* expo-out: fast start, elegant settle */
+  --anim-ease-base:  cubic-bezier(0.4, 0, 0.2, 1);     /* material standard */
+  --anim-dur-hero:   600ms;
+  --anim-dur-scroll: 520ms;
+  --anim-dist-sm:    16px;
+  --anim-dist-md:    24px;
+}
+
+/* ── Keyframes ──────────────────────────────────────────── */
+@keyframes mk-fade-up {
+  from { opacity: 0; transform: translateY(var(--anim-dist-md)); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes mk-fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes mk-slide-up-player {
+  from { transform: translateY(100%); }
+  to   { transform: translateY(0); }
+}
+
+/* ── Hero: sequential entrance ──────────────────────────── */
+/* animation-fill-mode: both → element starts invisible,
+   holds final state after animation ends                   */
+
+.hero-eyebrow {
+  animation: mk-fade-up var(--anim-dur-hero) var(--anim-ease-out) 0ms both;
+}
+.hero-logo {
+  animation: mk-fade-up var(--anim-dur-hero) var(--anim-ease-out) 160ms both;
+}
+.hero-title-kr {
+  animation: mk-fade-up var(--anim-dur-hero) var(--anim-ease-out) 360ms both;
+}
+.hero-divider {
+  animation: mk-fade-in var(--anim-dur-hero) var(--anim-ease-out) 440ms both;
+}
+.hero-subtitle {
+  animation: mk-fade-up var(--anim-dur-hero) var(--anim-ease-out) 520ms both;
+}
+.hero-actions {
+  animation: mk-fade-up var(--anim-dur-hero) var(--anim-ease-out) 680ms both;
+}
+.hero-platforms {
+  animation: mk-fade-in var(--anim-dur-hero) var(--anim-ease-out) 840ms both;
+}
+.hero-legal {
+  animation: mk-fade-in var(--anim-dur-hero) var(--anim-ease-out) 980ms both;
+}
+.hero-credit {
+  animation: mk-fade-in var(--anim-dur-hero) var(--anim-ease-out) 1060ms both;
+}
+
+/* ── Music player: slides up after hero sequence ────────── */
+.music-player {
+  animation: mk-slide-up-player 400ms var(--anim-ease-out) 1200ms both;
+}
+
+/* ── Scroll-triggered system ────────────────────────────── */
+/* Base: invisible until JS adds .anim-visible              */
+.anim-watch {
+  opacity: 0;
+  transform: translateY(var(--anim-dist-sm));
+  transition:
+    opacity   var(--anim-dur-scroll) var(--anim-ease-out),
+    transform var(--anim-dur-scroll) var(--anim-ease-out);
+}
+.anim-watch.anim-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Grid stagger: siblings that all enter viewport at once   */
+.anim-watch:nth-child(2) { transition-delay:  80ms; }
+.anim-watch:nth-child(3) { transition-delay: 160ms; }
+.anim-watch:nth-child(4) { transition-delay: 240ms; }
+.anim-watch:nth-child(5) { transition-delay: 320ms; }
+.anim-watch:nth-child(6) { transition-delay: 400ms; }
+
+/* ── Reduced motion: accessibility override ─────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .hero-eyebrow,
+  .hero-logo,
+  .hero-title-kr,
+  .hero-divider,
+  .hero-subtitle,
+  .hero-actions,
+  .hero-platforms,
+  .hero-legal,
+  .hero-credit {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+  .music-player {
+    animation: none;
+  }
+  .anim-watch,
+  .anim-watch.anim-visible {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}

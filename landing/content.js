@@ -295,53 +295,25 @@ window.MK11_CONTENT = {
   // ── Online ────────────────────────────────────────────────────
   "online.heading": { kr: "다운로드 전 안내", en: "Before You Download" },
   "online.p1": {
-    kr: "본 패치는 현재 테스트 환경 기준으로 Steam 버전 MK11에서 온라인 접속 및 플레이를 확인했습니다.",
-    en: "Online play has been verified in our test environment on the Steam version of MK11."
+    kr: "정품 Steam 기준으로 온라인 플레이 정상 동작을 확인했습니다. 본 패치는 번역 텍스트와 폰트 적용에 필요한 최소 구성만 사용하며, 치트·언락·게임 변조 기능은 포함하지 않습니다.",
+    en: "Online play has been verified on a genuine Steam copy. This patch uses only the minimum components needed to apply the translation and font, and contains no cheats, unlocks, or gameplay modifications."
   },
-  "online.do_heading": {
-    kr: "본 패치가 수행하는 일",
-    en: "What this patch does"
+  "online.p2": {
+    kr: "비공식 팬 제작 패치이므로 환경에 따라 차이가 있을 수 있습니다. 자세한 내용은 <a href='#faq' class='online-faq-link'>자주 묻는 질문 ↗</a>을 참고하세요.",
+    en: "As an unofficial patch, behavior may vary by environment. For details, see the <a href='#faq' class='online-faq-link'>FAQ ↗</a>."
   },
-  "online.do_1": {
-    kr: "한글 번역 텍스트와 폰트 파일을 게임 폴더에 복사",
-    en: "Copies Korean translation text and font files into the game folder"
-  },
-  "online.do_2": {
-    kr: "한글 번역 파일이 게임에 정상 적용되도록 게임 내부 파일 검사를 잠시 우회 (게임 실행 파일 자체는 변경하지 않음)",
-    en: "Briefly bypasses the game's internal file check so the Korean translation files are accepted (the game executable itself is not modified)"
-  },
-  "online.do_3": {
-    kr: "위 우회를 위해 오픈소스 구성요소 4개 사용. 라이선스 상세는 <a href=\"https://github.com/KimHerV/mk11-korean-patch/blob/main/THIRD_PARTY_NOTICES.md\" target=\"_blank\" rel=\"noopener\">THIRD_PARTY_NOTICES ↗</a> 참조",
-    en: "Uses 4 open-source components for the above bypass. See <a href=\"https://github.com/KimHerV/mk11-korean-patch/blob/main/THIRD_PARTY_NOTICES.md\" target=\"_blank\" rel=\"noopener\">THIRD_PARTY_NOTICES ↗</a> for full license details"
-  },
-  "online.dont_heading": {
-    kr: "본 패치가 수행하지 않는 일",
-    en: "What this patch does not do"
-  },
-  "online.dont_1": {
-    kr: "치트, 언락, DLC 우회, 승부 조작 등 부정 행위",
-    en: "No cheats, unlocks, DLC bypass, or match-result manipulation"
-  },
-  "online.dont_2": {
-    kr: "게임 폴더 외 다른 파일·프로그램 변경",
-    en: "No modification of files or programs outside the game folder"
-  },
-  "online.dont_3": {
-    kr: "외부 서버와의 통신 또는 사용자 정보 수집",
-    en: "No communication with external servers, no user-data collection"
-  },
-  "online.p3": {
-    kr: "다만 비공식 팬 제작 패치이므로 게임 업데이트, 플랫폼 정책, 사용자 환경에 따라 동작이 달라질 수 있습니다. 온라인 사용이 걱정되시는 경우 싱글 플레이 또는 오프라인 환경에서 먼저 사용해보시는 것을 권장드립니다.",
-    en: "This is an unofficial fan-made patch, so behavior may change with game updates, platform policy, or user environment. If you are concerned about online play, we recommend testing in single-player or offline mode first."
-  },
-  "online.btn_cancel":  { kr: "닫기",        en: "Close"        },
-  "online.btn_confirm": { kr: "확인했습니다", en: "I understand" },
+  "online.btn_cancel":  { kr: "닫기", en: "Close" },
+  "online.btn_confirm": { kr: "확인", en: "OK"    },
+
+  // ── FAQ ───────────────────────────────────────────────────────
+  "faq.heading": { kr: "자주 묻는 질문", en: "FAQ" },
+  "faq.sub":     { kr: "설치·호환성·보안·피드백 관련 안내", en: "Installation, compatibility, security, and feedback" },
 
   // ── Feedback ──────────────────────────────────────────────────
   "feedback.heading": { kr: "번역 피드백", en: "Translation Feedback" },
   "feedback.sub": {
-    kr: "오역이나 어색한 번역을 발견하셨나요?<br>파트를 선택하고 내용을 남겨주세요. 익명으로 제출할 수 있습니다.",
-    en: "Found a mistranslation or awkward phrasing?<br>Select a category and leave your feedback. Anonymous submissions welcome."
+    kr: "오역이나 어색한 번역을 발견하셨나요?<br>파트를 선택하고 내용을 남겨주세요. 익명으로 제출할 수 있으며,<br>피드백은 번역 품질 개선에만 사용됩니다.",
+    en: "Found a mistranslation or awkward phrasing?<br>Select a category and leave your feedback. Submissions are anonymous<br>and used solely for translation quality improvement."
   },
   "feedback.label_category":      { kr: "번역 파트",    en: "Category" },
   "feedback.label_subcategory":   { kr: "세부 항목",     en: "Sub-category" },
@@ -391,9 +363,21 @@ window.MK11_CONTENT = {
   "feedback.err_category":        { kr: "번역 파트를 선택해주세요.",     en: "Please select a category." },
   "feedback.err_suggestion":      { kr: "피드백 내용을 입력해주세요.",    en: "Please enter your feedback." },
 
-  "feedback.btn_submit": { kr: "피드백 제출",                             en: "Submit Feedback" },
-  "feedback.btn_submitting": { kr: "제출 중...",                          en: "Submitting..." },
-  "feedback.notice":     { kr: "제출된 피드백은 번역 품질 개선에만 사용됩니다.", en: "Submitted feedback is used solely for translation quality improvement." },
+  "feedback.label_screenshot":      { kr: "스크린샷",             en: "Screenshot" },
+  "feedback.label_screenshot_hint": { kr: "(선택, 최대 2MB)",    en: "(optional, max 2MB)" },
+  "feedback.screenshot_btn":        { kr: "이미지 선택",          en: "Choose image" },
+  "feedback.screenshot_remove":     { kr: "제거",                 en: "Remove" },
+  "feedback.screenshot_warn": {
+    kr: "2MB 이하 이미지만 첨부할 수 있습니다.",
+    en: "Only images under 2MB can be attached."
+  },
+  "feedback.sysinfo_label": {
+    kr: "시스템 정보 함께 제출 (OS, GPU, 디스플레이)",
+    en: "Include system info (OS, GPU, Display)"
+  },
+
+  "feedback.btn_submit":    { kr: "피드백 제출", en: "Submit Feedback" },
+  "feedback.btn_submitting": { kr: "제출 중...", en: "Submitting..." },
   "feedback.msg_success": { kr: "피드백이 제출됐습니다. 감사합니다!", en: "Feedback submitted. Thank you!" },
   "feedback.msg_error":   { kr: "제출에 실패했습니다. 잠시 후 다시 시도해주세요.", en: "Submission failed. Please try again later." },
 

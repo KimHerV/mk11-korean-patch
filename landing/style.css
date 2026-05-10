@@ -66,12 +66,21 @@ code {
 
 /* ── Buttons ───────────────────────────────────────────────── */
 /* Colors/hover behavior from design-system.css.
-   Landing overrides: sizing, layout. */
+   Landing overrides: sizing, layout.
+   btn       = default (form-level)
+   btn-lg    = large (Hero / primary CTA) */
 .btn {
   display: inline-flex; align-items: center; gap: var(--space-2);
-  padding: var(--space-3) var(--space-8);
+  padding: var(--space-2) var(--space-6);
   border-radius: var(--radius-md);
   font-weight: 600; font-size: var(--text-body);
+}
+.btn-lg {
+  padding: var(--space-3) var(--space-8);
+}
+.btn-sm {
+  padding: var(--space-1) var(--space-4);
+  font-size: var(--text-caption);
 }
 .btn-badge {
   background: rgba(0,0,0,.25);
@@ -100,7 +109,7 @@ code {
   inset: 0;
   width: 100%; height: 100%;
   object-fit: cover;
-  opacity: 0.5;
+  opacity: 0.8;
   z-index: 0;
   pointer-events: none;
 }
@@ -124,7 +133,7 @@ code {
   letter-spacing: .18em;
   text-transform: uppercase;
   color: var(--color-gold);
-  margin-bottom: var(--space-4);
+  margin-bottom: var(--space-8);
 }
 .hero-title {
   font-family: 'Kombat11', sans-serif;
@@ -134,6 +143,23 @@ code {
   color: var(--color-text-primary);
   text-shadow: 0 0 60px rgba(201,168,76,.2);
   margin-bottom: var(--space-2);
+}
+.hero-logo {
+  display: block;
+  height: clamp(6.46rem, 14.9vw, 9.7rem);
+  width: auto;
+  max-width: 100%;
+  margin: 0 auto var(--space-4);
+  fill: var(--color-text-primary);
+  overflow: visible;
+}
+.hero-divider {
+  display: block;
+  width: 100%;
+  max-width: 560px;
+  height: auto;
+  margin: var(--space-4) auto;
+  opacity: 0.75;
 }
 .hero-title-kr {
   display: block;
@@ -154,14 +180,14 @@ code {
 .hero-actions {
   display: flex; gap: var(--space-4);
   justify-content: center; flex-wrap: wrap;
-  margin-bottom: var(--space-6);
+  margin-bottom: var(--space-8);
 }
 .hero-platforms {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: var(--space-6);
-  margin-bottom: var(--space-6);
+  margin-bottom: var(--space-8);
 }
 .platform-icon {
   width: 22px; height: 22px;
@@ -174,12 +200,12 @@ code {
 .platform-icon:not(.active):hover { opacity: 0.6; }
 .hero-legal {
   font-size: var(--text-small);
-  color: #444440;
+  color: var(--color-text-secondary);
   max-width: 500px; margin: 0 auto;
 }
 .hero-credit {
   font-size: var(--text-small);
-  color: #333330;
+  color: var(--color-gold);
   margin-top: var(--space-1);
   letter-spacing: .05em;
 }
@@ -486,21 +512,16 @@ code {
   max-height: 360px;
   overflow: hidden;
   transition: max-height 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  -webkit-mask-image: linear-gradient(to bottom, black 55%, transparent 100%);
+  mask-image: linear-gradient(to bottom, black 55%, transparent 100%);
 }
 .about-collapse--open {
   max-height: 4000px;
+  -webkit-mask-image: none;
+  mask-image: none;
 }
-.about-gradient {
-  position: absolute;
-  bottom: 0; left: 0; right: 0;
-  height: 140px;
-  background: linear-gradient(to bottom, transparent, var(--color-bg));
-  pointer-events: none;
-  transition: opacity 0.4s ease;
-}
-.about-collapse--open .about-gradient {
-  opacity: 0;
-}
+/* .about-gradient is kept in HTML but replaced by mask-image */
+.about-gradient { display: none; }
 /* Layout-only: visual styles come from .disclosure-toggle. */
 .about-toggle {
   margin: var(--space-6) auto 0;
@@ -920,13 +941,14 @@ code {
 }
 
 .form-footer {
-  display: flex; align-items: center;
-  gap: var(--space-6); flex-wrap: wrap;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
   margin-top: var(--space-4);
 }
-.form-notice {
-  font-size: var(--text-small);
-  color: var(--color-text-secondary);
+#submit-btn {
+  width: 100%;
+  justify-content: center;
 }
 .form-result {
   margin-top: var(--space-4);
@@ -944,6 +966,138 @@ code {
   background: rgba(204,51,51,.1);
   border: 1px solid var(--color-danger);
   color: var(--color-danger);
+}
+
+/* ── Screenshot upload ─────────────────────────────────────── */
+
+/* .form-row label (0,1,1) overrides .btn-secondary (0,1,0) color — fix with higher specificity */
+.form-row label.btn-secondary {
+  display: inline-flex;
+  color: var(--color-gold);
+  text-transform: none;
+  letter-spacing: normal;
+  font-size: var(--text-body);
+  font-weight: 700;
+  margin-bottom: 0;
+}
+.form-row label.btn-secondary:hover {
+  border-color: var(--color-gold);
+  background: rgba(201, 168, 76, .08);
+  color: var(--color-gold-bright);
+}
+
+/* Ensure [hidden] on caption always wins over display:flex */
+.screenshot-caption[hidden] { display: none; }
+
+.screenshot-area {
+  display: flex;
+  align-items: center;
+}
+.screenshot-preview {
+  display: block;
+  max-width: 100%;
+  max-height: 180px;
+  margin-top: var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  object-fit: contain;
+  background: var(--color-surface);
+}
+.screenshot-caption {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-top: var(--space-2);
+}
+.screenshot-filename {
+  font-size: var(--text-small);
+  color: var(--color-text-secondary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 240px;
+}
+.screenshot-remove {
+  background: none;
+  border: none;
+  color: var(--color-danger);
+  font-size: var(--text-small);
+  font-family: inherit;
+  cursor: pointer;
+  padding: 0;
+  flex-shrink: 0;
+  transition: opacity .15s;
+}
+.screenshot-remove:hover { opacity: 0.7; }
+.screenshot-warn {
+  font-size: var(--text-small);
+  color: var(--color-danger);
+  margin-top: var(--space-2);
+}
+
+/* ── System info opt-in ────────────────────────────────────── */
+.form-row--check { margin-bottom: var(--space-4); }
+
+/* Higher specificity than .form-row label (0,1,1) to win on all properties */
+.form-row--check .sysinfo-label {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  text-transform: none;
+  letter-spacing: 0;
+  font-weight: 400;
+  font-size: var(--text-small);
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  margin-bottom: 0;
+}
+
+/* Custom checkbox — matches design system dark background */
+.sysinfo-label input[type="checkbox"] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface-raised);
+  cursor: pointer;
+  position: relative;
+  transition: border-color .15s, background .15s;
+}
+.sysinfo-label input[type="checkbox"]:hover:not(:checked) {
+  border-color: var(--color-gold-dim);
+}
+.sysinfo-label input[type="checkbox"]:checked {
+  background: var(--color-gold);
+  border-color: var(--color-gold);
+}
+.sysinfo-label input[type="checkbox"]:checked::after {
+  content: '';
+  position: absolute;
+  left: 4px;
+  top: 1px;
+  width: 4px;
+  height: 8px;
+  border: 1.5px solid #0a0a0a;
+  border-top: none;
+  border-left: none;
+  transform: rotate(42deg);
+}
+
+.sysinfo-preview {
+  margin-top: var(--space-2);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: var(--space-3) var(--space-4);
+  font-size: var(--text-small);
+  color: var(--color-text-secondary);
+  font-family: 'Courier New', monospace;
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+  line-height: 1.7;
 }
 
 /* ── Character picker ──────────────────────────────────────── */
@@ -1217,7 +1371,8 @@ code {
   .manifest-row { flex-direction: column; gap: var(--space-1); padding-bottom: var(--space-3); }
   .manifest-row dt { min-width: unset; }
   .feedback-form { padding: var(--space-6) var(--space-4); }
-  .form-footer { flex-direction: column; align-items: flex-start; }
+  /* background-attachment: fixed is unreliable on iOS Safari */
+  #faq { background-attachment: scroll; }
 }
 
 /* ── Music Player ───────────────────────────────────────────── */
@@ -1949,4 +2104,106 @@ code {
   margin-top: 12px;
   padding-top: 12px;
   border-top: 1px solid var(--color-border);
+}
+
+/* ── FAQ ────────────────────────────────────────────────────── */
+#faq {
+  position: relative;
+  background-image: url('assets/cover.jpg');
+  background-size: cover;
+  background-position: center center;
+  background-attachment: fixed;
+}
+#faq::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(to bottom, rgba(10,10,10,0.92) 0%, rgba(10,10,10,0.84) 50%, rgba(10,10,10,0.92) 100%);
+  pointer-events: none;
+  z-index: 0;
+}
+#faq > .container {
+  position: relative;
+  z-index: 1;
+}
+
+.faq-category {
+  margin-bottom: var(--space-12);
+}
+.faq-category:last-child {
+  margin-bottom: 0;
+}
+.faq-cat-title {
+  font-size: var(--text-caption);
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--color-gold);
+  margin-bottom: var(--space-3);
+}
+.faq-item {
+  border-bottom: 1px solid var(--color-border);
+}
+.faq-item:last-child {
+  border-bottom: none;
+}
+.faq-item > summary { list-style: none; }
+.faq-item > summary::-webkit-details-marker { display: none; }
+
+.faq-q.disclosure-toggle {
+  justify-content: flex-start;
+  color: var(--color-text-primary);
+  font-weight: 600;
+  gap: var(--space-3);
+  padding: var(--space-4) 0;
+  font-size: var(--text-caption);
+  text-align: left;
+  width: 100%;
+}
+.faq-q.disclosure-toggle svg {
+  margin-left: auto;
+  flex-shrink: 0;
+}
+.faq-a {
+  padding: var(--space-2) 0 var(--space-8);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+.faq-a p {
+  font-size: var(--text-caption);
+  color: var(--color-text-secondary);
+  line-height: 1.8;
+}
+.faq-list {
+  list-style: none;
+  padding: 0;
+  margin: var(--space-1) 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+.faq-list li {
+  position: relative;
+  padding-left: var(--space-6);
+  font-size: var(--text-caption);
+  color: var(--color-text-secondary);
+  line-height: 1.75;
+}
+.faq-list li::before {
+  content: "·";
+  position: absolute;
+  left: var(--space-2);
+  color: var(--color-gold);
+  font-weight: 700;
+}
+.faq-note {
+  font-size: var(--text-small);
+  color: var(--color-text-secondary);
+  opacity: 0.72;
+  border-top: 1px solid var(--color-border);
+  padding-top: var(--space-3);
+  margin-top: var(--space-2);
+  line-height: 1.75;
 }
