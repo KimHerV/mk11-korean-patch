@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MK11 한글 패치 · Mortal Kombat 11 Korean Patch</title>
-  <meta name="description" content="MK11 한글 패치 · 모탈컴뱃 11 비공식 팬 제작 한국어 번역. 스토리, 무브리스트, UI, DLC, 인게임 다이얼로그까지 게임 전체 한글화. Steam 버전 지원." />
-  <meta name="keywords" content="MK11 한글패치, MK11 한국어, 모탈컴뱃 11 한글, Mortal Kombat 11 한글화, MK11 번역, 모탈컴뱃 한국어 패치" />
+  <title>모탈컴뱃 11 한글 패치 · MK11 Korean Patch</title>
+  <meta name="description" content="모탈컴뱃 11 비공식 팬 제작 한글 패치. 스토리, 무브리스트, UI, DLC, 인게임 다이얼로그까지 게임 전체 한글화. 2,000건+ 다운로드. Steam 버전 무료 지원." />
+  <meta name="keywords" content="모탈컴뱃 11 한글패치, MK11 한글패치, MK11 한국어, 모탈컴뱃 11 한글, Mortal Kombat 11 한글화, MK11 번역, 모탈컴뱃 11 한국어 패치" />
 
   <link rel="canonical" href="https://mk11-korean-patch.pages.dev/" />
   <link rel="icon" type="image/png" href="assets/favicon.png" />
@@ -13,26 +13,26 @@
 
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://mk11-korean-patch.pages.dev/" />
-  <meta property="og:title" content="MK11 한글 패치 · Mortal Kombat 11 Korean Patch" />
-  <meta property="og:description" content="비공식 팬 제작 한글 패치 · 스토리 · 무브리스트 · UI · DLC · 인게임 다이얼로그 완전 한글화" />
+  <meta property="og:title" content="모탈컴뱃 11 한글 패치 · MK11 Korean Patch" />
+  <meta property="og:description" content="비공식 팬 제작 한글 패치 · 스토리 · 무브리스트 · UI · DLC · 인게임 다이얼로그 완전 한글화 · 무료" />
   <meta property="og:image" content="https://mk11-korean-patch.pages.dev/assets/og_image.jpg" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
   <meta property="og:locale" content="ko_KR" />
-  <meta property="og:site_name" content="MK11 한글 패치" />
+  <meta property="og:site_name" content="모탈컴뱃 11 한글 패치" />
 
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="MK11 한글 패치 · Mortal Kombat 11 Korean Patch" />
-  <meta name="twitter:description" content="비공식 팬 제작 한글 패치 · 게임 전체 한글화" />
+  <meta name="twitter:title" content="모탈컴뱃 11 한글 패치 · MK11 Korean Patch" />
+  <meta name="twitter:description" content="비공식 팬 제작 한글 패치 · 게임 전체 한글화 · 무료 다운로드" />
   <meta name="twitter:image" content="https://mk11-korean-patch.pages.dev/assets/og_image.jpg" />
 
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
-    "name": "MK11 한글 패치",
-    "alternateName": ["Mortal Kombat 11 Korean Patch", "모탈컴뱃 11 한글 패치"],
-    "description": "MK11 한글 패치 · 모탈컴뱃 11 비공식 팬 제작 한국어 번역. 스토리, 무브리스트, UI, DLC, 인게임 다이얼로그까지 게임 전체 한글화.",
+    "name": "모탈컴뱃 11 한글 패치",
+    "alternateName": ["Mortal Kombat 11 Korean Patch", "MK11 한글 패치", "MK11 Korean Patch"],
+    "description": "모탈컴뱃 11 비공식 팬 제작 한글 패치. 스토리, 무브리스트, UI, DLC, 인게임 다이얼로그까지 게임 전체 한글화.",
     "applicationCategory": "GameApplication",
     "applicationSubCategory": "Localization Patch",
     "operatingSystem": "Windows 10, Windows 11",
@@ -53,12 +53,71 @@
       "price": "0",
       "priceCurrency": "USD"
     },
-    "license": "https://github.com/KimHerV/mk11-korean-patch"
+    "license": "https://github.com/KimHerV/mk11-korean-patch",
+    "sameAs": "https://github.com/KimHerV/mk11-korean-patch"
   }
   </script>
 
   <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="animations.css" />
+  <script src="data/banner.js"></script>
+  <script>
+  (function () {
+    var cfg = window.MK11_BANNER;
+    if (!cfg || !cfg.active) return;
+    var KEY = 'mk11-banner-' + cfg.id;
+    try { if (localStorage.getItem(KEY) === 'dismissed') return; } catch (_) {}
+
+    // Apply layout class before first paint so lang-toggle renders in correct position.
+    document.documentElement.classList.add('has-banner');
+
+    // Wire up banner after DOM is ready.
+    document.addEventListener('DOMContentLoaded', function () {
+      var banner      = document.getElementById('site-banner');
+      var textEl      = document.getElementById('site-banner-text');
+      var textMobile  = document.getElementById('site-banner-text-mobile');
+      var ctaEl       = document.getElementById('site-banner-cta');
+      var bodyBtn     = document.getElementById('site-banner-body');
+      if (!banner || !textEl) return;
+
+      function currentLang() {
+        var active = document.querySelector('.lang-btn.active');
+        return active ? active.dataset.lang : 'kr';
+      }
+      function setText() {
+        var lang = currentLang();
+        var isEn = lang === 'en';
+        textEl.textContent     = isEn ? (cfg.en        || cfg.kr)        : (cfg.kr        || cfg.en);
+        if (textMobile) textMobile.textContent = isEn ? (cfg.en_mobile  || cfg.en) : (cfg.kr_mobile  || cfg.kr);
+        if (ctaEl)      ctaEl.textContent      = isEn ? (cfg.cta_en     || cfg.cta_kr)   : (cfg.cta_kr     || cfg.cta_en);
+      }
+      setText();
+      banner.hidden = false;
+
+      document.querySelectorAll('.lang-btn').forEach(function (btn) {
+        btn.addEventListener('click', setText);
+      });
+
+      if (bodyBtn) {
+        bodyBtn.addEventListener('click', function () {
+          if (cfg.href) {
+            var target = document.querySelector(cfg.href);
+            if (target) target.scrollIntoView({ behavior: 'smooth' });
+          }
+          if (cfg.channel) {
+            setTimeout(function () {
+              var card = document.querySelector('.install-card[data-channel="' + cfg.channel + '"]');
+              if (!card) return;
+              card.click();
+              card.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
+            }, 450);
+          }
+        });
+      }
+
+    });
+  }());
+  </script>
   <script src="content.js"></script>
   <script src="lucide.min.js"></script>
   <!-- Cloudflare Web Analytics -->
@@ -66,6 +125,15 @@
   <!-- End Cloudflare Web Analytics -->
 </head>
 <body>
+
+  <!-- ── ANNOUNCEMENT BANNER ──────────────────────────────────── -->
+  <div id="site-banner" class="site-banner" role="status" hidden>
+    <button type="button" class="site-banner-body" id="site-banner-body">
+      <span id="site-banner-text" class="site-banner-text-desktop"></span>
+      <span id="site-banner-text-mobile" class="site-banner-text-mobile"></span>
+      <span id="site-banner-cta" class="site-banner-cta"></span>
+    </button>
+  </div>
 
   <!-- ── Language toggle ──────────────────────────────────────── -->
   <div class="lang-toggle" aria-label="Language selector">
@@ -126,8 +194,9 @@
         <a href="#feedback" class="btn btn-secondary btn-lg" data-i18n="hero.btn_feedback"></a>
       </div>
       <div class="hero-platforms">
-        <img class="platform-icon active" src="assets/icons/steam.svg"          alt="Steam"          data-i18n-title="hero.platform_steam" />
-        <img class="platform-icon"        src="assets/icons/epic-games.svg"     alt="Epic Games"     data-i18n-title="hero.platform_epic" />
+        <img class="platform-icon active" src="assets/icons/steam.svg"           alt="Steam"          data-i18n-title="hero.platform_steam" />
+        <img class="platform-icon active" src="assets/icons/steam-deck.svg"      alt="Steam Deck"     data-i18n-title="hero.platform_steamdeck" />
+        <img class="platform-icon"        src="assets/icons/epic-games.svg"      alt="Epic Games"     data-i18n-title="hero.platform_epic" />
         <img class="platform-icon"        src="assets/icons/microsoft-store.svg" alt="Microsoft Store" data-i18n-title="hero.platform_msstore" />
       </div>
       <p class="hero-legal" data-i18n="hero.legal"></p>
@@ -366,129 +435,109 @@
   <section class="section" id="install">
     <div class="container">
       <h2 class="section-title" data-i18n="install.heading"></h2>
-      <ol class="install-steps">
-        <li>
-          <span class="step-num">1</span>
-          <div>
-            <strong data-i18n="install.step1_title"></strong>
-            <p data-i18n="install.step1_desc"></p>
-            <p class="step-prereq">
-              <span data-i18n="install.prereq_heading"></span>:
-              <a href="https://aka.ms/highdpimfc2013x64enu" target="_blank" rel="noopener" data-i18n="install.prereq_vc2013_name"></a>
-              ·
-              <a href="https://aka.ms/vs/17/release/vc_redist.x64.exe" target="_blank" rel="noopener" data-i18n="install.prereq_vc2022_name"></a>
-            </p>
-          </div>
-        </li>
-        <li>
-          <span class="step-num">2</span>
-          <div>
-            <strong data-i18n="install.step2_title"></strong>
-            <p data-i18n="install.step2_desc"></p>
-          </div>
-        </li>
-        <li>
-          <span class="step-num">3</span>
-          <div>
-            <strong data-i18n="install.step3_title"></strong>
-            <p data-i18n="install.step3_desc"></p>
-          </div>
-        </li>
-        <li>
-          <span class="step-num">4</span>
-          <div>
-            <strong data-i18n="install.step4_title"></strong>
-            <p data-i18n="install.step4_desc"></p>
-          </div>
-        </li>
-      </ol>
-      <div class="install-manifest">
-        <p class="manifest-title" data-i18n="install.manifest_heading"></p>
-        <dl class="manifest-list">
-          <div class="manifest-row">
-            <dt data-i18n="install.manifest_f1_name"></dt>
-            <dd data-i18n="install.manifest_f1_desc"></dd>
-          </div>
-          <div class="manifest-row">
-            <dt data-i18n="install.manifest_f2_name"></dt>
-            <dd data-i18n="install.manifest_f2_desc"></dd>
-          </div>
-          <div class="manifest-row">
-            <dt data-i18n="install.manifest_f3_name"></dt>
-            <dd data-i18n="install.manifest_f3_desc"></dd>
-          </div>
-          <div class="manifest-row">
-            <dt data-i18n="install.manifest_f4_name"></dt>
-            <dd data-i18n="install.manifest_f4_desc"></dd>
-          </div>
-          <div class="manifest-row">
-            <dt data-i18n="install.manifest_f5_name"></dt>
-            <dd data-i18n="install.manifest_f5_desc"></dd>
-          </div>
-          <div class="manifest-row">
-            <dt data-i18n="install.manifest_f6_name"></dt>
-            <dd data-i18n="install.manifest_f6_desc"></dd>
-          </div>
-          <div class="manifest-row">
-            <dt data-i18n="install.manifest_f7_name"></dt>
-            <dd data-i18n="install.manifest_f7_desc"></dd>
-          </div>
-        </dl>
-      </div>
-      <div class="install-safety">
-        <ul>
-          <li data-i18n="install.safety1"></li>
-          <li data-i18n="install.safety3"></li>
-          <li data-i18n="install.safety2"></li>
-        </ul>
-      </div>
-      <div class="install-cta">
-        <a id="download-btn" href="https://github.com/KimHerV/mk11-korean-patch/releases/latest" class="btn btn-primary btn-lg" target="_blank" rel="noopener">
-        <span data-i18n="install.btn_download"></span>
-        <span id="download-version"></span>
-      </a>
-      </div>
-      <details class="install-trouble container container-narrow">
-        <summary class="disclosure-toggle">
-          <span data-i18n="trouble.heading"></span>
-          <i data-lucide="chevron-down" aria-hidden="true"></i>
-        </summary>
-        <div class="install-trouble-body">
-          <p data-i18n="trouble.cause"></p>
-          <div class="trouble-grid">
-            <div class="trouble-col-methods">
-              <h4 class="trouble-method" data-i18n="trouble.method1_title"></h4>
-              <ol class="trouble-steps">
-                <li data-i18n="trouble.method1_step1"></li>
-                <li data-i18n="trouble.method1_step2"></li>
-                <li data-i18n="trouble.method1_step3"></li>
-              </ol>
-              <h4 class="trouble-method" data-i18n="trouble.method2_title"></h4>
-              <ol class="trouble-steps">
-                <li data-i18n="trouble.method2_step1"></li>
-                <li data-i18n="trouble.method2_step2"></li>
-                <li data-i18n="trouble.method2_step3"></li>
-                <li data-i18n="trouble.method2_step4"></li>
-              </ol>
+      <p class="section-subtitle" data-i18n="install.subheading"></p>
+
+      <!-- Channel cards: GUI (recommended) ↔ CLI (alternative) -->
+      <div class="install-cards" role="radiogroup" aria-label="Install method">
+        <button type="button" class="install-card is-recommended is-selected"
+                data-channel="gui" role="radio" aria-checked="true">
+          <span class="card-badge card-badge-gold" data-i18n="install.badge_recommended"></span>
+          <h3 class="card-title" data-i18n="install.card_gui_title"></h3>
+          <p class="card-tagline" data-i18n="install.card_gui_tagline"></p>
+          <figure class="card-screenshot">
+            <img src="assets/screenshot-installer.png"
+                 alt=""
+                 loading="lazy" decoding="async"
+                 onerror="this.closest('.card-screenshot').classList.add('is-missing'); this.remove();" />
+            <div class="card-screenshot-placeholder" aria-hidden="true">
+              <i data-lucide="monitor" aria-hidden="true"></i>
+              <span data-i18n="install.card_gui_caption_placeholder"></span>
             </div>
-            <div class="trouble-col-scan">
-              <h4 class="trouble-method" data-i18n="trouble.scan_heading"></h4>
-              <ul class="trouble-scan-list">
-                <li><i data-lucide="check" aria-hidden="true"></i><span>Microsoft Defender</span></li>
-                <li><i data-lucide="check" aria-hidden="true"></i><span>Norton</span></li>
-                <li><i data-lucide="check" aria-hidden="true"></i><span>McAfee</span></li>
-                <li><i data-lucide="check" aria-hidden="true"></i><span>BitDefender</span></li>
-                <li><i data-lucide="check" aria-hidden="true"></i><span>ESET</span></li>
-                <li><i data-lucide="check" aria-hidden="true"></i><span>Avast</span></li>
-                <li><i data-lucide="check" aria-hidden="true"></i><span>AVG</span></li>
-                <li><i data-lucide="check" aria-hidden="true"></i><span>Trend Micro</span></li>
-              </ul>
-              <p class="trouble-scan-note" data-i18n="trouble.scan_note"></p>
-            </div>
+          </figure>
+          <div class="card-prereq">
+            <p class="card-prereq-heading" data-i18n="install.prereq_heading"></p>
+            <ul class="card-prereq-list">
+              <li><a href="https://aka.ms/highdpimfc2013x64enu" target="_blank" rel="noopener" data-i18n="install.prereq_vc2013_name"></a></li>
+              <li><a href="https://aka.ms/vs/17/release/vc_redist.x64.exe" target="_blank" rel="noopener" data-i18n="install.prereq_vc2022_name"></a></li>
+              <li><a href="https://go.microsoft.com/fwlink/p/?LinkId=2124703" target="_blank" rel="noopener" data-i18n="install.prereq_webview2_name"></a></li>
+            </ul>
           </div>
-          <p class="trouble-footer" data-i18n="trouble.footer"></p>
-        </div>
-      </details>
+          <p class="card-fallback-note" data-i18n="install.card_gui_fallback"></p>
+        </button>
+
+        <button type="button" class="install-card"
+                data-channel="cli" role="radio" aria-checked="false">
+          <span class="card-badge card-badge-muted" data-i18n="install.badge_alternative"></span>
+          <h3 class="card-title" data-i18n="install.card_cli_title"></h3>
+          <p class="card-tagline" data-i18n="install.card_cli_tagline"></p>
+          <div class="card-cli-viewer" aria-hidden="true">
+            <div class="card-cli-viewer-bar">
+              <span class="card-cli-viewer-dot card-cli-viewer-dot--r"></span>
+              <span class="card-cli-viewer-dot card-cli-viewer-dot--y"></span>
+              <span class="card-cli-viewer-dot card-cli-viewer-dot--g"></span>
+              <span class="card-cli-viewer-title">MK11-Korean-Patch-CLI-Setup</span>
+            </div>
+            <pre class="card-cli-viewer-body"><span class="cli-line cli-line--prompt"><span class="cli-os">Windows&gt;</span> install.bat <span class="cli-hint" data-i18n="install.cli_hint_doubleclick"></span></span>
+<span class="cli-line cli-line--prompt"><span class="cli-os">Linux  $</span> bash install.sh</span>
+<span class="cli-line cli-line--sep">─────────────────────────────</span>
+<span class="cli-line cli-anim cli-anim--l1" data-i18n="install.cli_preview_l1"></span>
+<span class="cli-line cli-anim cli-anim--l2" data-i18n="install.cli_preview_l2"></span>
+<span class="cli-line cli-anim cli-anim--l3 cli-line--prompt" data-i18n="install.cli_preview_l3"></span><span class="cli-swap"><span class="cli-cursor-life"><span class="cli-cursor">▋</span></span><span class="cli-anim cli-anim--typed">Y</span></span>
+<span class="cli-line cli-anim cli-anim--l4" data-i18n="install.cli_preview_l4"></span>
+<span class="cli-line cli-anim cli-anim--l5" data-i18n="install.cli_preview_l5"></span>
+<span class="cli-line cli-anim cli-anim--l6 cli-line--success" data-i18n="install.cli_preview_l6"></span></pre>
+          </div>
+          <div class="card-cli-platforms">
+            <span class="card-cli-platform"><span data-i18n="install.cli_platform_windows"></span></span>
+            <span class="card-cli-platform"><span data-i18n="install.cli_platform_unix"></span><span class="beta-badge" data-i18n="install.beta_label"></span></span>
+          </div>
+          <p class="card-fallback-note" data-i18n="install.card_cli_fallback"></p>
+        </button>
+      </div>
+
+      <!-- Trust strip: demoted under cards as decision-support -->
+      <div class="install-trust-strip install-trust-strip--secondary">
+        <i data-lucide="shield-check" aria-hidden="true"></i>
+        <span data-i18n="install.trust_strip"></span>
+      </div>
+
+      <!-- Action zone: CTA + 3-step quick start (text swaps per channel) -->
+      <div class="install-action" data-active-channel="gui">
+        <a id="download-btn" class="btn btn-primary btn-lg install-cta"
+           href="https://github.com/KimHerV/mk11-korean-patch/releases/latest"
+           target="_blank" rel="noopener">
+          <i data-lucide="download" aria-hidden="true"></i>
+          <span class="install-cta-label" data-i18n="install.btn_download"></span>
+          <span id="download-version"></span>
+        </a>
+
+        <ol class="install-steps install-steps--compact">
+          <li>
+            <span class="step-num">1</span>
+            <div>
+              <strong data-i18n="install.step1_title"></strong>
+              <p data-channel-text data-i18n="install.step1_desc"></p>
+            </div>
+          </li>
+          <li>
+            <span class="step-num">2</span>
+            <div>
+              <strong data-i18n="install.step2_title"></strong>
+              <p data-channel-text data-i18n="install.step2_desc"></p>
+            </div>
+          </li>
+          <li>
+            <span class="step-num">3</span>
+            <div>
+              <strong data-i18n="install.step3_title"></strong>
+              <p data-i18n="install.step3_desc"></p>
+            </div>
+          </li>
+        </ol>
+
+        <p class="install-complete" data-i18n="install.complete"></p>
+      </div>
+
     </div>
   </section>
 
@@ -617,13 +666,21 @@
   <footer class="footer">
     <div class="container">
       <p class="footer-title" data-i18n="footer.title"></p>
-      <p class="footer-credit" data-i18n="footer.credit"></p>
+      <p class="footer-byline">
+        <span data-i18n="footer.credit"></span>
+        <span class="footer-sep">·</span>
+        <span data-i18n="footer.first_release_label"></span>&nbsp;<span class="footer-meta-value">2026-05-04</span>
+        <span class="footer-sep">·</span>
+        <span data-i18n="footer.latest_version_label"></span>&nbsp;<span class="footer-meta-value" id="footer-version">v1.0</span>
+      </p>
       <p class="footer-links">
         <a href="https://github.com/KimHerV/mk11-korean-patch" target="_blank" rel="noopener">GitHub</a>
-        <span class="divider">·</span>
+        <span class="footer-sep">·</span>
         <a href="https://github.com/KimHerV/mk11-korean-patch/releases" target="_blank" rel="noopener" data-i18n="footer.release_notes"></a>
-        <span class="divider">·</span>
+        <span class="footer-sep">·</span>
         <a href="https://github.com/KimHerV/mk11-korean-patch/issues" target="_blank" rel="noopener" data-i18n="footer.issue_tracker"></a>
+        <span class="footer-sep">·</span>
+        <a href="https://thisisgame.com/articles/422569" target="_blank" rel="noopener" data-i18n="footer.press"></a>
       </p>
       <p class="footer-legal" data-i18n="footer.legal"></p>
     </div>
@@ -746,52 +803,6 @@
     });
   }());
 
-  (function () {
-    var modal    = document.getElementById('online-modal');
-    var backdrop = document.getElementById('online-modal-backdrop');
-    var closeBtn = document.getElementById('online-modal-close');
-    var cancelBtn = document.getElementById('online-modal-cancel');
-    var confirmBtn = document.getElementById('online-modal-confirm');
-    var downloadBtn = document.getElementById('download-btn');
-    var downloadUrl = '';
-
-    function openModal(url) {
-      downloadUrl = url;
-      modal.hidden = false;
-      document.body.style.overflow = 'hidden';
-      confirmBtn.focus();
-    }
-
-    function closeModal() {
-      modal.hidden = true;
-      document.body.style.overflow = '';
-      if (downloadBtn) downloadBtn.focus();
-    }
-
-    if (downloadBtn) {
-      downloadBtn.addEventListener('click', function (e) {
-        e.preventDefault();
-        openModal(this.href);
-      });
-    }
-
-    confirmBtn.addEventListener('click', function () {
-      window.open(downloadUrl, '_blank', 'noopener,noreferrer');
-      closeModal();
-    });
-
-    [closeBtn, cancelBtn, backdrop].forEach(function (el) {
-      el.addEventListener('click', closeModal);
-    });
-
-    document.addEventListener('keydown', function (e) {
-      if (e.key === 'Escape' && !modal.hidden) closeModal();
-    });
-
-    modal.addEventListener('click', function (e) {
-      if (e.target.classList.contains('online-faq-link')) closeModal();
-    });
-  }());
   </script>
 </body>
 </html>

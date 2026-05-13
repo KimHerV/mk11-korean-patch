@@ -48,11 +48,10 @@ function setLocale(locale) {
 applyI18n();
 
 // ── Fetch installer cumulative download count ────────────────
-// Source: stats Worker /public endpoint. Worker provides clobber-corrected
-// cumulative count across all releases (installer .exe only). The button
-// href still resolves through GitHub's latest-release API for the .exe URL.
+// Source: stats Worker /public endpoint. Worker counts GUI .exe and CLI .zip
+// together as install events. Each channel's download button href resolves
+// independently from GitHub's latest-release asset list.
 async function fetchReleaseStats() {
-  // Headline number from worker (cumulative installer across all versions)
   try {
     const res = await fetch('https://mk11-stats.elka2love.workers.dev/public');
     if (res.ok) {
@@ -67,18 +66,38 @@ async function fetchReleaseStats() {
     }
   } catch (_) { /* fail silently */ }
 
-  // Resolve installer button href from the latest release
   try {
     const res = await fetch('https://api.github.com/repos/KimHerV/mk11-korean-patch/releases/latest');
     if (!res.ok) return;
     const data = await res.json();
-    const installer = (data.assets || []).find(a => a.name.endsWith('.exe'));
-    if (installer) {
-      const btn = document.getElementById('download-btn');
-      if (btn) btn.href = installer.browser_download_url;
+    const assets = data.assets || [];
+
+    window._mk11DirectUrls = window._mk11DirectUrls || {};
+
+    const guiAsset = assets.find(a => a.name === 'MK11-Korean-Patch-Setup.exe');
+    if (guiAsset) {
+      window._mk11DirectUrls.gui = guiAsset.browser_download_url;
     }
+
+    const cliAsset = assets.find(a => a.name === 'MK11-Korean-Patch-CLI-Setup.zip');
+    if (cliAsset) {
+      window._mk11DirectUrls.cli = cliAsset.browser_download_url;
+    }
+
+    // Update the visible CTA button for whichever channel is currently active.
+    const action = document.querySelector('.install-action');
+    const activeCh = action ? (action.getAttribute('data-active-channel') || 'gui') : 'gui';
+    const ctaBtn = document.getElementById('download-btn');
+    if (ctaBtn && window._mk11DirectUrls[activeCh]) {
+      ctaBtn.href = window._mk11DirectUrls[activeCh];
+    }
+
     const versionEl = document.getElementById('download-version');
     if (versionEl && data.tag_name) versionEl.textContent = data.tag_name;
+    const versionElCli = document.getElementById('download-version-cli');
+    if (versionElCli && data.tag_name) versionElCli.textContent = data.tag_name;
+    const footerVersion = document.getElementById('footer-version');
+    if (footerVersion && data.tag_name) footerVersion.textContent = data.tag_name;
   } catch (_) { /* fail silently */ }
 }
 
@@ -552,6 +571,103 @@ document.getElementById('feedback-form')?.addEventListener('submit', async (e) =
 });
 
 fetchReleaseStats();
+
+// ── Install channel cards (GUI recommended / CLI alternative) ─
+// Cards sit side by side. Selecting one swaps the shared action zone:
+//  · download button href + label
+//  · step1/step2 description text (per-channel i18n keys)
+// The card hierarchy itself (border weight, glow) is static — GUI always
+// reads as recommended; selection mostly drives the action zone below.
+(function () {
+  var cards = document.querySelectorAll('.install-card');
+  var action = document.querySelector('.install-action');
+  if (!cards.length || !action) return;
+
+  var ctaBtn    = action.querySelector('.install-cta');
+  var ctaLabel  = action.querySelector('.install-cta-label');
+  var step1Desc = action.querySelector('[data-channel-text][data-i18n="install.step1_desc"], [data-channel-text][data-i18n="install.step1_desc_cli"]');
+  var step2Desc = action.querySelector('[data-channel-text][data-i18n="install.step2_desc"], [data-channel-text][data-i18n="install.step2_desc_cli"]');
+
+  // Single GitHub releases URL for both channels — the actual asset (.exe vs .zip)
+  // is picked from the releases page (or pre-resolved by fetchReleaseStats).
+  var releasesUrl = 'https://github.com/KimHerV/mk11-korean-patch/releases/latest';
+  var channels = {
+    gui: { labelKey: 'install.btn_download',     step1Key: 'install.step1_desc',     step2Key: 'install.step2_desc' },
+    cli: { labelKey: 'install.btn_download_cli', step1Key: 'install.step1_desc_cli', step2Key: 'install.step2_desc_cli' }
+  };
+
+  function activate(channel) {
+    var cfg = channels[channel] || channels.gui;
+
+    cards.forEach(function (c) {
+      var on = c.dataset.channel === channel;
+      c.classList.toggle('is-selected', on);
+      c.setAttribute('aria-checked', on ? 'true' : 'false');
+    });
+    action.setAttribute('data-active-channel', channel);
+
+    if (ctaBtn) {
+      var urls = window._mk11DirectUrls || {};
+      ctaBtn.setAttribute('href', urls[channel] || releasesUrl);
+    }
+    if (ctaLabel) ctaLabel.setAttribute('data-i18n', cfg.labelKey);
+    if (step1Desc) step1Desc.setAttribute('data-i18n', cfg.step1Key);
+    if (step2Desc) step2Desc.setAttribute('data-i18n', cfg.step2Key);
+
+    // Let the shared i18n pass render the new keys (handles KR/EN automatically).
+    if (typeof window.applyI18n === 'function') window.applyI18n();
+  }
+
+  cards.forEach(function (card) {
+    card.addEventListener('click', function () { activate(card.dataset.channel); });
+    card.addEventListener('keydown', function (e) {
+      var nextChannel = null;
+      if (e.key === 'ArrowRight' || e.key === 'ArrowDown') nextChannel = 'cli';
+      else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') nextChannel = 'gui';
+      if (!nextChannel) return;
+      e.preventDefault();
+      activate(nextChannel);
+      var next = document.querySelector('.install-card[data-channel="' + nextChannel + '"]');
+      if (next) next.focus();
+    });
+  });
+
+  activate('gui');
+
+  // Mobile swipe: activate whichever card is >60% visible in the container.
+  if ('IntersectionObserver' in window) {
+    var container = document.querySelector('.install-cards');
+    if (container) {
+      container.scrollLeft = 0;
+
+      // Only activate via observer after the user has actually touched/swiped.
+      // This prevents browser scroll restoration from triggering CLI activation
+      // on page load/refresh.
+      var swipeReady = false;
+      ['touchstart', 'pointerdown'].forEach(function (evt) {
+        container.addEventListener(evt, function () { swipeReady = true; }, { once: true });
+      });
+
+      var swipeObserver = new IntersectionObserver(function (entries) {
+        if (!swipeReady) return;
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting && entry.intersectionRatio >= 0.6) {
+            activate(entry.target.dataset.channel);
+          }
+        });
+      }, { root: container, threshold: 0.6 });
+
+      cards.forEach(function (card) { swipeObserver.observe(card); });
+
+      // Reset scroll position when resizing from mobile to desktop.
+      window.addEventListener('resize', function () {
+        if (window.innerWidth > 720 && container.scrollLeft > 0) {
+          container.scrollLeft = 0;
+        }
+      });
+    }
+  }
+})();
 
 // ── Live download counter sparkles ────────────────────────
 (function () {
@@ -1376,15 +1492,17 @@ async function collectSystemInfo() {
     '.stat-item',
     '.feature-card',
     '.about-entry',
+    '.install-cards > .install-card',
+    '.install-trust-strip',
+    '.install-action',
     '.install-steps > li',
+    '.install-cta',
+    '.install-complete',
     '.faq-category',
     '.feedback-form',
     '.section-title',
     '.section-sub',
-    '.install-manifest',
-    '.install-safety',
-    '.install-cta',
-    '.install-trouble',
+    '.section-subtitle',
   ];
 
   selectors.forEach(function (sel) {
@@ -1406,3 +1524,4 @@ async function collectSystemInfo() {
     observer.observe(el);
   });
 })();
+

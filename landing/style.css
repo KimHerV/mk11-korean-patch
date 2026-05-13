@@ -40,6 +40,7 @@
 /* ── Reset ─────────────────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
+@media (max-width: 720px) { html { overflow-x: clip; } }
 body {
   background: var(--color-bg);
   color: var(--color-text-primary);
@@ -657,77 +658,54 @@ code {
   border-top: 1px solid var(--color-border);
 }
 
-.install-safety {
-  border: 1px solid var(--color-gold-dim);
-  border-left: 3px solid var(--color-gold);
-  background: var(--color-surface);
-  border-radius: var(--radius-md);
-  padding: var(--space-4) var(--space-6);
-  margin-bottom: var(--space-6);
-}
-.install-safety ul {
-  list-style: none;
+/* ── FAQ: inline file manifest (used in the "DLL files" answer) ───
+   Translucent + blur background mirrors the bottom music player so the
+   table reads as a seamless surface against the cover image, not a solid
+   block. Row padding is generous to keep the dl entries breathing. */
+.faq-manifest {
   display: flex;
   flex-direction: column;
-  gap: var(--space-2);
-}
-.install-safety li {
-  font-size: var(--text-caption);
-  color: var(--color-text-secondary);
-  padding-left: var(--space-6);
-  position: relative;
-}
-.install-safety li::before {
-  content: '✓';
-  position: absolute;
-  left: 0;
-  color: var(--color-gold);
-  font-weight: 600;
-}
-.install-manifest {
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
+  margin: var(--space-4) 0 var(--space-2);
+  background: rgba(30, 30, 30, 0.50);
+  backdrop-filter: blur(24px) saturate(160%);
+  -webkit-backdrop-filter: blur(24px) saturate(160%);
+  border: 1px solid rgba(255, 255, 255, 0.07);
   border-radius: var(--radius-md);
-  padding: var(--space-4) var(--space-6);
-  margin-bottom: var(--space-4);
+  padding: var(--space-2) var(--space-6);
 }
-.manifest-title {
-  font-size: var(--text-caption);
-  color: var(--color-gold);
-  text-transform: uppercase;
-  letter-spacing: .1em;
-  margin-bottom: var(--space-3);
-}
-.manifest-list {
+.faq-manifest-row {
   display: flex;
-  flex-direction: column;
-  gap: var(--space-2);
-}
-.manifest-row {
-  display: flex;
-  gap: var(--space-16);
+  gap: var(--space-6);
   font-size: var(--text-caption);
-  padding-bottom: var(--space-2);
+  padding: var(--space-4) 0;
+  align-items: baseline;
 }
-.manifest-row:not(:last-child) {
-  border-bottom: 1px solid var(--color-border);
+.faq-manifest-row:not(:last-child) {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
 }
-.manifest-row dt {
+.faq-manifest-row dt {
   color: var(--color-text-primary);
   font-family: 'Courier New', monospace;
   white-space: nowrap;
-  min-width: 215px;
+  min-width: 220px;
+  line-height: 1.55;
 }
-.manifest-row dd {
+.faq-manifest-row dd {
   color: var(--color-text-secondary);
+  margin: 0;
+  line-height: 1.65;
 }
-.manifest-row dd a {
+.faq-manifest-row dd a {
   color: var(--color-gold-dim);
   text-decoration: none;
 }
-.manifest-row dd a:hover {
-  color: var(--color-gold);
+.faq-manifest-row dd a:hover { color: var(--color-gold); }
+@media (max-width: 720px) {
+  .faq-manifest { padding: var(--space-1) var(--space-4); }
+  .faq-manifest-row { flex-direction: column; gap: var(--space-1); padding: var(--space-3) 0; }
+  .faq-manifest-row dt { min-width: unset; }
 }
+
 .install-cta { text-align: center; }
 
 /* ── Troubleshooting (collapsed details under download CTA) ─── */
@@ -767,118 +745,446 @@ code {
   transform: rotate(180deg);
 }
 
-/* install-trouble: native <details> wrapper for the disclosure-toggle. */
-.install-trouble {
-  /* width via .container-narrow (shared with about, feedback) */
-  margin: var(--space-6) auto 0;
-}
-.install-trouble summary { list-style: none; }
-.install-trouble summary::-webkit-details-marker { display: none; }
-.install-trouble-body {
-  padding: var(--space-2) 0 var(--space-4);
-}
-.install-trouble-body p {
-  font-size: var(--text-caption);
+/* ── Install: section subtitle ──────────────────────────────── */
+.section-subtitle {
   color: var(--color-text-secondary);
-  line-height: 1.7;
+  font-size: var(--text-body);
+  margin: 0 0 var(--space-8);
+  max-width: 720px;
 }
-.trouble-grid {
+/* Left-align the install section header so it lines up with the card grid below */
+#install .section-title { text-align: left; }
+#install .section-subtitle { text-align: left; }
+
+/* ── Install: channel cards (pricing-style hierarchy) ────────── */
+/* Selected card gets the gold border + glow; unselected card is muted.
+   GUI is selected by default (recommended). Replaces the old tab/grid-stack
+   pattern that reserved the larger panel's height. */
+.install-cards {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: var(--space-6);
-  margin-top: var(--space-3);
+  margin: 0 auto var(--space-6);
 }
-.trouble-col-scan {
-  border-left: 1px solid var(--color-border);
-  padding-left: var(--space-6);
+.install-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-3);
+  text-align: left;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  font-family: inherit;
+  color: var(--color-text-primary);
+  cursor: pointer;
+  transition: transform 0.15s, border-color 0.15s, box-shadow 0.15s;
 }
-.trouble-col-methods .trouble-method:first-child,
-.trouble-col-scan .trouble-method:first-child { margin-top: 0; }
-
-.trouble-scan-list {
-  list-style: none;
-  padding: 0;
+.install-card:hover {
+  border-color: var(--color-gold-dim);
+  transform: translateY(-2px);
+}
+.install-card:focus-visible {
+  outline: 2px solid var(--color-gold);
+  outline-offset: 2px;
+}
+.install-card:not(.is-selected) {
+  opacity: 0.92;
+}
+.install-card.is-selected {
+  border-color: var(--color-gold);
+  box-shadow:
+    0 0 0 1px rgba(212, 175, 55, 0.18),
+    0 12px 36px rgba(212, 175, 55, 0.14);
+}
+.install-card.is-selected:hover {
+  box-shadow:
+    0 0 0 1px rgba(212, 175, 55, 0.28),
+    0 16px 44px rgba(212, 175, 55, 0.22);
+}
+.card-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: var(--radius-sm);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  font-family: 'NanumSquareNeo', sans-serif;
+}
+.card-badge-gold {
+  border: 1px solid var(--color-gold);
+  color: var(--color-gold);
+  background: rgba(212, 175, 55, 0.12);
+}
+.card-badge-muted {
+  border: 1px solid var(--color-border);
+  color: var(--color-text-secondary);
+  background: rgba(255, 255, 255, 0.02);
+}
+.card-title {
+  font-size: var(--text-subheading);
+  font-family: 'NanumSquareNeo', sans-serif;
+  font-weight: 800;
+  letter-spacing: -0.01em;
   margin: 0;
+  color: var(--color-text-primary);
+}
+.install-card.is-selected .card-title { color: var(--color-gold); }
+.card-tagline {
+  font-size: var(--text-body);
+  color: var(--color-text-secondary);
+  line-height: 1.55;
+  margin: 0;
+}
+.card-screenshot {
+  width: 100%;
+  margin: var(--space-2) 0;
   display: flex;
   flex-direction: column;
   gap: var(--space-2);
-  font-size: var(--text-caption);
-  color: var(--color-text-secondary);
 }
-.trouble-scan-list li {
+.card-screenshot img {
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius-md);
+  display: block;
+}
+.card-screenshot-placeholder {
+  display: none;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  border: 1px dashed var(--color-border);
+  border-radius: var(--radius-md);
+  background: rgba(255, 255, 255, 0.02);
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  color: var(--color-text-secondary);
+  font-size: var(--text-caption);
+}
+.card-screenshot-placeholder svg {
+  width: 20px;
+  height: 20px;
+  color: var(--color-gold-dim);
+}
+.card-screenshot.is-missing img { display: none; }
+.card-screenshot.is-missing .card-screenshot-placeholder { display: flex; }
+
+/* CLI terminal viewer — symmetric counterpart to GUI screenshot.
+   Mocked install.sh console with a sequential reveal animation that loops,
+   so users can preview "what they will see when running it". */
+.card-cli-viewer {
+  width: 100%;
+  margin: var(--space-2) 0;
+  border-radius: var(--radius-lg);
+  background: #0c0c0c;
+  border: 1px solid var(--color-border);
+  overflow: hidden;
+  font-family: 'Courier New', monospace;
+}
+.card-cli-viewer-bar {
   display: flex;
   align-items: center;
   gap: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  background: rgba(255, 255, 255, 0.04);
+  border-bottom: 1px solid var(--color-border);
 }
-.trouble-scan-list svg {
-  width: 14px;
-  height: 14px;
-  color: var(--color-success);
-  flex-shrink: 0;
+.card-cli-viewer-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: inline-block;
 }
-.trouble-scan-note {
+.card-cli-viewer-dot--r { background: #ff5f57; }
+.card-cli-viewer-dot--y { background: #febc2e; }
+.card-cli-viewer-dot--g { background: #28c840; }
+.card-cli-viewer-title {
+  margin-left: var(--space-2);
+  font-size: 11px;
+  color: var(--color-text-secondary);
+  letter-spacing: 0.02em;
+}
+.card-cli-viewer-body {
+  margin: 0;
+  padding: var(--space-3) var(--space-4);
+  font-size: 12px;
+  line-height: 1.65;
+  color: #d4d4d4;
+  white-space: pre;
+  overflow-x: hidden;
+}
+.cli-line { /* inline; the <pre> preserves the literal newlines between spans */ }
+.cli-line--prompt { color: var(--color-gold-dim); }
+.cli-line--sep    { color: rgba(255, 255, 255, 0.18); }
+.cli-os {
+  display: inline-block;
+  width: 8ch;
+  color: #7fb1ff;
+}
+
+/* Hint chip — explains "Windows> install.bat" is meant to be double-clicked.
+   Styled as a tiny pill so it reads as guidance, not as part of the command. */
+.cli-hint {
+  display: inline-block;
+  margin-left: var(--space-2);
+  padding: 1px 8px;
+  font-size: 10px;
+  font-family: var(--font-body, system-ui, sans-serif);
+  letter-spacing: 0.02em;
+  border-radius: 999px;
+  color: var(--color-gold);
+  background: rgba(212, 175, 55, 0.12);
+  border: 1px solid var(--color-gold-dim);
+  vertical-align: 1px;
+}
+
+/* CLI viewer prompting animation — 11s loop.
+   Reads as: header reveal → [Y/n] cursor blinks → Y typed → install steps run.
+   Each line owns its keyframe so the reveal cadence is decoupled from the
+   shared fade-out at cycle end (95-100%).
+   Timeline (11s):
+     0.55s  line 1 (banner)
+     1.43s  line 2 (path detected)
+     2.31s  line 3 ("[Y/n]" prompt)
+     2.64s  cursor appears, blinks until...
+     4.29s  Y typed (cursor disappears)
+     5.06s  line 4 (backup OK)
+     5.94s  line 5 (patch OK)
+     6.82s  line 6 (done · set language)
+     6.82~10.45s  hold complete state
+     10.45~11s  fade everything, loop                                  */
+.cli-anim { opacity: 0; }
+@keyframes cli-l1 { 0%, 4% { opacity: 0; } 6%, 92% { opacity: 1; } 95%, 100% { opacity: 0; } }
+@keyframes cli-l2 { 0%, 12% { opacity: 0; } 14%, 92% { opacity: 1; } 95%, 100% { opacity: 0; } }
+@keyframes cli-l3 { 0%, 20% { opacity: 0; } 22%, 92% { opacity: 1; } 95%, 100% { opacity: 0; } }
+@keyframes cli-l4 { 0%, 44% { opacity: 0; } 46%, 92% { opacity: 1; } 95%, 100% { opacity: 0; } }
+@keyframes cli-l5 { 0%, 52% { opacity: 0; } 54%, 92% { opacity: 1; } 95%, 100% { opacity: 0; } }
+@keyframes cli-l6 { 0%, 60% { opacity: 0; } 62%, 92% { opacity: 1; } 95%, 100% { opacity: 0; } }
+.cli-anim--l1 { animation: cli-l1 11s ease-in-out infinite; }
+.cli-anim--l2 { animation: cli-l2 11s ease-in-out infinite; }
+.cli-anim--l3 { animation: cli-l3 11s ease-in-out infinite; }
+.cli-anim--l4 { animation: cli-l4 11s ease-in-out infinite; }
+.cli-anim--l5 { animation: cli-l5 11s ease-in-out infinite; }
+.cli-anim--l6 { animation: cli-l6 11s ease-in-out infinite; }
+.cli-line--success { color: #6ad26a; }
+
+/* Swap container — cursor and typed "Y" overlay at the same position so the
+   keystroke reads as the cursor being replaced by the character, not as Y
+   appearing next to a ghost cursor.
+   Uses inline-grid (not absolute positioning) so the container retains real
+   height and the children stay on the [Y/n] baseline instead of dropping
+   below the line-box. */
+.cli-swap {
+  display: inline-grid;
+  grid-template-columns: 1ch;
+  vertical-align: baseline;
+}
+.cli-swap > .cli-cursor-life,
+.cli-swap > .cli-anim--typed {
+  grid-area: 1 / 1;
+}
+
+/* Cursor envelope — visible only while [Y/n] is the active prompt (24-38%).
+   Steps timing makes the on/off snap (no fade), reading as a real terminal. */
+@keyframes cli-cursor-life {
+  0%, 23%   { opacity: 0; }
+  24%, 38%  { opacity: 1; }
+  39%, 100% { opacity: 0; }
+}
+.cli-cursor-life { animation: cli-cursor-life 11s steps(1, end) infinite; }
+
+/* Cursor blink — independent 0.9s pulse. Composites with envelope opacity. */
+.cli-cursor {
+  display: inline-block;
+  color: var(--color-gold);
+  animation: cli-cursor-blink 0.9s steps(1, end) infinite;
+}
+@keyframes cli-cursor-blink {
+  0%, 49%   { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+
+/* "Y" typed by the user — appears quickly at 39% (feels like a keystroke),
+   then fades out together with all other lines at 92-95% using the same
+   ease-in-out easing so the whole script disappears as one block. */
+@keyframes cli-typed-y {
+  0%, 38%   { opacity: 0; }
+  40%, 92%  { opacity: 1; }
+  95%, 100% { opacity: 0; }
+}
+.cli-anim--typed {
+  color: var(--color-gold);
+  font-weight: 700;
+  animation: cli-typed-y 11s ease-in-out infinite;
+}
+
+/* Honor reduced-motion: hold final state, drop the loop */
+@media (prefers-reduced-motion: reduce) {
+  .cli-anim, .cli-cursor-life { opacity: 1; animation: none; }
+  .cli-cursor { animation: cli-cursor-blink 0.9s steps(1, end) infinite; }
+}
+
+/* Platform tags: vertical bullet list inside the CLI card */
+.card-cli-platforms {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin-top: var(--space-1);
+  padding-left: var(--space-4);
+  list-style: none;
+}
+.card-cli-platform {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
   font-size: var(--text-caption);
   color: var(--color-text-secondary);
-  opacity: 0.6;
-  margin-top: var(--space-3);
 }
-
-@media (max-width: 540px) {
-  .trouble-grid { grid-template-columns: 1fr; gap: var(--space-4); }
-  .trouble-col-scan {
-    border-left: none;
-    padding-left: 0;
-    border-top: 1px solid var(--color-border);
-    padding-top: var(--space-4);
-  }
+.card-cli-platform::before {
+  content: "•";
+  position: absolute;
+  left: calc(var(--space-4) * -1);
+  color: var(--color-gold-dim);
 }
-
-.trouble-method {
+.card-prereq {
+  width: 100%;
+  margin: var(--space-2) 0 0;
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: rgba(255, 255, 255, 0.02);
+}
+.card-prereq-heading {
   font-size: var(--text-caption);
-  color: var(--color-gold);
+  color: var(--color-text-secondary);
   font-weight: 600;
-  margin-top: var(--space-4);
-  margin-bottom: var(--space-2);
+  margin: 0 0 var(--space-2);
 }
-.trouble-steps {
-  margin: 0 0 var(--space-2) var(--space-6);
+.card-prereq-list {
   display: flex;
   flex-direction: column;
   gap: var(--space-1);
+  padding-left: var(--space-4);
+  margin: 0;
+  list-style: none;
+}
+.card-prereq-list li {
+  position: relative;
   font-size: var(--text-caption);
   color: var(--color-text-secondary);
 }
-.trouble-steps li {
-  list-style: decimal;
-  padding-left: var(--space-2);
+.card-prereq-list li::before {
+  content: "•";
+  position: absolute;
+  left: calc(var(--space-4) * -1);
+  color: var(--color-gold-dim);
 }
-.trouble-footer {
-  font-size: var(--text-caption);
-  color: var(--color-text-secondary);
-  margin-top: var(--space-4);
-  padding-top: var(--space-3);
-  border-top: 1px solid var(--color-border);
-}
-.trouble-footer a {
+.card-prereq-list a {
   color: var(--color-gold-dim);
   text-decoration: none;
 }
-.trouble-footer a:hover {
-  color: var(--color-gold);
+.card-prereq-list a:hover { color: var(--color-gold); }
+
+.card-fallback-note {
+  font-size: var(--text-caption);
+  color: var(--color-text-secondary);
+  margin: auto 0 0;
+  font-style: italic;
 }
 
-/* ── Step 1 inline prerequisites notice ─────────────────────── */
-.step-prereq {
+/* ── Install: trust strip ───────────────────────────────────── */
+.install-trust-strip {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  margin: var(--space-8) auto var(--space-4);
   font-size: var(--text-caption);
   color: var(--color-text-secondary);
-  margin-top: var(--space-2);
 }
-.step-prereq a {
-  color: var(--color-gold-dim);
-  text-decoration: none;
+.install-trust-strip svg {
+  width: 16px;
+  height: 16px;
+  color: var(--color-success);
+  flex-shrink: 0;
 }
-.step-prereq a:hover {
+/* Demoted variant: smaller, sits under the cards as decision-support */
+.install-trust-strip--secondary {
+  margin: var(--space-4) auto var(--space-8);
+  font-size: var(--text-small, 12px);
+  opacity: 0.85;
+}
+.install-trust-strip--secondary svg { width: 14px; height: 14px; }
+
+/* ── Install: action zone (CTA + 3-step quick start) ────────── */
+.install-action {
+  max-width: 720px;
+  margin: 0 auto var(--space-12);
+  text-align: center;
+}
+.install-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-bottom: var(--space-8);
+}
+.install-cta svg { width: 18px; height: 18px; }
+.install-steps--compact {
+  text-align: left;
+  margin-top: 0;
+  margin-bottom: var(--space-4);
+  gap: var(--space-4);
+}
+.install-complete {
+  font-size: var(--text-caption);
+  color: var(--color-text-secondary);
+  margin: 0;
+}
+
+/* Mobile: cards stack vertically. Padding stays at the desktop value
+   (var(--space-6) = 24px) so the cards keep the same generous internal
+   breathing room as .feature-card across all screen sizes. */
+@media (max-width: 720px) {
+  /* Horizontal swipe carousel: cards scroll side-by-side with ~20% peek. */
+  .install-cards {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding-left: var(--space-6);
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    gap: var(--space-4);
+    /* Full-bleed: break out of container padding so the scroll track reaches
+       the viewport edge, reinforcing the swipe affordance. */
+    margin-left: calc(-1 * var(--space-6));
+    margin-right: calc(-1 * var(--space-6));
+    padding-left: var(--space-6);
+    padding-right: var(--space-6);
+    margin-bottom: var(--space-6);
+  }
+  .install-cards::-webkit-scrollbar { display: none; }
+  .install-card {
+    flex: 0 0 90%;
+    scroll-snap-align: start;
+    min-width: 0;
+  }
+}
+
+/* ── Install: legacy beta badge (re-used in CLI platforms) ──── */
+.beta-badge {
+  display: inline-block;
+  padding: 1px 6px;
+  border: 1px solid var(--color-gold-dim);
+  border-radius: var(--radius-sm);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
   color: var(--color-gold);
+  background: rgba(212, 175, 55, 0.08);
 }
 
 /* ── Feedback form ─────────────────────────────────────────── */
@@ -1246,7 +1552,7 @@ code {
 }
 @media (max-width: 540px) {
   .char-picker-panel { max-width: 100%; }
-  .char-grid { grid-template-columns: repeat(4, 1fr); gap: 4px; padding: var(--space-5); }
+  .char-grid { grid-template-columns: repeat(4, 1fr); gap: 4px; padding: var(--space-4); }
 }
 
 .char-card {
@@ -1304,7 +1610,7 @@ code {
 /* ── Footer ────────────────────────────────────────────────── */
 .footer {
   border-top: 1px solid var(--color-border);
-  padding: var(--space-8) 0;
+  padding: var(--space-8) 0 calc(72px + var(--space-8));
   text-align: center;
 }
 .footer-title {
@@ -1312,29 +1618,85 @@ code {
   font-size: var(--text-subheading);
   color: var(--color-gold);
   letter-spacing: .1em;
-  margin-bottom: var(--space-1);
+  margin-bottom: var(--space-3);
 }
-.footer-credit {
+.footer-byline {
   font-size: var(--text-caption);
   color: var(--color-text-secondary);
-  margin-bottom: var(--space-4);
+  margin-bottom: var(--space-6);
+}
+.footer-meta-value {
+  color: var(--color-text-primary);
+  font-weight: 700;
 }
 .footer-links {
   font-size: var(--text-caption);
-  margin-bottom: var(--space-4);
+  margin-bottom: 0;
 }
-.footer-links .divider { margin: 0 var(--space-2); color: var(--color-border); }
+.footer-links a {
+  color: var(--color-gold);
+  text-decoration: none;
+  transition: color 0.15s;
+}
+.footer-links a:hover { color: var(--color-text-primary); }
+.footer-sep { margin: 0 var(--space-2); color: var(--color-border); }
 .footer-legal {
   font-size: var(--text-small);
   color: #444440;
-  max-width: 700px; margin: 0 auto;
+  border-top: 1px solid var(--color-border);
+  padding-top: var(--space-4);
+  margin-top: var(--space-6);
   line-height: 1.6;
+}
+@media (max-width: 720px) {
+  .footer { padding-bottom: calc(62px + var(--space-6)); }
+}
+
+/* ── Site announcement banner ──────────────────────────────── */
+.site-banner[hidden] { display: none; }
+.site-banner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-surface);
+  border-bottom: 1px solid rgba(212, 175, 55, 0.45);
+  min-height: 42px;
+  padding: var(--space-2) var(--space-6);
+  position: relative;
+}
+.site-banner-body {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-6);
+  background: none;
+  border: none;
+  color: var(--color-gold);
+  font-family: 'NanumSquareNeo', sans-serif;
+  font-size: var(--text-small);
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  text-align: center;
+  cursor: pointer;
+  padding: 0;
+  transition: opacity 0.15s;
+}
+.site-banner-body:hover { opacity: 0.75; }
+.site-banner-cta {
+  white-space: nowrap;
+}
+.site-banner-text-mobile { display: none; }
+@media (max-width: 600px) {
+  .site-banner-text-desktop { display: none; }
+  .site-banner-text-mobile  { display: inline; }
+  .site-banner-cta          { display: none; }
 }
 
 /* ── Language toggle ───────────────────────────────────────── */
 .lang-toggle {
   position: fixed;
-  top: 16px; right: 20px;
+  top: 10px; right: 20px;
   display: flex;
   background: rgba(17,17,17,.85);
   border: 1px solid var(--color-border);
@@ -1368,8 +1730,6 @@ code {
   .hero-eyebrow { font-size: 0.65rem; letter-spacing: .12em; }
   .hero-actions { flex-direction: column; align-items: center; }
   .install-steps li { flex-direction: column; gap: var(--space-3); }
-  .manifest-row { flex-direction: column; gap: var(--space-1); padding-bottom: var(--space-3); }
-  .manifest-row dt { min-width: unset; }
   .feedback-form { padding: var(--space-6) var(--space-4); }
   /* background-attachment: fixed is unreliable on iOS Safari */
   #faq { background-attachment: scroll; }
@@ -1599,7 +1959,7 @@ code {
 @media (max-width: 600px) {
   .music-player {
     grid-template-columns: 1fr auto;
-    grid-template-rows: 1fr;
+    grid-template-rows: 1fr 3px;
     align-content: center;
     padding: 0 var(--space-4);
     height: 62px;
@@ -1610,15 +1970,16 @@ code {
   .mp-info    { grid-column: 1; grid-row: 1; align-self: center; }
   #music-play { grid-column: 2; grid-row: 1; align-self: center; justify-self: end; }
 
-  /* progress: bottom 3px line */
+  /* progress: full-bleed 3px line at bottom — negative margin breaks out of player padding */
   .mp-center {
     grid-column: 1 / 3;
-    grid-row: 1;
-    position: absolute;
-    bottom: 0; left: 0; right: 0;
+    grid-row: 2;
+    position: static;
     height: 3px;
+    margin: 0 calc(-1 * var(--space-4));
     padding: 0;
     pointer-events: none;
+    align-self: stretch;
   }
   .mp-progress-row { height: 3px; gap: 0; }
   .mp-time         { display: none; }
@@ -1629,6 +1990,7 @@ code {
   .mp-right { display: none; }
 
   .mp-title-wrap { max-width: 160px; }
+  .mp-meta { gap: 1px; }
 }
 
 /* ─── Media loading states ──────────────────────────────────── */

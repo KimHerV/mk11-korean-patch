@@ -36,5 +36,11 @@ manager/*.spec
 .dev.vars
 node_modules/
 
-# Misc
-landing/assets/hero_backup.mp4
+# Release artifacts (managed via GitHub Releases only)
+MK11-Korean-Patch-CLI-Setup.zip
+build/
+shared/cvd-bypass/
+
+# Wails app (experimental, not ready for source tracking)
+wails-app/
+

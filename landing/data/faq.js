@@ -58,8 +58,12 @@ window.MK11_FAQ = [
           en: "Does it work outside of Steam?"
         },
         a: {
-          kr: "Steam PC 버전 기준으로 온라인 포함 정상 동작을 확인했습니다. Epic Games 버전은 미검증입니다. Steam Deck은 파일 수동 복사로 동작했다는 보고는 있지만, 공식 지원 범위는 아닙니다.",
-          en: "Confirmed working on Steam PC, including online play. The Epic Games version has not been tested. Steam Deck has been reported working via manual file copy, but is not officially supported."
+          kr: "Steam PC 버전 기준으로 온라인 포함 정상 동작을 확인했습니다. Epic Games 버전은 미검증입니다. Steam Deck / Linux은 CLI 설치로 동작했다는 보고가 있지만, 공식 지원 범위는 아닙니다.",
+          en: "Confirmed working on Steam PC, including online play. The Epic Games version has not been tested. Steam Deck and Linux have been reported working via CLI Setup, but are not officially supported."
+        },
+        note: {
+          kr: "Steam Deck / Linux에서 한글이 표시되지 않는 경우, Steam 시작 옵션에 <code>WINEDLLOVERRIDES=\"dinput8=n,b\" %command%</code>를 추가해 보세요. (CLI 설치에서 번역 로더 플러그인을 선택한 경우에만 필요합니다.)",
+          en: "If Korean text doesn't appear on Steam Deck or Linux, try adding <code>WINEDLLOVERRIDES=\"dinput8=n,b\" %command%</code> to your Steam launch options. (Only needed if you opted into the translation loader plugin during CLI setup.)"
         }
       }
     ]
@@ -155,12 +159,28 @@ window.MK11_FAQ = [
     items: [
       {
         q: {
-          kr: "왜 DLL 파일이 포함되나요?",
-          en: "Why does the patch include DLL files?"
+          kr: "왜 DLL 파일이 포함되나요? 어떤 파일이 설치되나요?",
+          en: "Why does the patch include DLL files? What gets installed?"
         },
         a: {
-          kr: "MK11은 번역 파일과 폰트만 교체해서는 정상 로드되지 않는 구조입니다. 패치 적용을 위한 최소한의 외부 구성 요소가 필요합니다. 사용된 오픈소스 라이브러리와 라이선스 정보는 GitHub의 <a href='https://github.com/KimHerV/mk11-korean-patch/blob/main/THIRD_PARTY_NOTICES.md' target='_blank' rel='noopener'>THIRD_PARTY_NOTICES.md ↗</a>에서 확인할 수 있습니다.",
-          en: "MK11's architecture requires more than replacing translation files and fonts. A minimal set of external components is needed for the patch to load correctly. The open-source libraries and their licenses are listed in <a href='https://github.com/KimHerV/mk11-korean-patch/blob/main/THIRD_PARTY_NOTICES.md' target='_blank' rel='noopener'>THIRD_PARTY_NOTICES.md ↗</a> on GitHub."
+          kr: "MK11 최신 빌드는 모든 게임 에셋을 엄격 검증하므로, 한글 번역 파일과 폰트만 교체해서는 정상 로드되지 않습니다. 메모리에서만 동작하는 CVD 우회 플러그인이 필요하며, 디스크의 게임 파일은 변경하지 않습니다.\n실제로 설치되는 파일은 아래와 같습니다.<dl class=\"faq-manifest\"><div class=\"faq-manifest-row\"><dt>Coalesced.CHS</dt><dd>한글 번역 텍스트 전체 (53,000+ 항목)</dd></div><div class=\"faq-manifest-row\"><dt>ui_c_inGameFonts_chs.xxx</dt><dd>나눔스퀘어 네오 커스텀 렌더링</dd></div><div class=\"faq-manifest-row\"><dt>dinput8.dll</dt><dd>ASI 플러그인 로더 · <a href=\"https://github.com/ThirteenAG/Ultimate-ASI-Loader\" target=\"_blank\" rel=\"noopener\">Ultimate ASI Loader ↗</a></dd></div><div class=\"faq-manifest-row\"><dt>ASIMK11.asi · ASIMK11.ini</dt><dd>CVD 우회 플러그인 · <code>bDisableAntiCVD = true</code> 옵션만 활성 · <a href=\"https://github.com/thethiny/ASIMK11\" target=\"_blank\" rel=\"noopener\">ASIMK11 ↗</a></dd></div><div class=\"faq-manifest-row\"><dt>libzmq · libsodium</dt><dd>ASIMK11 의존 라이브러리 · <a href=\"https://github.com/zeromq/libzmq\" target=\"_blank\" rel=\"noopener\">ZeroMQ ↗</a> / <a href=\"https://github.com/jedisct1/libsodium\" target=\"_blank\" rel=\"noopener\">libsodium ↗</a></dd></div></dl>",
+          en: "Recent MK11 builds strictly verify every game asset, so replacing translation files and fonts alone is not enough. A memory-only CVD bypass plugin is required; the game files on disk are never modified.\nThe files actually installed are listed below.<dl class=\"faq-manifest\"><div class=\"faq-manifest-row\"><dt>Coalesced.CHS</dt><dd>All Korean translation text (53,000+ entries)</dd></div><div class=\"faq-manifest-row\"><dt>ui_c_inGameFonts_chs.xxx</dt><dd>NanumSquare Neo custom rendering</dd></div><div class=\"faq-manifest-row\"><dt>dinput8.dll</dt><dd>ASI plugin loader · <a href=\"https://github.com/ThirteenAG/Ultimate-ASI-Loader\" target=\"_blank\" rel=\"noopener\">Ultimate ASI Loader ↗</a></dd></div><div class=\"faq-manifest-row\"><dt>ASIMK11.asi · ASIMK11.ini</dt><dd>CVD bypass plugin · only <code>bDisableAntiCVD = true</code> enabled · <a href=\"https://github.com/thethiny/ASIMK11\" target=\"_blank\" rel=\"noopener\">ASIMK11 ↗</a></dd></div><div class=\"faq-manifest-row\"><dt>libzmq · libsodium</dt><dd>ASIMK11 runtime dependencies · <a href=\"https://github.com/zeromq/libzmq\" target=\"_blank\" rel=\"noopener\">ZeroMQ ↗</a> / <a href=\"https://github.com/jedisct1/libsodium\" target=\"_blank\" rel=\"noopener\">libsodium ↗</a></dd></div></dl>"
+        },
+        list: {
+          kr: [
+            "실행 파일(.exe) · 게임 원본 파일 무변조",
+            "비영리 개인 프로젝트",
+            "저작권자 Warner Bros. Entertainment Inc. 및 NetherRealm Studios의 요청 시 즉시 배포 중단"
+          ],
+          en: [
+            "Game executable (.exe) and original files unmodified",
+            "Non-commercial personal project",
+            "Distribution will cease immediately upon request from copyright holder Warner Bros. Entertainment Inc. or NetherRealm Studios"
+          ]
+        },
+        note: {
+          kr: "전체 오픈소스 라이브러리와 라이선스 정보는 GitHub의 <a href='https://github.com/KimHerV/mk11-korean-patch/blob/main/THIRD_PARTY_NOTICES.md' target='_blank' rel='noopener'>THIRD_PARTY_NOTICES.md ↗</a>에서 확인할 수 있습니다.",
+          en: "The full list of open-source libraries and their licenses is available in <a href='https://github.com/KimHerV/mk11-korean-patch/blob/main/THIRD_PARTY_NOTICES.md' target='_blank' rel='noopener'>THIRD_PARTY_NOTICES.md ↗</a> on GitHub."
         }
       },
       {

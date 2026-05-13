@@ -11,9 +11,12 @@
  *                              right before --clobber to preserve the pre-reset value)
  *
  * KV schema:
- *   latest      → snapshot { recorded_at, releases:{tag:{installer,coalesced,font,published_at}}, totals }
- *   latest_raw  → { tag: {installer, coalesced, font} } last raw GitHub values (clobber detection)
- *   baseline    → { tag: {installer, coalesced, font} } cumulative baseline added to raw
+ *   latest      → snapshot { recorded_at, releases:{tag:{installer_gui,installer_cli,coalesced,font,published_at}}, totals }
+ *   latest_raw  → { tag: {installer_gui, installer_cli, coalesced, font} } last raw GitHub values (clobber detection)
+ *   baseline    → { tag: {installer_gui, installer_cli, coalesced, font} } cumulative baseline added to raw
+ *
+ * Migration note: KV entries written before the GUI/CLI split used `installer` (GUI-only).
+ *   The code reads old `installer` as `installer_gui` on first run, then discards the old key.
  */
 
 const GITHUB_REPO = 'KimHerV/mk11-korean-patch';
@@ -28,22 +31,23 @@ async function fetchGitHubReleases(env) {
   if (!res.ok) throw new Error(`GitHub API ${res.status}`);
   const releases = await res.json();
 
-  // newest first from GitHub API; we keep that ordering
   const out = {};
   for (const r of releases) {
     const tag = r.tag_name || `id_${r.id}`;
-    let installer = 0, coalesced = 0, font = 0;
+    let installer_gui = 0, installer_cli = 0, coalesced = 0, font = 0;
     for (const a of r.assets || []) {
-      if (a.name.endsWith('.exe'))    installer += a.download_count;
-      if (a.name === 'Coalesced.CHS') coalesced += a.download_count;
-      if (a.name.endsWith('.xxx'))    font      += a.download_count;
+      if (a.name === 'MK11-Korean-Patch-Setup.exe')     installer_gui += a.download_count;
+      if (a.name === 'MK11-Korean-Patch-CLI-Setup.zip') installer_cli += a.download_count;
+      if (a.name === 'Coalesced.CHS')                   coalesced     += a.download_count;
+      if (a.name.endsWith('.xxx'))                       font          += a.download_count;
     }
     out[tag] = {
-      installer,
+      installer_gui,
+      installer_cli,
       coalesced,
       font,
       published_at: (r.published_at || '').slice(0, 10),
-      _order: Object.keys(out).length, // 0 = latest
+      _order: Object.keys(out).length,
     };
   }
   return out;
@@ -52,7 +56,14 @@ async function fetchGitHubReleases(env) {
 // ── Snapshot with baseline accumulation ──────────────────────
 
 function emptyAssetCounts() {
-  return { installer: 0, coalesced: 0, font: 0 };
+  return { installer_gui: 0, installer_cli: 0, coalesced: 0, font: 0 };
+}
+
+// Reads a field from a KV entry, migrating the old combined `installer` key to `installer_gui`.
+function readField(entry, key) {
+  if (entry[key] !== undefined) return entry[key];
+  if (key === 'installer_gui' && entry.installer !== undefined) return entry.installer;
+  return 0;
 }
 
 async function takeSnapshot(env) {
@@ -60,37 +71,38 @@ async function takeSnapshot(env) {
   const prevRaw  = JSON.parse((await env.MK11_STATS.get('latest_raw')) || '{}');
   const baseline = JSON.parse((await env.MK11_STATS.get('baseline'))   || '{}');
 
-  // For each release+asset, detect clobber (raw decreased) and bank previous raw into baseline
   for (const tag of Object.keys(raw)) {
-    const cur = raw[tag];
+    const cur  = raw[tag];
     const prev = prevRaw[tag] || emptyAssetCounts();
     if (!baseline[tag]) baseline[tag] = emptyAssetCounts();
 
-    for (const k of ['installer', 'coalesced', 'font']) {
-      if ((prev[k] || 0) > cur[k]) {
-        // clobber: previous raw value is now lost from GitHub side, preserve it
-        baseline[tag][k] = (baseline[tag][k] || 0) + (prev[k] || 0);
+    for (const k of ['installer_gui', 'installer_cli', 'coalesced', 'font']) {
+      const prevVal = readField(prev, k);
+      if (prevVal > cur[k]) {
+        baseline[tag][k] = readField(baseline[tag], k) + prevVal;
       }
     }
   }
 
-  // Build adjusted per-release snapshot
   const releases = {};
-  let total_installer = 0;
+  let total_gui = 0, total_cli = 0;
   for (const tag of Object.keys(raw)) {
     const r = raw[tag];
     const b = baseline[tag] || emptyAssetCounts();
+    const gui = r.installer_gui + readField(b, 'installer_gui');
+    const cli = r.installer_cli + readField(b, 'installer_cli');
     releases[tag] = {
-      installer: r.installer + (b.installer || 0),
-      coalesced: r.coalesced + (b.coalesced || 0),
-      font:      r.font      + (b.font      || 0),
-      published_at: r.published_at,
-      is_latest: r._order === 0,
+      installer_gui: gui,
+      installer_cli: cli,
+      coalesced:     r.coalesced + (b.coalesced || 0),
+      font:          r.font      + (b.font      || 0),
+      published_at:  r.published_at,
+      is_latest:     r._order === 0,
     };
-    total_installer += releases[tag].installer;
+    total_gui += gui;
+    total_cli += cli;
   }
 
-  // Latest release for CHS/font
   const latestTag = Object.entries(raw)
     .sort((a, b) => a[1]._order - b[1]._order)[0]?.[0];
   const latest = latestTag ? releases[latestTag] : null;
@@ -100,19 +112,21 @@ async function takeSnapshot(env) {
     releases,
     latest_tag: latestTag,
     totals: {
-      installer:        total_installer,                    // sum across all releases
-      coalesced_latest: latest ? latest.coalesced : 0,      // latest release only
-      font_latest:      latest ? latest.font      : 0,      // latest release only
+      installer_gui:    total_gui,
+      installer_cli:    total_cli,
+      installer:        total_gui + total_cli,              // combined, for landing counter
+      coalesced_latest: latest ? latest.coalesced : 0,
+      font_latest:      latest ? latest.font      : 0,
     },
   };
 
-  // Strip raw values from latest_raw payload (only counts, no metadata)
   const rawClean = {};
   for (const tag of Object.keys(raw)) {
     rawClean[tag] = {
-      installer: raw[tag].installer,
-      coalesced: raw[tag].coalesced,
-      font:      raw[tag].font,
+      installer_gui: raw[tag].installer_gui,
+      installer_cli: raw[tag].installer_cli,
+      coalesced:     raw[tag].coalesced,
+      font:          raw[tag].font,
     };
   }
 
@@ -137,26 +151,23 @@ export default {
   async fetch(request, env) {
     const url = new URL(request.url);
 
-    // Public endpoint: no auth, returns just the headline numbers
     if (url.pathname === '/public') {
       let snap = JSON.parse((await env.MK11_STATS.get('latest')) || 'null');
-      if (!snap) {
-        // Cold start: take a snapshot synchronously
-        snap = await takeSnapshot(env);
-      }
+      if (!snap) snap = await takeSnapshot(env);
       const t = snap.totals || {};
       return new Response(JSON.stringify({
-        total_installs:    t.installer        || 0,
-        coalesced_latest:  t.coalesced_latest || 0,
-        font_latest:       t.font_latest      || 0,
-        latest_tag:        snap.latest_tag    || null,
-        recorded_at:       snap.recorded_at   || null,
+        total_installs:     t.installer     || 0,
+        total_installs_gui: t.installer_gui || 0,
+        total_installs_cli: t.installer_cli || 0,
+        coalesced_latest:   t.coalesced_latest || 0,
+        font_latest:        t.font_latest      || 0,
+        latest_tag:         snap.latest_tag    || null,
+        recorded_at:        snap.recorded_at   || null,
       }), {
         headers: { 'Content-Type': 'application/json', 'Cache-Control': 'public, max-age=300', ...CORS_HEADERS },
       });
     }
 
-    // Authenticated manual snapshot trigger (used by scripts/release.ps1)
     if (url.pathname === '/snapshot') {
       if (url.searchParams.get('key') !== env.STATS_KEY) {
         return new Response('Unauthorized', { status: 401 });

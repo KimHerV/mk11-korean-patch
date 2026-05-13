@@ -26,9 +26,10 @@ window.MK11_CONTENT = {
     kr: "번역 피드백",
     en: "Translation Feedback"
   },
-  "hero.platform_steam":   { kr: "Steam · 지원",          en: "Steam · Supported" },
-  "hero.platform_epic":    { kr: "Epic Games · 미지원",   en: "Epic Games · Not supported" },
-  "hero.platform_msstore": { kr: "Microsoft Store · 미지원", en: "Microsoft Store · Not supported" },
+  "hero.platform_steam":     { kr: "Steam · 지원",               en: "Steam · Supported" },
+  "hero.platform_steamdeck": { kr: "Steam Deck · CLI 설치 지원", en: "Steam Deck · Supported via CLI" },
+  "hero.platform_epic":      { kr: "Epic Games · 미검증",        en: "Epic Games · Unverified" },
+  "hero.platform_msstore":   { kr: "Microsoft Store · 미검증",   en: "Microsoft Store · Unverified" },
   "hero.legal": {
     kr: "비공식 팬 제작 패치입니다. Mortal Kombat 11 및 관련 상표는 Warner Bros. Entertainment Inc. 및 NetherRealm Studios의 소유입니다. 본 패치는 한국 사용자를 위한 접근성 개선 목적으로 제작되었으며, 피드백은 언제든 환영입니다.",
     en: "Unofficial fan-made patch. Mortal Kombat 11 and all related trademarks are the property of Warner Bros. Entertainment Inc. and NetherRealm Studios. This patch was created for accessibility purposes for Korean-speaking players. Feedback is always welcome."
@@ -154,143 +155,138 @@ window.MK11_CONTENT = {
 
   // ── Install ───────────────────────────────────────────────────
   "install.heading": { kr: "설치 방법", en: "How to Install" },
+  "install.subheading": {
+    kr: "권장 경로를 고르세요. 대부분의 분께는 GUI 설치가 가장 간단합니다.",
+    en: "Pick a path. GUI Setup is the simplest route for most users."
+  },
 
-  "install.prereq_heading": { kr: "사전 요구사항", en: "Prerequisites" },
+  "install.prereq_heading": {
+    kr: "사전 요구사항 (대부분 이미 설치되어 있습니다)",
+    en: "Prerequisites (usually already installed)"
+  },
   "install.prereq_vc2013_name": "Visual C++ 2013 (x64) ↗",
   "install.prereq_vc2022_name": "Visual C++ 2015-2022 (x64) ↗",
+  "install.prereq_webview2_name": {
+    kr: "WebView2 에버그린 독립형 설치 프로그램 ↗",
+    en: "WebView2 Evergreen Standalone Installer ↗"
+  },
 
-  "install.step1_title": { kr: "인스톨러 다운로드",  en: "Download Installer" },
+  // 3-step quick start (game launch dropped — it's a result, not a step).
+  // step1/step2 swap text per channel via data-channel-text in script.js.
+  // CTA position references avoided; describe the file/action only.
+  "install.step1_title": { kr: "다운로드", en: "Download" },
   "install.step1_desc": {
-    kr: "아래 다운로드 버튼을 클릭하여 <code>MK11-Korean-Patch-Setup.exe</code>를 받으세요.",
-    en: "Click the download button below to get <code>MK11-Korean-Patch-Setup.exe</code>."
+    kr: "<code>MK11-Korean-Patch-Setup.exe</code>를 받습니다.",
+    en: "Get <code>MK11-Korean-Patch-Setup.exe</code>."
   },
-  "install.step2_title": { kr: "인스톨러 실행", en: "Run Installer" },
+  "install.step1_desc_cli": {
+    kr: "<code>MK11-Korean-Patch-CLI-Setup.zip</code>을 받아 원하는 위치에 압축을 풉니다.",
+    en: "Get <code>MK11-Korean-Patch-CLI-Setup.zip</code> and extract it anywhere."
+  },
+  "install.step2_title": { kr: "실행", en: "Run" },
   "install.step2_desc": {
-    kr: "실행 후 MK11 설치 경로를 확인하면 자동으로 패치가 적용됩니다. Steam 경로는 자동 탐지됩니다.",
-    en: "Run the installer and confirm your MK11 path. Steam installations are detected automatically."
+    kr: "설치기를 실행하면 MK11 경로가 자동 탐지되며, 확인 후 패치가 적용됩니다.",
+    en: "Run the installer. Your MK11 path is detected automatically; confirm to apply the patch."
   },
-  "install.step3_title": { kr: "게임 언어 설정", en: "Set Game Language" },
+  "install.step2_desc_cli": {
+    kr: "Windows에서는 <code>install.bat</code>을 더블 클릭, Steam Deck (Linux)에서는 터미널에서 <code>bash install.sh</code>를 실행하세요. 콘솔 창이 단계별로 안내합니다.",
+    en: "Windows: double-click <code>install.bat</code>. Steam Deck (Linux): run <code>bash install.sh</code> in a terminal. The console walks you through each step."
+  },
+  "install.step3_title": { kr: "Steam 언어 설정", en: "Set Steam Language" },
   "install.step3_desc": {
     kr: "Steam 게임 속성 → 언어 → <code>중국어 간체(Simplified Chinese)</code> 로 설정하세요.",
     en: "Steam game properties → Language → <code>Simplified Chinese</code>."
   },
-  "install.step4_title": { kr: "게임 실행", en: "Launch Game" },
-  "install.step4_desc": {
-    kr: "한글 텍스트와 폰트가 적용된 상태로 게임이 시작됩니다.",
-    en: "The game will start with Korean text and font applied."
+  "install.complete": {
+    kr: "완료. 이제 게임을 실행하면 한글이 적용됩니다.",
+    en: "Done. Launch the game to see Korean applied."
   },
 
-  "install.manifest_heading": { kr: "설치되는 파일", en: "Installed Files" },
-  "install.manifest_f1_name": "Coalesced.CHS",
-  "install.manifest_f1_desc": {
-    kr: "한글 번역 텍스트 전체 (53,000+ 항목)",
-    en: "All Korean translation text (53,000+ entries)"
-  },
-  "install.manifest_f2_name": "ui_c_inGameFonts_chs.xxx",
-  "install.manifest_f2_desc": {
-    kr: "나눔스퀘어 네오 커스텀 렌더링",
-    en: "NanumSquare Neo custom rendering"
-  },
-  "install.manifest_f3_name": "dinput8.dll",
-  "install.manifest_f3_desc": {
-    kr: "ASI 플러그인 로더 · <a href=\"https://github.com/ThirteenAG/Ultimate-ASI-Loader\" target=\"_blank\" rel=\"noopener\">Ultimate ASI Loader ↗</a>",
-    en: "ASI plugin loader · <a href=\"https://github.com/ThirteenAG/Ultimate-ASI-Loader\" target=\"_blank\" rel=\"noopener\">Ultimate ASI Loader ↗</a>"
-  },
-  "install.manifest_f4_name": "ASIMK11.asi",
-  "install.manifest_f4_desc": {
-    kr: "CVD 우회 · 수정 파일 로드 허용 · <a href=\"https://github.com/thethiny/ASIMK11\" target=\"_blank\" rel=\"noopener\">ASI MK11 ↗</a>",
-    en: "CVD bypass · allows modified file loading · <a href=\"https://github.com/thethiny/ASIMK11\" target=\"_blank\" rel=\"noopener\">ASI MK11 ↗</a>"
-  },
-  "install.manifest_f5_name": "ASIMK11.ini",
-  "install.manifest_f5_desc": {
-    kr: "CVD 우회 플러그인 설정 파일",
-    en: "CVD bypass plugin configuration"
-  },
-  "install.manifest_f6_name": "libzmq-v120-mt-4_3_4.dll",
-  "install.manifest_f6_desc": {
-    kr: "ASIMK11 의존 라이브러리 · <a href=\"https://github.com/zeromq/libzmq\" target=\"_blank\" rel=\"noopener\">ZeroMQ ↗</a>",
-    en: "ASIMK11 dependency library · <a href=\"https://github.com/zeromq/libzmq\" target=\"_blank\" rel=\"noopener\">ZeroMQ ↗</a>"
-  },
-  "install.manifest_f7_name": "libsodium.dll",
-  "install.manifest_f7_desc": {
-    kr: "ZeroMQ 의존 암호화 라이브러리 · <a href=\"https://github.com/jedisct1/libsodium\" target=\"_blank\" rel=\"noopener\">libsodium ↗</a>",
-    en: "ZeroMQ dependency cryptography library · <a href=\"https://github.com/jedisct1/libsodium\" target=\"_blank\" rel=\"noopener\">libsodium ↗</a>"
-  },
-
-  "install.safety1": {
-    kr: "실행 파일(.exe) · 게임 원본 파일 무변조",
-    en: "Game executable (.exe) and original files unmodified"
-  },
-  "install.safety2": {
-    kr: "비영리 개인 프로젝트",
-    en: "Non-commercial personal project"
-  },
-  "install.safety3": {
-    kr: "저작권자 Warner Bros. Entertainment Inc. 및 NetherRealm Studios의 요청 시 즉시 배포 중단",
-    en: "Distribution will cease immediately upon request from copyright holder Warner Bros. Entertainment Inc. or NetherRealm Studios"
-  },
+  // CTA labels swap per selected card (script.js applies the *_cli variant when CLI is chosen).
+  // Same "<channel> 설치 다운로드" pattern for visual symmetry.
   "install.btn_download": {
-    kr: "최신 버전 다운로드",
-    en: "Download Latest Version"
+    kr: "GUI 설치 다운로드",
+    en: "Download GUI Setup"
+  },
+  "install.btn_download_cli": {
+    kr: "CLI 설치 다운로드",
+    en: "Download CLI Setup"
   },
 
-  // ── Troubleshooting (Defender) ────────────────────────────────
-  "trouble.heading": {
-    kr: "Windows에서 다운로드가 차단될 때",
-    en: "When Windows Blocks the Download"
+  // ── Install: channel cards (GUI recommended / CLI alternative) ──
+  "install.badge_recommended": { kr: "권장", en: "RECOMMENDED" },
+  "install.badge_alternative": { kr: "대체 경로", en: "ALTERNATIVE" },
+
+  "install.card_gui_title": { kr: "GUI 설치", en: "GUI Setup" },
+  "install.card_gui_tagline": {
+    kr: "대부분의 Windows 사용자에게 가장 쉬운 방법입니다.",
+    en: "The simplest path for most Windows users."
   },
-  "trouble.cause": {
-    kr: "최신 빌드는 2026년 5월 Microsoft 공식 제출을 통해 인스톨러와 패치 매니저 모두 정상 판정이 완료되었습니다. Microsoft Defender 및 Smart App Control 환경에서 차단이 재현되지 않는 것을 확인했습니다. 다른 백신 환경에서 드물게 차단이 발생하는 경우, 아래 절차로 복원·진행하실 수 있습니다.",
-    en: "The latest build was submitted to Microsoft in May 2026 and both the installer and patch manager have received a clean verdict. We confirmed no blocking occurs on Microsoft Defender and Smart App Control environments. If your security software still flags it in rare cases, use either method below to restore or proceed."
+  "install.card_gui_caption_placeholder": {
+    kr: "설치기 미리보기 준비 중",
+    en: "Installer preview coming soon"
   },
-  "trouble.method1_title": {
-    kr: "방법 1: 격리 항목 복원",
-    en: "Method 1: Restore from quarantine"
+  "install.card_gui_fallback": {
+    kr: "문제가 생기면 CLI 설치를 사용하세요.",
+    en: "If anything blocks the installer, fall back to CLI Setup."
   },
-  "trouble.method1_step1": {
-    kr: "사용 중이신 백신 프로그램의 격리 함 또는 위협/보호 기록 열기",
-    en: "Open your antivirus program's quarantine or threat/protection history"
+
+  "install.card_cli_title": { kr: "CLI 설치", en: "CLI Setup" },
+  "install.card_cli_tagline": {
+    kr: "Steam Deck (Linux) 또는 GUI가 차단된 환경용 경로입니다.",
+    en: "For Steam Deck (Linux) or environments where the GUI is blocked."
   },
-  "trouble.method1_step2": {
-    kr: "차단된 인스톨러 항목 찾기",
-    en: "Find the blocked installer entry"
+  "install.card_cli_fallback": {
+    kr: "터미널 또는 스크립트 실행이 필요합니다.",
+    en: "Requires running a terminal or script."
   },
-  "trouble.method1_step3": {
-    kr: "복원 또는 허용 클릭",
-    en: "Click Restore or Allow"
+
+  // ── Trust strip ──────────────────────────────────────────────
+  "install.trust_strip": {
+    kr: "Microsoft Defender 공식 검토 통과 (5/6 제출 · 5/10 승인) · VirusTotal 70여 개 엔진 전수 통과",
+    en: "Cleared by Microsoft Defender (submitted May 6, approved May 10) · Passed across 70+ engines on VirusTotal"
   },
-  "trouble.method2_title": {
-    kr: "방법 2: 다운로드 폴더 예외 처리 후 재다운로드",
-    en: "Method 2: Add download folder to exclusions, then re-download"
+
+  // ── CLI card: platform tags ─────────────────────────────────
+  // Single Unix path: same install.sh runs on both Steam Deck (SteamOS) and Linux.
+  // Steam Deck is listed first because it's the actual driver for the CLI track.
+  "install.cli_platform_windows": "Windows 11/10/8/7",
+  "install.cli_platform_unix":    "Steam Deck (Linux · Bazzite)",
+  "install.beta_label":           "BETA",
+
+  // Inline hint chip beside the Windows command — clearer than a "::" comment
+  "install.cli_hint_doubleclick": {
+    kr: "더블클릭하세요",
+    en: "double-click"
   },
-  "trouble.method2_step1": {
-    kr: "백신 설정 → 예외 항목 또는 제외 항목 메뉴 열기",
-    en: "Open your antivirus settings → Exclusions or Exceptions"
+
+  // ── CLI card: terminal viewer preview lines ─────────────────
+  "install.cli_preview_l1": {
+    kr: "MK11 한글 패치 v1.0",
+    en: "MK11 Korean Patch v1.0"
   },
-  "trouble.method2_step2": {
-    kr: "다운로드 폴더를 예외 경로로 추가",
-    en: "Add the Downloads folder as an exclusion"
+  "install.cli_preview_l2": {
+    kr: "Steam 경로 자동 탐지 완료",
+    en: "Steam install path detected"
   },
-  "trouble.method2_step3": {
-    kr: "인스톨러 다시 다운로드 후 실행",
-    en: "Re-download the installer and run it"
+  "install.cli_preview_l3": {
+    kr: "설치를 진행할까요? [Y/n]",
+    en: "Proceed with install? [Y/n]"
   },
-  "trouble.method2_step4": {
-    kr: "설치 완료 후 예외 항목 제거 권장",
-    en: "Remove the exclusion after install completes (recommended)"
+  "install.cli_preview_l4": {
+    kr: "[1/3] 원본 백업... OK",
+    en: "[1/3] Backing up originals... OK"
   },
-  "trouble.scan_heading": {
-    kr: "주요 백신 검진 결과",
-    en: "Major AV Scan Results"
+  "install.cli_preview_l5": {
+    kr: "[2/3] 패치 적용... OK",
+    en: "[2/3] Applying patch... OK"
   },
-  "trouble.scan_note": {
-    kr: "VirusTotal 70여 개 엔진 기준",
-    en: "Per VirusTotal (70+ engines)"
+  "install.cli_preview_l6": {
+    kr: "완료. Steam 언어를 중국어 간체로 설정하세요.",
+    en: "Done. Set Steam language to Simplified Chinese."
   },
-  "trouble.footer": {
-    kr: "본 패치는 <a href=\"https://github.com/KimHerV/mk11-korean-patch\" target=\"_blank\" rel=\"noopener\">오픈소스</a>로 전체 코드를 확인하실 수 있습니다. 인스톨러와 패치 매니저는 Microsoft 공식 제출을 통해 정상 판정이 완료되었습니다.",
-    en: "This patch is <a href=\"https://github.com/KimHerV/mk11-korean-patch\" target=\"_blank\" rel=\"noopener\">open source</a> with the full code publicly reviewable. The installer and patch manager have been cleared through Microsoft's official review process."
-  },
+
+
 
   // ── Online ────────────────────────────────────────────────────
   "online.heading": { kr: "다운로드 전 안내", en: "Before You Download" },
@@ -382,10 +378,13 @@ window.MK11_CONTENT = {
   "feedback.msg_error":   { kr: "제출에 실패했습니다. 잠시 후 다시 시도해주세요.", en: "Submission failed. Please try again later." },
 
   // ── Footer ────────────────────────────────────────────────────
-  "footer.title":         { kr: "MK11 한글 패치",  en: "MK11 Korean Patch" },
-  "footer.credit":        { kr: "제작: KimHerV",   en: "Created by KimHerV" },
-  "footer.release_notes": { kr: "릴리즈 노트",      en: "Release Notes" },
-  "footer.issue_tracker": { kr: "이슈 트래커",      en: "Issue Tracker" },
+  "footer.title":                { kr: "MORTAL KOMBAT 11 KOREAN PATCH",  en: "MORTAL KOMBAT 11 KOREAN PATCH" },
+  "footer.credit":               { kr: "by KimHerV",   en: "by KimHerV" },
+  "footer.release_notes":        { kr: "릴리즈 노트",      en: "Release Notes" },
+  "footer.issue_tracker":        { kr: "이슈 트래커",      en: "Issue Tracker" },
+  "footer.press":                { kr: "디스이즈게임",     en: "Press coverage" },
+  "footer.first_release_label":  { kr: "최초 배포",        en: "First released" },
+  "footer.latest_version_label": { kr: "최신 버전",        en: "Latest" },
   "player.unmute_hint":   { kr: "소리 켜기",        en: "Unmute" },
 
   // ── Engine Visualizer ────────────────────────────────────────
@@ -406,7 +405,7 @@ window.MK11_CONTENT = {
   "engine.pair_hint":         { kr: "그래프에서 다른 캐릭터를 클릭하면 화법 관계를 비교합니다.", en: "Click another node in the graph to compare speech registers." },
   "engine.close":             { kr: "닫기", en: "Close" },
   "footer.legal": {
-    kr: "비공식 팬 제작 패치입니다. Mortal Kombat 11 및 관련 상표는 Warner Bros. Entertainment Inc. 및 NetherRealm Studios의 소유입니다. 본 패치는 한국 사용자를 위한 접근성 개선 목적으로 제작되었으며, 피드백은 언제든 환영입니다.",
-    en: "Unofficial fan-made patch. Mortal Kombat 11 and all related trademarks are the property of Warner Bros. Entertainment Inc. and NetherRealm Studios. This patch was created for accessibility purposes for Korean-speaking players. Feedback is always welcome."
+    kr: "비공식 팬 제작 패치. Mortal Kombat 11 및 관련 상표는 Warner Bros. Entertainment Inc. 및 NetherRealm Studios의 소유입니다.",
+    en: "Unofficial fan-made patch. Mortal Kombat 11 and related trademarks are the property of Warner Bros. Entertainment Inc. and NetherRealm Studios."
   }
 };

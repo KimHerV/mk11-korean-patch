@@ -5,6 +5,9 @@
 Dark luxury style inspired by the official Mortal Kombat 11 UI language.
 Black-based background with gold accents and restrained red highlights.
 
+The single source of truth for design tokens is `landing/shared/design-system.css`.
+All contexts (landing page, installer) reference this file directly.
+
 ---
 
 ## Color Tokens
@@ -12,48 +15,54 @@ Black-based background with gold accents and restrained red highlights.
 | Token | Hex | Usage |
 |---|---|---|
 | `--color-bg` | `#0a0a0a` | Page background |
-| `--color-surface` | `#111111` | Card / section background |
+| `--color-surface` | `#111111` | Card, section, banner background |
 | `--color-surface-raised` | `#1a1a1a` | Hover state, input background |
 | `--color-border` | `#2a2a2a` | Dividers, borders |
-| `--color-gold` | `#c9a84c` | Primary accent (CTA, heading highlight) |
-| `--color-gold-bright` | `#f0c040` | Gold highlight on hover |
-| `--color-gold-dim` | `#7a6030` | Inactive gold |
+| `--color-gold` | `#c9a84c` | Primary accent: CTA, heading highlight, links |
+| `--color-gold-bright` | `#f0c040` | Gold on hover |
+| `--color-gold-dim` | `#7a6030` | Inactive gold, subtle borders |
+| `--gradient-gold` | `linear-gradient(to bottom, #f0dea0, #ceac5e)` | Gold gradient (buttons, headings) |
 | `--color-text-primary` | `#f0ece0` | Body text |
-| `--color-text-secondary` | `#888880` | Secondary text, captions |
-| `--color-danger` | `#cc3333` | Warnings, errors |
-| `--color-overlay` | `rgba(0,0,0,0.7)` | Modal overlay |
+| `--color-text-secondary` | `#888880` | Captions, labels, secondary info |
+| `--color-danger` | `#cc3333` | Errors, warnings |
+| `--color-success` | `#4a9a5a` | Success states |
+| `--color-warning` | `#c47a20` | Warning states |
+
+Short aliases (`--gold`, `--bg`, `--surface`, etc.) are also defined for app contexts.
 
 ---
 
 ## Typography
 
-Fonts: `'Noto Sans KR'` (Korean body) + `'Bebas Neue'` (English headings)
+| Token | Size | Usage |
+|---|---|---|
+| `--text-display` | `3.5rem` | Hero title |
+| `--text-heading` | `1.75rem` | Section heading |
+| `--text-subheading` | `1.25rem` | Card title, footer title |
+| `--text-body` | `1rem` | Body text |
+| `--text-caption` | `0.875rem` | Captions, labels, links |
+| `--text-small` | `0.75rem` | Footnotes, version text, legal |
 
-| Token | Size | Weight | Usage |
-|---|---|---|---|
-| `--text-display` | `3.5rem` | 700 | Hero title |
-| `--text-heading` | `1.75rem` | 600 | Section heading |
-| `--text-subheading` | `1.25rem` | 500 | Card title |
-| `--text-body` | `1rem` | 400 | Body text |
-| `--text-caption` | `0.875rem` | 400 | Captions, labels |
-| `--text-small` | `0.75rem` | 400 | Footnotes, version text |
+**Fonts loaded per context:**
+- `NanumSquare Neo` — Korean UI body font (landing + installer)
+- `Kombat11` — English display/heading font (landing only, decorative)
 
 ---
 
 ## Spacing Scale
 
-4px base multiplier.
+4px base multiplier. Only discrete values are defined — intermediate values (`--space-5`, `--space-7`, etc.) are intentionally absent and will fall back to `initial` if referenced.
 
-| Token | Value | Usage |
-|---|---|---|
-| `--space-1` | `4px` | Icon inner padding |
-| `--space-2` | `8px` | Inline gap |
-| `--space-3` | `12px` | Input field padding |
-| `--space-4` | `16px` | Card inner padding |
-| `--space-6` | `24px` | Section inner padding |
-| `--space-8` | `32px` | Component spacing |
-| `--space-12` | `48px` | Section spacing |
-| `--space-16` | `64px` | Page top margin |
+| Token | Value |
+|---|---|
+| `--space-1` | `4px` |
+| `--space-2` | `8px` |
+| `--space-3` | `12px` |
+| `--space-4` | `16px` |
+| `--space-6` | `24px` |
+| `--space-8` | `32px` |
+| `--space-12` | `48px` |
+| `--space-16` | `64px` |
 
 ---
 
@@ -64,8 +73,6 @@ Fonts: `'Noto Sans KR'` (Korean body) + `'Bebas Neue'` (English headings)
 | `--radius-sm` | `2px` |
 | `--radius-md` | `4px` |
 | `--radius-lg` | `8px` |
-| `--border-gold` | `1px solid var(--color-gold-dim)` |
-| `--border-surface` | `1px solid var(--color-border)` |
 
 ---
 
@@ -73,24 +80,29 @@ Fonts: `'Noto Sans KR'` (Korean body) + `'Bebas Neue'` (English headings)
 
 | Component | Description |
 |---|---|
-| **Hero** | Full-width background + title + subtitle + CTA button |
-| **Screenshot Gallery** | Horizontal scroll snap slider, 4:3 aspect ratio |
-| **Download CTA** | Gold button, GitHub Release link, download count badge |
-| **Feedback Form** | Category select + textarea + submit button |
-| **Footer** | Version info, disclaimer, links |
+| **Announcement Banner** | Thin strip at top. Config-driven via `landing/data/banner.js`. Gold text on dark surface, no close button. |
+| **Hero** | Full-viewport video background, title, subtitle, scroll CTA |
+| **Stats Bar** | Download count, translation stats, live sparkle animation |
+| **Screenshot Carousel** | Horizontal scroll snap, 6 slides, dot nav + arrow controls |
+| **Install Cards** | Two-card selector: GUI (recommended, gold border when selected) / CLI (alternative). On mobile: horizontal swipe carousel with peek. Action zone below swaps CTA and steps per selection. |
+| **FAQ** | Accordion by category. Frosted glass manifest table inside DLL FAQ item. |
+| **Foundation Visualizer** | D3 force graph of 37-character speech register system |
+| **Feedback Form** | Category + character pair selector + textarea + submit |
+| **Music Player** | Fixed bottom bar. Desktop: info + play + progress + volume. Mobile: info + play + full-bleed 3px progress line. |
+| **Footer** | Single-column centered. Title (Kombat11 font) / byline + meta / links / legal. |
 
 ---
 
 ## Installer UI
 
-PyInstaller + pywebview. `background_color: #0a0a0a`.
+Wails-based single EXE. Shares `design-system.css` tokens via embedded frontend.
 
 | Item | Value |
 |---|---|
-| Window size | `720 × 620px` (installer), `500 × 440px` (manager) |
 | Background | `#0a0a0a` |
 | Accent | `#c9a84c` |
-| Font | NanumSquare Neo (Korean), Kombat11 (English headings) |
+| Font | NanumSquare Neo |
+| Modes | install / manager / uninstall (branch on launch args) |
 
 ---
 
@@ -99,3 +111,4 @@ PyInstaller + pywebview. `background_color: #0a0a0a`.
 - **Concise and direct.** No unnecessary qualifiers.
 - **Korean-first.** Technical terms may include original notation (e.g. `Coalesced.CHS`).
 - **Formal but accessible.** Written for gamers.
+- **No em-dashes.** Use `:` for title/subtitle separation, `.` or `,` for sentence breaks.
