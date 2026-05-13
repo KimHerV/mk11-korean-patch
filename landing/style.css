@@ -1153,9 +1153,10 @@ code {
   .install-cards {
     display: flex;
     overflow-x: auto;
-    scroll-snap-type: x mandatory;
+    scroll-snap-type: x proximity;
     scroll-padding-left: var(--space-6);
     -webkit-overflow-scrolling: touch;
+    overscroll-behavior-x: contain;
     scrollbar-width: none;
     gap: var(--space-4);
     /* Full-bleed: break out of container padding so the scroll track reaches
