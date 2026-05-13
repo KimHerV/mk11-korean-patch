@@ -53,10 +53,26 @@ applyI18n();
 (function () {
   var btn = document.getElementById('lang-toggle-btn');
   if (!btn) return;
+
   btn.addEventListener('click', function () {
     var next = (typeof _locale !== 'undefined' ? _locale : 'kr') === 'kr' ? 'en' : 'kr';
     setLocale(next);
   });
+
+  // Hide toggle while the announcement banner is visible; show once scrolled past.
+  // Use html.has-banner (set synchronously by head inline script) as the signal —
+  // banner.hidden is still true at this point in execution.
+  var banner = document.getElementById('site-banner');
+  if (banner && document.documentElement.classList.contains('has-banner') && 'IntersectionObserver' in window) {
+    btn.style.opacity = '0';
+    btn.style.pointerEvents = 'none';
+    var obs = new IntersectionObserver(function (entries) {
+      var visible = entries[0].isIntersecting;
+      btn.style.opacity = visible ? '0' : '1';
+      btn.style.pointerEvents = visible ? 'none' : '';
+    }, { threshold: 0 });
+    obs.observe(banner);
+  }
 }());
 
 // ── Fetch installer cumulative download count ────────────────

@@ -1723,7 +1723,7 @@ code {
   letter-spacing: .06em;
   color: var(--color-gold);
   line-height: 1;
-  transition: color .15s, background .15s;
+  transition: color .15s, background .15s, opacity .2s;
 }
 .lang-toggle:hover {
   background: rgba(30,30,30,.9);
