@@ -136,6 +136,11 @@
   100% { opacity: 0;   transform: translate(0, -30px)  scale(0.6); }
 }
 
+/* Install cards: opacity-only (no translateY) to prevent scroll interference
+   on mobile. translateY during active scroll causes momentary hitch on touch devices. */
+.install-card.anim-watch             { transform: none; }
+.install-card.anim-watch.anim-visible { transform: none; }
+
 /* ── Reduced motion: accessibility override ─────────────── */
 @media (prefers-reduced-motion: reduce) {
   .hero-eyebrow,
