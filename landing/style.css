@@ -57,8 +57,8 @@ code {
   padding: 1px 6px;
   border-radius: var(--radius-sm);
   font-size: var(--text-caption);
-  color: var(--color-gold);
-  font-weight: 700;
+  color: var(--color-gold-bright);
+  font-weight: 400;
 }
 
 /* ── Layout ────────────────────────────────────────────────── */
@@ -748,7 +748,7 @@ code {
 /* ── Install: section subtitle ──────────────────────────────── */
 .section-subtitle {
   color: var(--color-text-secondary);
-  font-size: var(--text-body);
+  font-size: var(--text-caption);
   margin: 0 0 var(--space-8);
   max-width: 720px;
 }
@@ -809,7 +809,7 @@ code {
   padding: 2px 8px;
   border-radius: var(--radius-sm);
   font-size: 11px;
-  font-weight: 800;
+  font-weight: 400;
   letter-spacing: 0.06em;
   font-family: 'NanumSquareNeo', sans-serif;
 }
@@ -824,10 +824,10 @@ code {
   background: rgba(255, 255, 255, 0.02);
 }
 .card-title {
-  font-size: var(--text-subheading);
-  font-family: 'NanumSquareNeo', sans-serif;
-  font-weight: 800;
-  letter-spacing: -0.01em;
+  font-size: var(--text-heading);
+  font-family: 'Kombat11', sans-serif;
+  font-weight: 400;
+  letter-spacing: 0.08em;
   margin: 0;
   color: var(--color-text-primary);
 }
@@ -839,7 +839,7 @@ code {
   margin: 0;
 }
 .card-screenshot {
-  width: 100%;
+  width: 90%;
   margin: var(--space-2) 0;
   display: flex;
   flex-direction: column;
@@ -1053,10 +1053,7 @@ code {
 .card-prereq {
   width: 100%;
   margin: var(--space-2) 0 0;
-  padding: var(--space-3) var(--space-4);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-sm);
-  background: rgba(255, 255, 255, 0.02);
+  padding: 0;
 }
 .card-prereq-heading {
   font-size: var(--text-caption);
@@ -1149,6 +1146,7 @@ code {
    (var(--space-6) = 24px) so the cards keep the same generous internal
    breathing room as .feature-card across all screen sizes. */
 @media (max-width: 720px) {
+  .card-cli-viewer-body { white-space: pre-wrap; }
   /* Horizontal swipe carousel: cards scroll side-by-side with ~20% peek. */
   .install-cards {
     display: flex;
@@ -1182,7 +1180,7 @@ code {
   border: 1px solid var(--color-gold-dim);
   border-radius: var(--radius-sm);
   font-size: 10px;
-  font-weight: 700;
+  font-weight: 400;
   letter-spacing: 0.08em;
   color: var(--color-gold);
   background: rgba(212, 175, 55, 0.08);
@@ -1628,7 +1626,7 @@ code {
 }
 .footer-meta-value {
   color: var(--color-text-primary);
-  font-weight: 700;
+  font-weight: 400;
 }
 .footer-links {
   font-size: var(--text-caption);
@@ -1691,7 +1689,7 @@ code {
   padding: 0;
   transition: opacity 0.15s;
 }
-.site-banner-body:hover { opacity: 0.75; }
+.site-banner-body:hover { opacity: 0.8; }
 .site-banner-cta {
   white-space: nowrap;
 }
@@ -1705,32 +1703,37 @@ code {
 /* ── Language toggle ───────────────────────────────────────── */
 .lang-toggle {
   position: fixed;
-  top: 10px; right: 20px;
+  top: calc(42px / 2);
+  transform: translateY(-50%);
+  right: 20px;
   display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 12px;
   background: rgba(17,17,17,.85);
   border: 1px solid var(--color-border);
   border-radius: 999px;
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   z-index: 900;
-  overflow: hidden;
-}
-.lang-btn {
-  padding: 5px 13px;
-  border: none; background: transparent;
-  font-family: 'NanumSquareNeo', sans-serif;
-  font-size: 0.75rem; font-weight: 700;
-  letter-spacing: .06em;
-  color: var(--color-text-secondary);
   cursor: pointer;
-  transition: color .15s, background .15s;
+  font-family: 'NanumSquareNeo', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: .06em;
+  color: var(--color-gold);
   line-height: 1;
+  transition: color .15s, background .15s;
 }
-.lang-btn:hover { color: var(--color-text-primary); }
-.lang-btn.active {
-  background: var(--color-gold);
-  color: #0a0a0a;
-  border-radius: 999px;
+.lang-toggle:hover {
+  background: rgba(30,30,30,.9);
+  color: var(--color-gold-bright);
+}
+.lang-toggle svg {
+  width: 13px;
+  height: 13px;
+  color: var(--color-text-secondary);
+  flex-shrink: 0;
 }
 
 /* ── Responsive ────────────────────────────────────────────── */
@@ -1940,7 +1943,7 @@ code {
 /* Unmute hint badge */
 .mp-unmute-hint {
   position: absolute;
-  bottom: 88px;
+  bottom: calc(100% + 16px);
   left: 50%;
   transform: translateX(-50%);
   display: flex;

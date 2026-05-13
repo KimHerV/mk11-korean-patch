@@ -156,8 +156,8 @@ window.MK11_CONTENT = {
   // ── Install ───────────────────────────────────────────────────
   "install.heading": { kr: "설치 방법", en: "How to Install" },
   "install.subheading": {
-    kr: "권장 경로를 고르세요. 대부분의 분께는 GUI 설치가 가장 간단합니다.",
-    en: "Pick a path. GUI Setup is the simplest route for most users."
+    kr: "환경에 맞는 설치 방법을 선택하세요.",
+    en: "Choose the setup path that fits your environment."
   },
 
   "install.prereq_heading": {
@@ -215,9 +215,9 @@ window.MK11_CONTENT = {
 
   // ── Install: channel cards (GUI recommended / CLI alternative) ──
   "install.badge_recommended": { kr: "권장", en: "RECOMMENDED" },
-  "install.badge_alternative": { kr: "대체 경로", en: "ALTERNATIVE" },
+  "install.badge_alternative": { kr: "대체", en: "ALTERNATIVE" },
 
-  "install.card_gui_title": { kr: "GUI 설치", en: "GUI Setup" },
+  "install.card_gui_title": { kr: "GUI INSTALL", en: "GUI INSTALL" },
   "install.card_gui_tagline": {
     kr: "대부분의 Windows 사용자에게 가장 쉬운 방법입니다.",
     en: "The simplest path for most Windows users."
@@ -231,10 +231,10 @@ window.MK11_CONTENT = {
     en: "If anything blocks the installer, fall back to CLI Setup."
   },
 
-  "install.card_cli_title": { kr: "CLI 설치", en: "CLI Setup" },
+  "install.card_cli_title": { kr: "CLI INSTALL", en: "CLI INSTALL" },
   "install.card_cli_tagline": {
-    kr: "Steam Deck (Linux) 또는 GUI가 차단된 환경용 경로입니다.",
-    en: "For Steam Deck (Linux) or environments where the GUI is blocked."
+    kr: "Windows와 Steam Deck (Linux)를 모두 지원합니다.",
+    en: "Supports both Windows and Steam Deck (Linux)."
   },
   "install.card_cli_fallback": {
     kr: "터미널 또는 스크립트 실행이 필요합니다.",

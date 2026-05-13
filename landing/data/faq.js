@@ -44,8 +44,8 @@ window.MK11_FAQ = [
           en: "How does install and uninstall work?"
         },
         a: {
-          kr: "설치 시 원본 파일이 자동으로 백업됩니다. 매니저에서 제거를 실행하면 원본 상태(중국어 간체)로 복구됩니다. 영어로 플레이하려면 Steam 라이브러리에서 게임 우클릭 → 속성 → 언어에서 영어로 변경해 주세요.",
-          en: "Original files are automatically backed up at install time. Running uninstall in the manager restores them to Simplified Chinese. To play in English afterward, go to Steam library → right-click game → Properties → Language and switch to English."
+          kr: "설치 시 원본 파일이 자동으로 백업됩니다.\n<b>GUI 설치</b>: 매니저에서 제거를 실행하면 원본 상태로 복구됩니다.\n<b>CLI 설치</b>: 설치 시 압축 해제한 폴더의 <code>uninstall.bat</code>(Windows) 또는 <code>bash uninstall.sh</code>(Steam Deck / Linux)를 실행하세요.\n제거 후 영어로 플레이하려면 Steam → 게임 속성 → 언어에서 영어로 변경해 주세요.",
+          en: "Original files are automatically backed up at install time.\n<b>GUI Setup</b>: Run uninstall from the manager to restore original files.\n<b>CLI Setup</b>: Run <code>uninstall.bat</code> (Windows) or <code>bash uninstall.sh</code> (Steam Deck / Linux) from the folder you extracted at install time.\nAfterward, go to Steam → game Properties → Language and switch to English."
         },
         note: {
           kr: "게임 업데이트로 패치가 작동하지 않으면 매니저가 자동으로 감지해 안내합니다.",
@@ -58,12 +58,26 @@ window.MK11_FAQ = [
           en: "Does it work outside of Steam?"
         },
         a: {
-          kr: "Steam PC 버전 기준으로 온라인 포함 정상 동작을 확인했습니다. Epic Games 버전은 미검증입니다. Steam Deck / Linux은 CLI 설치로 동작했다는 보고가 있지만, 공식 지원 범위는 아닙니다.",
-          en: "Confirmed working on Steam PC, including online play. The Epic Games version has not been tested. Steam Deck and Linux have been reported working via CLI Setup, but are not officially supported."
+          kr: "Steam PC 버전을 공식 지원합니다. Epic Games 버전은 미검증입니다. Steam Deck / Linux는 <a href='https://github.com/KimHerV/mk11-korean-patch/releases/latest' target='_blank' rel='noopener'>CLI 설치</a>를 사용하세요.",
+          en: "Officially supported on Steam PC. The Epic Games version has not been tested. For Steam Deck / Linux, use the <a href='https://github.com/KimHerV/mk11-korean-patch/releases/latest' target='_blank' rel='noopener'>CLI Setup</a>."
         },
         note: {
-          kr: "Steam Deck / Linux에서 한글이 표시되지 않는 경우, Steam 시작 옵션에 <code>WINEDLLOVERRIDES=\"dinput8=n,b\" %command%</code>를 추가해 보세요. (CLI 설치에서 번역 로더 플러그인을 선택한 경우에만 필요합니다.)",
-          en: "If Korean text doesn't appear on Steam Deck or Linux, try adding <code>WINEDLLOVERRIDES=\"dinput8=n,b\" %command%</code> to your Steam launch options. (Only needed if you opted into the translation loader plugin during CLI setup.)"
+          kr: "Steam Deck / Linux에서 한글이 표시되지 않는 경우, Steam 시작 옵션에 <code>WINEDLLOVERRIDES=\"dinput8=n,b\" %command%</code>를 추가해 보세요.",
+          en: "If Korean text doesn't appear on Steam Deck or Linux, try adding <code>WINEDLLOVERRIDES=\"dinput8=n,b\" %command%</code> to your Steam launch options."
+        }
+      },
+      {
+        q: {
+          kr: "온라인 멀티플레이에서 사용할 수 있나요?",
+          en: "Can I use this in online multiplayer?"
+        },
+        a: {
+          kr: "Steam PC 환경에서 온라인 포함 동작을 확인했습니다. 단, 이 패치는 게임의 파일 검증을 메모리에서 우회하는 방식(CVD 우회)을 사용하므로, 온라인 플레이는 본인 판단 하에 진행하시기 바랍니다.",
+          en: "Confirmed working on Steam PC, including online play. However, this patch uses an in-memory CVD bypass to work around the game's file validation, so online play is at your own discretion."
+        },
+        note: {
+          kr: "본 패치에는 치트, 언락, DLC 우회, 승부 조작 등 부정 행위 기능이 포함되어 있지 않습니다. 번역 텍스트와 폰트만 적용됩니다.",
+          en: "This patch does not include cheats, unlocks, DLC bypass, or any match-manipulation features. It applies translation text and font only."
         }
       }
     ]
@@ -130,12 +144,12 @@ window.MK11_FAQ = [
           en: "Windows Defender is flagging the installer as malicious."
         },
         a: {
-          kr: "최신 빌드는 Microsoft 제출 결과 인스톨러와 패치 매니저 모두 정상 판정이 완료되었습니다. 이전에 경고가 발생했다면 구버전일 가능성이 있으므로, 최신 설치 파일로 다시 받아 확인해 주세요.",
-          en: "The latest build has been cleared through Microsoft's official review process. Both the installer and patch manager received a clean verdict. If you saw a warning before, you may have an older build — please re-download the latest installer and try again."
+          kr: "최신 빌드는 Microsoft 제출 결과 인스톨러와 패치 매니저 모두 정상 판정이 완료되었습니다. 이전에 경고가 발생했다면 구버전일 가능성이 있으므로, 최신 설치 파일로 다시 받아 확인해 주세요. 최신 빌드에서도 동일 증상이 지속되면 <a href='https://github.com/KimHerV/mk11-korean-patch/releases/latest' target='_blank' rel='noopener'>CLI 설치</a>를 대신 사용하세요. CLI 설치는 EXE 없이 스크립트만으로 동작합니다.",
+          en: "The latest build has been cleared through Microsoft's official review process. Both the installer and patch manager received a clean verdict. If you saw a warning before, you may have an older build — please re-download the latest installer and try again. If the issue persists on the latest build, use the <a href='https://github.com/KimHerV/mk11-korean-patch/releases/latest' target='_blank' rel='noopener'>CLI Setup</a> instead. CLI Setup runs entirely as a script without an EXE."
         },
         note: {
-          kr: "2026년 5월 6일 Microsoft에 제출, 5월 10일 정상 판정 확인. 최신 빌드에서도 동일 증상이 발생하면 Defender 보호 기록의 파일명과 경로를 함께 제보해 주세요.",
-          en: "Submitted to Microsoft on May 6, 2026; clearance confirmed May 10, 2026. If the latest build still triggers a warning, please report the file name and path from Defender's protection history."
+          kr: "2026년 5월 6일 Microsoft에 제출, 5월 10일 정상 판정 확인.",
+          en: "Submitted to Microsoft on May 6, 2026; clearance confirmed May 10, 2026."
         }
       },
       {
@@ -144,8 +158,8 @@ window.MK11_FAQ = [
           en: "Smart App Control is blocking the installer."
         },
         a: {
-          kr: "최신 빌드는 Microsoft 제출을 통해 인스톨러와 패치 매니저의 정상 판정이 확인되었습니다. Smart App Control이 켜진 환경에서도 설치 단계 차단이 재현되지 않는 것을 확인했습니다. 만약 동일 증상이 남아 있다면 최신 빌드 재다운로드 후 다시 시도해 주세요.",
-          en: "The latest build has been cleared through Microsoft's official review process. We confirmed that installation proceeds without Smart App Control blocking on an SAC-enabled environment. If you are still experiencing a block, please re-download the latest build and try again."
+          kr: "최신 빌드는 Microsoft 제출을 통해 인스톨러와 패치 매니저의 정상 판정이 확인되었습니다. SAC 환경에서도 설치 차단이 재현되지 않는 것을 확인했습니다. 만약 동일 증상이 남아 있다면 최신 빌드 재다운로드 후 다시 시도해 주세요. 그래도 해결되지 않으면 <a href='https://github.com/KimHerV/mk11-korean-patch/releases/latest' target='_blank' rel='noopener'>CLI 설치</a>를 사용하세요. CLI 설치는 EXE 없이 스크립트만으로 동작하므로 SAC 차단 대상이 아닙니다.",
+          en: "The latest build has been cleared through Microsoft's official review process. We confirmed that installation proceeds without Smart App Control blocking on SAC-enabled systems. If you are still experiencing a block, please re-download the latest build and try again. If that doesn't resolve it, use the <a href='https://github.com/KimHerV/mk11-korean-patch/releases/latest' target='_blank' rel='noopener'>CLI Setup</a> instead. CLI Setup runs as a script without an EXE, so it is not subject to SAC restrictions."
         },
         note: {
           kr: "2026년 5월 6일 Microsoft에 제출, 5월 10일 정상 판정 확인.",

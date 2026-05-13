@@ -81,22 +81,24 @@
       if (!banner || !textEl) return;
 
       function currentLang() {
-        var active = document.querySelector('.lang-btn.active');
-        return active ? active.dataset.lang : 'kr';
+        try { return localStorage.getItem('mk11_lang') || 'kr'; } catch(_) { return 'kr'; }
       }
       function setText() {
         var lang = currentLang();
         var isEn = lang === 'en';
         textEl.textContent     = isEn ? (cfg.en        || cfg.kr)        : (cfg.kr        || cfg.en);
         if (textMobile) textMobile.textContent = isEn ? (cfg.en_mobile  || cfg.en) : (cfg.kr_mobile  || cfg.kr);
-        if (ctaEl)      ctaEl.textContent      = isEn ? (cfg.cta_en     || cfg.cta_kr)   : (cfg.cta_kr     || cfg.cta_en);
+        if (ctaEl) {
+          var ctaText = isEn ? (cfg.cta_en || cfg.cta_kr) : (cfg.cta_kr || cfg.cta_en);
+          ctaEl.textContent = ctaText;
+          ctaEl.style.display = ctaText ? '' : 'none';
+        }
       }
       setText();
       banner.hidden = false;
 
-      document.querySelectorAll('.lang-btn').forEach(function (btn) {
-        btn.addEventListener('click', setText);
-      });
+      var ltBtn = document.getElementById('lang-toggle-btn');
+      if (ltBtn) ltBtn.addEventListener('click', setText);
 
       if (bodyBtn) {
         bodyBtn.addEventListener('click', function () {
@@ -136,10 +138,10 @@
   </div>
 
   <!-- ── Language toggle ──────────────────────────────────────── -->
-  <div class="lang-toggle" aria-label="Language selector">
-    <button class="lang-btn active" data-lang="kr" onclick="setLocale('kr')">KR</button>
-    <button class="lang-btn"        data-lang="en" onclick="setLocale('en')">EN</button>
-  </div>
+  <button class="lang-toggle" id="lang-toggle-btn" aria-label="언어 변경">
+    <i data-lucide="globe" aria-hidden="true"></i>
+    <span id="lang-label">KR</span>
+  </button>
 
   <!-- ── HERO ─────────────────────────────────────────────── -->
   <header class="hero">
@@ -462,7 +464,6 @@
               <li><a href="https://go.microsoft.com/fwlink/p/?LinkId=2124703" target="_blank" rel="noopener" data-i18n="install.prereq_webview2_name"></a></li>
             </ul>
           </div>
-          <p class="card-fallback-note" data-i18n="install.card_gui_fallback"></p>
         </button>
 
         <button type="button" class="install-card"
@@ -477,7 +478,7 @@
               <span class="card-cli-viewer-dot card-cli-viewer-dot--g"></span>
               <span class="card-cli-viewer-title">MK11-Korean-Patch-CLI-Setup</span>
             </div>
-            <pre class="card-cli-viewer-body"><span class="cli-line cli-line--prompt"><span class="cli-os">Windows&gt;</span> install.bat <span class="cli-hint" data-i18n="install.cli_hint_doubleclick"></span></span>
+            <pre class="card-cli-viewer-body"><span class="cli-line cli-line--prompt"><span class="cli-os">Windows&gt;</span> install.bat</span>
 <span class="cli-line cli-line--prompt"><span class="cli-os">Linux  $</span> bash install.sh</span>
 <span class="cli-line cli-line--sep">─────────────────────────────</span>
 <span class="cli-line cli-anim cli-anim--l1" data-i18n="install.cli_preview_l1"></span>
@@ -535,7 +536,6 @@
           </li>
         </ol>
 
-        <p class="install-complete" data-i18n="install.complete"></p>
       </div>
 
     </div>

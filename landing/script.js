@@ -43,9 +43,21 @@ function setLocale(locale) {
   _locale = locale;
   try { localStorage.setItem('mk11_lang', locale); } catch (e) {}
   applyI18n();
+  var label = document.getElementById('lang-label');
+  if (label) label.textContent = locale === 'en' ? 'EN' : 'KR';
 }
 
 applyI18n();
+
+// ── Language toggle (single globe button) ────────────────────
+(function () {
+  var btn = document.getElementById('lang-toggle-btn');
+  if (!btn) return;
+  btn.addEventListener('click', function () {
+    var next = (typeof _locale !== 'undefined' ? _locale : 'kr') === 'kr' ? 'en' : 'kr';
+    setLocale(next);
+  });
+}());
 
 // ── Fetch installer cumulative download count ────────────────
 // Source: stats Worker /public endpoint. Worker counts GUI .exe and CLI .zip

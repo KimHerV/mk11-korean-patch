@@ -15,12 +15,12 @@
 window.MK11_BANNER = {
   id: 'v1-cli',
   active: true,
-  kr: 'CLI 설치 채널 추가 · Steam Deck (Linux) 지원',
-  en: 'CLI installer added · Steam Deck (Linux) supported',
-  kr_mobile: 'CLI 설치 채널 추가',
-  en_mobile: 'CLI installer added',
-  cta_kr: '자세히 보기',
-  cta_en: 'Learn more',
+  kr: 'Steam Deck도 설치할 수 있어요 ↓',
+  en: 'Now available on Steam Deck ↓',
+  kr_mobile: 'Steam Deck도 설치할 수 있어요 ↓',
+  en_mobile: 'Now available on Steam Deck ↓',
+  cta_kr: '',
+  cta_en: '',
   href: '#install',
   channel: 'cli',
 };
