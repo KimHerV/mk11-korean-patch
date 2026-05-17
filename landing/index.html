@@ -103,8 +103,22 @@
       if (bodyBtn) {
         bodyBtn.addEventListener('click', function () {
           if (cfg.href) {
-            var target = document.querySelector(cfg.href);
-            if (target) target.scrollIntoView({ behavior: 'smooth' });
+            // In-page anchor (#section): smooth scroll.
+            // Otherwise (absolute path or external URL): navigate.
+            //   - new_tab: true OR external URL  -> open in new tab
+            //   - new_tab: false / omitted, internal path -> same window
+            if (cfg.href.charAt(0) === '#') {
+              var target = document.querySelector(cfg.href);
+              if (target) target.scrollIntoView({ behavior: 'smooth' });
+            } else {
+              var isExternal = /^https?:\/\//i.test(cfg.href);
+              if (cfg.new_tab === true || isExternal) {
+                window.open(cfg.href, '_blank', 'noopener,noreferrer');
+              } else {
+                window.location.href = cfg.href;
+              }
+              return; // navigation is final; skip channel handling below
+            }
           }
           if (cfg.channel) {
             setTimeout(function () {
@@ -145,7 +159,8 @@
 
   <!-- ── HERO ─────────────────────────────────────────────── -->
   <header class="hero">
-    <video class="hero-video" autoplay loop muted playsinline preload="auto">
+    <video class="hero-video" autoplay loop muted playsinline preload="auto"
+           poster="assets/hero-poster.jpg">
       <source src="assets/hero.mp4" type="video/mp4" />
     </video>
 
@@ -439,6 +454,15 @@
       <h2 class="section-title" data-i18n="install.heading"></h2>
       <p class="section-subtitle" data-i18n="install.subheading"></p>
 
+      <!-- Latest version stat chip (auto-synced by update_version_refs.py) -->
+      <div class="install-latest-chip">
+        <span class="install-latest-chip-label" data-i18n="install.latest_label"></span>
+        <span class="install-latest-chip-version">v1.1</span>
+        <span class="install-latest-chip-sep">·</span>
+        <span class="install-latest-chip-date">2026-05-17</span>
+        <a class="install-latest-chip-link" href="changelog.html" target="_blank" rel="noopener" data-i18n="install.latest_view"></a>
+      </div>
+
       <!-- Channel cards: GUI (recommended) ↔ CLI (alternative) -->
       <div class="install-cards" role="radiogroup" aria-label="Install method">
         <button type="button" class="install-card is-recommended is-selected"
@@ -671,7 +695,7 @@
         <span class="footer-sep">·</span>
         <span class="footer-byline-pair"><span data-i18n="footer.first_release_label"></span>&nbsp;<span class="footer-meta-value">2026-05-04</span></span>
         <span class="footer-sep">·</span>
-        <span class="footer-byline-pair"><span data-i18n="footer.latest_version_label"></span>&nbsp;<span class="footer-meta-value" id="footer-version">v1.0</span></span>
+        <span class="footer-byline-pair"><span data-i18n="footer.latest_version_label"></span>&nbsp;<span class="footer-meta-value" id="footer-version">v1.1</span></span>
       </p>
       <p class="footer-links">
         <a href="https://github.com/KimHerV/mk11-korean-patch" target="_blank" rel="noopener">GitHub</a>

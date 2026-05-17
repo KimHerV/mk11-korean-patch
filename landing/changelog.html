@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>패치 노트 · 모탈컴뱃 11 한글 패치</title>
+  <meta name="description" content="모탈컴뱃 11 한글 패치 버전별 변경 사항. 번역 품질 개선, 시스템 진화, 캐릭터 어조 정밀화 기록." />
+  <link rel="canonical" href="https://mk11-korean-patch.pages.dev/changelog.html" />
+  <link rel="icon" type="image/png" href="assets/favicon.png" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://mk11-korean-patch.pages.dev/changelog.html" />
+  <meta property="og:title" content="패치 노트 · 모탈컴뱃 11 한글 패치" />
+  <meta property="og:description" content="버전별 변경 사항 · 번역 품질 개선 기록" />
+  <meta property="og:image" content="https://mk11-korean-patch.pages.dev/assets/og_image.jpg" />
+  <meta property="og:locale" content="ko_KR" />
+
+  <link rel="stylesheet" href="shared/design-system.css" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="animations.css" />
+  <script src="content.js"></script>
+  <script src="data/changelog.js"></script>
+  <script src="lucide.min.js"></script>
+  <!-- Cloudflare Web Analytics (same token as index.html) -->
+  <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "a09a14b2b63a4624a68b36b876727ebf"}'></script>
+  <!-- End Cloudflare Web Analytics -->
+</head>
+<body class="changelog-page">
+
+  <!-- ── Language toggle ──────────────────────────────────────── -->
+  <button class="lang-toggle" id="lang-toggle-btn" aria-label="언어 변경">
+    <i data-lucide="globe" aria-hidden="true"></i>
+    <span id="lang-label">KR</span>
+  </button>
+
+  <!-- ── Page header (hero-mini: logo + KR brand + HUD divider) ── -->
+  <header class="changelog-header">
+    <div class="container">
+      <div class="changelog-hero">
+        <p class="hero-eyebrow changelog-eyebrow" data-i18n="changelog.heading"></p>
+        <h1 class="hero-title hero-title--mini">
+          <svg class="hero-logo hero-logo--mini" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1173.68 278.52" aria-label="MORTAL KOMBAT 11" role="img" focusable="false">
+            <path d="M552.33,278.52l-30.38-52.32V61.91h-17.88L552.33,0V278.52z M622.75,0l-48.3,61.91h17.88v216.47l30.42-52.17
+              L622.75,0z M494.07,168.94L486,186.86c-0.26,0.54-0.8,0.89-1.4,0.88h-63.01l7.37-7.37V85.28l-7.37-7.37h36.54l-7.37,7.37v90.15
+              h27.14L494.07,168.94z M419.52,187.75h-33.88l0,0l5.68-5.97l-6.3-21.35h-25.26l-6.45,21.53l5.9,5.9h-33.88l9.11-9.07l27.21-93.62
+              l-6.45-7.37h35.14l-6.97,7.37l26.77,93.51l9.29,9.03L419.52,187.75z M382.21,148.26l-9.81-33.96l-9.84,33.81L382.21,148.26z
+              M314.03,89.97h21.75l8.81,6.38l-4.54-16.89c-0.21-0.96-1.05-1.65-2.03-1.66h-70.46c-0.98,0.01-1.82,0.7-2.03,1.66l-4.54,16.89
+              l8.81-6.38h21.75v90.3l-7.37,7.37h37.2l-7.37-7.37V89.97z M264.66,178.79l9.29,8.96h-26.22c-3.69-5.75-24.85-45.17-24.85-45.17H214
+              c0,0,0,37.53,0,37.79l7.37,7.37H184.5l7.37-7.37c0-0.26,0-95.13,0-95.13l-7.37-7.37h58.55c8.74,0,11.06,4.87,11.06,8.78v45.09
+              c-0.41,5.63-5.12,9.97-10.77,9.92C243.68,142.43,264.66,178.79,264.66,178.79z M232.8,93.69c-0.09-2.14-1.89-3.8-4.02-3.71
+              c-0.11,0-0.22,0.01-0.33,0.03l-14.6-0.04v40.15h15.41c3.02,0,3.39-1.66,3.39-2.95L232.8,93.69z M178.82,86.57v92.99
+              c0,4.57-2.62,8.19-11.98,8.19H119.5c-6.01,0-11.28-2.99-11.28-8.22V86.57c0-4.5,1.99-8.78,11.87-8.78h47.31
+              C173.99,77.8,178.82,80.67,178.82,86.57z M157.11,175.43V96.86c0-4.65-1.92-6.89-4.5-6.89h-22.12v79.01c0,4.09,2.06,6.45,4.42,6.45
+              H157.11z M101.43,187.67L101.43,187.67l-7.37-7.37c0-0.26,0-92.18,0-95.05l0,0l7.37-7.37H72.45c-0.51,0-0.95,0.35-1.07,0.85
+              c-1.84,7.6-20.87,65.45-20.87,65.45S30.75,86.06,28.8,78.42c-0.12-0.41-0.49-0.7-0.92-0.7H0l7.37,7.37l0,0c0,5.49,0,94.91,0,95.2
+              L0,187.67h36.87l-7.37-7.37c0-0.33,0-51.25,0-51.25l20.98,58.63l20.76-58.63c0,0,0,51.07,0,51.32l-7.37,7.37h37.57V187.67z
+              M1140.2,89.97h21.75l8.81,6.38l-4.54-16.89c-0.21-0.96-1.05-1.65-2.03-1.66h-70.46c-0.98,0.01-1.82,0.7-2.03,1.66l-4.54,16.89
+              l8.81-6.38h21.75v90.3l-7.37,7.37h37.35l-7.37-7.37L1140.2,89.97z M1103.11,187.71h-33.85l5.68-5.97l-6.3-21.39h-25.29l-6.42,21.53
+              l5.9,5.9h-34l9.11-9.07l27.21-93.47l-6.42-7.37h35.14l-6.97,7.37l26.77,93.47l9.29,9.03L1103.11,187.71z M1065.8,148.22l-9.7-33.92
+              l-9.84,33.81L1065.8,148.22z M1000.31,126.1c1.59,0,6.3,2.4,6.3,6.3v45.35c0.13,5.39-4.14,9.87-9.54,10
+              c-0.21,0-0.43,0-0.64-0.01h-63.31l7.37-7.37V85.28l0,0l-7.37-7.37h63.34c4.98,0.04,9.22,3.62,10.1,8.52v32.04
+              c-0.31,3.63-2.79,6.71-6.27,7.78V126.1z M980.11,89.82h-17.77V123h17.22c2.13,0.19,4.01-1.39,4.19-3.52
+              c0-0.06,0.01-0.11,0.01-0.17v-25.4c0.04-2.84-1.18-3.95-3.65-3.95L980.11,89.82z M984.13,139.11c-0.05-2.28-1.94-4.09-4.22-4.04
+              c-0.12,0-0.24,0.01-0.36,0.02h-17.22v40.34h18.18c2.04,0,3.69-1.65,3.69-3.69L984.13,139.11z M926.28,187.75L926.28,187.75
+              l-7.37-7.37c0,0,0-92.18,0-95.09l0,0l7.37-7.37h-28.94c-0.51-0.02-0.97,0.32-1.11,0.81c-1.81,7.6-20.87,65.45-20.87,65.45
+              s-19.95-58.04-21.72-65.67c-0.13-0.42-0.52-0.7-0.96-0.7h-27.84l7.37,7.37l0,0l0,0l0,0c0,5.35,0,95.05,0,95.05l-7.37,7.37h36.87
+              l-7.37-7.37v-51.62l21.09,59.25l20.54-59.36v51.62l-7.37,7.37h37.72L926.28,187.75z M817.32,86.57v92.99
+              c0,4.57-2.62,8.19-11.98,8.19H758c-6.01,0-11.28-2.99-11.28-8.22V86.57c0-4.5,1.95-8.78,11.87-8.78h47.27
+              C812.45,77.8,817.32,80.67,817.32,86.57z M795.57,175.43V96.86c0-4.65-1.88-6.89-4.46-6.89h-22.12v79.01
+              c0,4.09,2.06,6.45,4.42,6.45H795.57z M726.36,86.57l13.46-8.78h-38.83l4.83,7.37l-26.14,39.67V85.17l7.37-7.37h-36.39l7.37,7.37
+              v95.13l-7.37,7.37h36.43l-7.37-7.37v-22.97l8.26-12.5c0,0,21.46,36.21,25.37,42.92h27.51l-10.14-9.07L700,126.65L726.36,86.57z
+              M1155.06,177.98h3.13v9.81h1.18v-9.81h3.13v-1h-7.37L1155.06,177.98z M1169.22,184.65l-3.69-7.74h-1.14v11.06h1.14v-8.44
+              l3.02,6.56h1l2.99-6.56v8.26h1.14v-10.8h-1.14L1169.22,184.65z"/>
+          </svg>
+          <span class="hero-title-kr hero-title-kr--mini" data-i18n="hero.title_kr"></span>
+        </h1>
+        <img class="hero-divider hero-divider--mini" src="assets/img_hud_arrow.png" alt="" aria-hidden="true" />
+        <p class="changelog-sub" data-i18n="changelog.sub"></p>
+      </div>
+    </div>
+  </header>
+
+  <!-- ── Version list ─────────────────────────────────────── -->
+  <main class="changelog-main">
+    <div class="container">
+      <div id="changelog-list" class="changelog-list">
+        <p class="changelog-loading" data-i18n="changelog.loading"></p>
+      </div>
+    </div>
+  </main>
+
+  <!-- ── Footer (identical to landing) ────────────────────── -->
+  <footer class="footer">
+    <div class="container">
+      <p class="footer-title" data-i18n="footer.title"></p>
+      <p class="footer-byline">
+        <span data-i18n="footer.credit"></span>
+        <span class="footer-sep">·</span>
+        <span class="footer-byline-pair"><span data-i18n="footer.first_release_label"></span>&nbsp;<span class="footer-meta-value">2026-05-04</span></span>
+        <span class="footer-sep">·</span>
+        <span class="footer-byline-pair"><span data-i18n="footer.latest_version_label"></span>&nbsp;<span class="footer-meta-value" id="footer-version">v1.1</span></span>
+      </p>
+      <p class="footer-links">
+        <a href="https://github.com/KimHerV/mk11-korean-patch" target="_blank" rel="noopener">GitHub</a>
+        <span class="footer-sep">·</span>
+        <a href="https://github.com/KimHerV/mk11-korean-patch/releases" target="_blank" rel="noopener" data-i18n="footer.release_notes"></a>
+        <span class="footer-sep">·</span>
+        <a href="https://github.com/KimHerV/mk11-korean-patch/issues" target="_blank" rel="noopener" data-i18n="footer.issue_tracker"></a>
+        <span class="footer-sep">·</span>
+        <a href="https://www.thisisgame.com/articles/422569" target="_blank" rel="noopener" data-i18n="footer.press"></a>
+      </p>
+      <p class="footer-legal" data-i18n="footer.legal"></p>
+    </div>
+  </footer>
+
+  <script src="changelog.js"></script>
+  <script>
+    if (window.lucide) window.lucide.createIcons();
+  </script>
+</body>
+</html>

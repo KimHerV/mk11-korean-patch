@@ -1,6 +1,9 @@
 # Local dev tools
 dev_preview.ps1
 
+# Release notes (visible on /changelog.html instead)
+notes/
+
 # Build artifacts
 *.exe
 *.bak

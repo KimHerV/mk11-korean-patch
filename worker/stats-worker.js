@@ -133,7 +133,40 @@ async function takeSnapshot(env) {
   await env.MK11_STATS.put('latest',     JSON.stringify(snap));
   await env.MK11_STATS.put('latest_raw', JSON.stringify(rawClean));
   await env.MK11_STATS.put('baseline',   JSON.stringify(baseline));
+  await appendTimeseries(env, snap, rawClean);
   return snap;
+}
+
+// ── Timeseries: append once per UTC day to a single 'timeseries' key.
+// Each entry preserves per-tag counts so version-wise history is retained
+// even after newer releases shift `latest_tag`. Idempotent: if today's
+// entry exists, the snapshot is updated in-place rather than appended.
+async function appendTimeseries(env, snap, rawClean) {
+  try {
+    const today = new Date().toISOString().slice(0, 10);
+    const existing = JSON.parse((await env.MK11_STATS.get('timeseries')) || '[]');
+    const entry = {
+      date:        today,
+      latest_tag:  snap.latest_tag || null,
+      totals: {
+        installer_gui: (snap.totals && snap.totals.installer_gui) || 0,
+        installer_cli: (snap.totals && snap.totals.installer_cli) || 0,
+      },
+      by_tag:      rawClean || {},
+      recorded_at: snap.recorded_at || null,
+    };
+
+    if (existing.length && existing[existing.length - 1].date === today) {
+      // Same UTC day: refresh in place so the last entry reflects the latest snapshot.
+      existing[existing.length - 1] = entry;
+    } else {
+      existing.push(entry);
+    }
+    await env.MK11_STATS.put('timeseries', JSON.stringify(existing));
+  } catch (e) {
+    // Timeseries failure must not break the main snapshot path.
+    console.error('appendTimeseries failed:', e);
+  }
 }
 
 // ── Worker entry ─────────────────────────────────────────────
@@ -175,6 +208,13 @@ export default {
       const snap = await takeSnapshot(env);
       return new Response(JSON.stringify(snap, null, 2), {
         headers: { 'Content-Type': 'application/json' },
+      });
+    }
+
+    if (url.pathname === '/timeseries') {
+      const series = JSON.parse((await env.MK11_STATS.get('timeseries')) || '[]');
+      return new Response(JSON.stringify({ count: series.length, entries: series }, null, 2), {
+        headers: { 'Content-Type': 'application/json', 'Cache-Control': 'public, max-age=300', ...CORS_HEADERS },
       });
     }
 

@@ -1,14 +1,14 @@
-// MK11 한글 패치 · 랜딩 페이지 콘텐츠
-// 이 파일만 편집하면 됩니다. 저장 후 브라우저 새로고침(F5)으로 반영됩니다.
+// MK11 Korean Patch - Landing page content
+// Edit this file directly. Save and refresh the browser (F5) to apply.
 //
-// 값 형식:
-//   "key": "string"          → 두 언어 공통 (버전, 브랜드명, 숫자 등)
-//   "key": { kr: "...", en: "..." } → 언어별 번역
+// Value formats:
+//   "key": "string"                  -> shared across both locales (versions, brand names, numbers)
+//   "key": { kr: "...", en: "..." }  -> per-locale translation
 
 window.MK11_CONTENT = {
 
   // ── Hero ──────────────────────────────────────────────────────
-  "hero.eyebrow":       "ver 1.0 (2026-05-04)",
+  "hero.eyebrow":       "ver 1.1 (2026-05-17)",
   "hero.title_en":      "MORTAL KOMBAT 11",
   "hero.title_kr": {
     kr: "한글 패치",
@@ -213,6 +213,10 @@ window.MK11_CONTENT = {
     en: "Download CLI Setup"
   },
 
+  // Install latest version stat chip
+  "install.latest_label": { kr: "최신 버전",  en: "Latest" },
+  "install.latest_view":  { kr: "패치 노트 보기", en: "View patch notes" },
+
   // ── Install: channel cards (GUI recommended / CLI alternative) ──
   "install.badge_recommended": { kr: "권장", en: "RECOMMENDED" },
   "install.badge_alternative": { kr: "대체", en: "ALTERNATIVE" },
@@ -262,8 +266,8 @@ window.MK11_CONTENT = {
 
   // ── CLI card: terminal viewer preview lines ─────────────────
   "install.cli_preview_l1": {
-    kr: "MK11 한글 패치 v1.0",
-    en: "MK11 Korean Patch v1.0"
+    kr: "MK11 한글 패치 v1.1",
+    en: "MK11 Korean Patch v1.1"
   },
   "install.cli_preview_l2": {
     kr: "Steam 경로 자동 탐지 완료",
@@ -378,7 +382,7 @@ window.MK11_CONTENT = {
   "feedback.msg_error":   { kr: "제출에 실패했습니다. 잠시 후 다시 시도해주세요.", en: "Submission failed. Please try again later." },
 
   // ── Footer ────────────────────────────────────────────────────
-  "footer.title":                { kr: "MORTAL KOMBAT 11 KOREAN PATCH",  en: "MORTAL KOMBAT 11 KOREAN PATCH" },
+  "footer.title":                { kr: "MORTAL KOMBAT 11<br>KOREAN PATCH",  en: "MORTAL KOMBAT 11<br>KOREAN PATCH" },
   "footer.credit":               { kr: "by KimHerV",   en: "by KimHerV" },
   "footer.release_notes":        { kr: "릴리즈 노트",      en: "Release Notes" },
   "footer.issue_tracker":        { kr: "이슈 트래커",      en: "Issue Tracker" },
@@ -405,7 +409,13 @@ window.MK11_CONTENT = {
   "engine.pair_hint":         { kr: "그래프에서 다른 캐릭터를 클릭하면 화법 관계를 비교합니다.", en: "Click another node in the graph to compare speech registers." },
   "engine.close":             { kr: "닫기", en: "Close" },
   "footer.legal": {
-    kr: "비공식 팬 제작 패치. Mortal Kombat 11 및 관련 상표는 Warner Bros. Entertainment Inc. 및 NetherRealm Studios의 소유입니다.",
-    en: "Unofficial fan-made patch. Mortal Kombat 11 and related trademarks are the property of Warner Bros. Entertainment Inc. and NetherRealm Studios."
-  }
+    kr: "비공식 팬 제작 패치. Mortal Kombat 11 및 관련 상표는<br>Warner Bros. Entertainment Inc. 및 NetherRealm Studios의 소유입니다.",
+    en: "Unofficial fan-made patch. Mortal Kombat 11 and related trademarks are the property of<br>Warner Bros. Entertainment Inc. and NetherRealm Studios."
+  },
+
+  "footer.byline":  { kr: "MK11 한글 패치 · 비공식 팬 제작 by KimHerV", en: "MK11 Korean Patch · Unofficial fan-made by KimHerV" },
+
+  "changelog.heading": { kr: "패치 노트",  en: "Patch Notes" },
+  "changelog.sub":     { kr: "버전별 변경 사항. 최신 버전이 자동으로 펼쳐집니다.", en: "Changes by version. Latest version is expanded by default." },
+  "changelog.loading": { kr: "불러오는 중…", en: "Loading…" }
 };
