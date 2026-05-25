@@ -37,7 +37,7 @@
   <header class="changelog-header">
     <div class="container">
       <div class="changelog-hero">
-        <p class="hero-eyebrow changelog-eyebrow" data-i18n="changelog.heading"></p>
+        <p class="hero-eyebrow changelog-eyebrow" data-i18n="changelog.heading">패치 노트</p>
         <h1 class="hero-title hero-title--mini">
           <svg class="hero-logo hero-logo--mini" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1173.68 278.52" aria-label="MORTAL KOMBAT 11" role="img" focusable="false">
             <path d="M552.33,278.52l-30.38-52.32V61.91h-17.88L552.33,0V278.52z M622.75,0l-48.3,61.91h17.88v216.47l30.42-52.17
@@ -72,17 +72,18 @@
               M1155.06,177.98h3.13v9.81h1.18v-9.81h3.13v-1h-7.37L1155.06,177.98z M1169.22,184.65l-3.69-7.74h-1.14v11.06h1.14v-8.44
               l3.02,6.56h1l2.99-6.56v8.26h1.14v-10.8h-1.14L1169.22,184.65z"/>
           </svg>
-          <span class="hero-title-kr hero-title-kr--mini" data-i18n="hero.title_kr"></span>
+          <span class="hero-title-kr hero-title-kr--mini" data-i18n="hero.title_kr">한글 패치</span>
         </h1>
         <img class="hero-divider hero-divider--mini" src="assets/img_hud_arrow.png" alt="" aria-hidden="true" />
-        <p class="changelog-sub" data-i18n="changelog.sub"></p>
+        <p class="changelog-sub" data-i18n="changelog.sub">버전별 변경 사항. 최신 버전이 자동으로 펼쳐집니다.</p>
       </div>
     </div>
   </header>
 
-  <!-- ── Version list ─────────────────────────────────────── -->
+  <!-- ── Filter chips + version list ──────────────────────── -->
   <main class="changelog-main">
     <div class="container">
+      <div id="changelog-filter" class="changelog-filter"></div>
       <div id="changelog-list" class="changelog-list">
         <p class="changelog-loading" data-i18n="changelog.loading"></p>
       </div>

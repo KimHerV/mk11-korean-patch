@@ -39,10 +39,17 @@
     _locale = locale;
     try { localStorage.setItem('mk11_lang', locale); } catch (e) {}
     applyI18n();
-    renderChangelog(); // re-render version content for the new locale
+    renderFilterChips();
+    renderChangelog();
     var label = document.getElementById('lang-label');
     if (label) label.textContent = locale === 'en' ? 'EN' : 'KR';
   }
+
+  // ── Filter state (read ?tag= from URL on init) ─────────────
+  var _activeTag = (function () {
+    try { return new URLSearchParams(window.location.search).get('tag') || 'all'; }
+    catch (e) { return 'all'; }
+  }());
 
   // ── Version rendering ───────────────────────────────────────
   var _changelogData = null;
@@ -79,12 +86,24 @@
     var labelGh   = _locale === 'en' ? 'GitHub Release →' : 'GitHub Release 보기 →';
     var labelInst = _locale === 'en' ? 'Installation' : '설치 안내';
 
+    var tagLabels = { translation: { kr: '번역', en: 'Translation' }, security: { kr: '보안', en: 'Security' }, platform: { kr: '플랫폼', en: 'Platform' } };
+    var entryChipsHtml = (v.tags || []).map(function (tag) {
+      var info = tagLabels[tag];
+      if (!info) return '';
+      return '<button class="cl-entry-chip" data-tag="' + escapeHtml(tag) + '" type="button">' +
+               escapeHtml(_locale === 'en' ? info.en : info.kr) + '</button>';
+    }).join('');
+    var tagsMetaHtml = entryChipsHtml
+      ? '<span class="cl-version-sep">·</span><span class="cl-entry-chips">' + entryChipsHtml + '</span>'
+      : '';
+
     return '<details class="cl-version" name="cl-versions"' + openAttr + '>' +
              '<summary class="cl-version-summary">' +
                '<div class="cl-version-meta">' +
                  '<span class="cl-version-tag">v' + escapeHtml(v.version) + '</span>' +
                  '<span class="cl-version-sep">·</span>' +
                  '<span class="cl-version-date">' + escapeHtml(v.date) + '</span>' +
+                 tagsMetaHtml +
                '</div>' +
                '<h2 class="cl-version-title">' + title + '</h2>' +
              '</summary>' +
@@ -97,15 +116,65 @@
            '</details>';
   }
 
+  function renderFilterChips() {
+    var filterEl = document.getElementById('changelog-filter');
+    if (!filterEl) return;
+    var chips = [
+      { tag: 'all',         kr: '전체',   en: 'All'         },
+      { tag: 'translation', kr: '번역',   en: 'Translation' },
+      { tag: 'security',    kr: '보안',   en: 'Security'    },
+      { tag: 'platform',    kr: '플랫폼', en: 'Platform'    }
+    ];
+    filterEl.innerHTML = chips.map(function (c) {
+      var active = _activeTag === c.tag ? ' cl-chip--active' : '';
+      var label  = escapeHtml(_locale === 'en' ? c.en : c.kr);
+      return '<button class="cl-chip' + active + '" data-tag="' + c.tag + '">' + label + '</button>';
+    }).join('');
+    filterEl.querySelectorAll('.cl-chip').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        _activeTag = btn.dataset.tag;
+        if (window.history && window.history.replaceState) {
+          var url = new URL(window.location.href);
+          if (_activeTag === 'all') { url.searchParams.delete('tag'); }
+          else { url.searchParams.set('tag', _activeTag); }
+          window.history.replaceState({}, '', url.toString());
+        }
+        renderFilterChips();
+        renderChangelog();
+      });
+    });
+  }
+
   function renderChangelog() {
     if (!_changelogData) return;
     var listEl = document.getElementById('changelog-list');
     if (!listEl) return;
-    listEl.innerHTML = _changelogData.map(function (v, i) {
+    var filtered = _activeTag === 'all'
+      ? _changelogData
+      : _changelogData.filter(function (v) { return v.tags && v.tags.indexOf(_activeTag) !== -1; });
+    if (!filtered.length) {
+      listEl.innerHTML = '<p class="cl-error">' +
+        (_locale === 'en' ? 'No entries found.' : '항목이 없습니다.') + '</p>';
+      return;
+    }
+    listEl.innerHTML = filtered.map(function (v, i) {
       return renderVersion(v, i === 0);
     }).join('');
     attachExclusiveAccordion(listEl);
     attachScrollAnimations();
+    listEl.querySelectorAll('.cl-entry-chip').forEach(function (btn) {
+      btn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        _activeTag = btn.dataset.tag;
+        if (window.history && window.history.replaceState) {
+          var url = new URL(window.location.href);
+          url.searchParams.set('tag', _activeTag);
+          window.history.replaceState({}, '', url.toString());
+        }
+        renderFilterChips();
+        renderChangelog();
+      });
+    });
   }
 
   // Exclusive accordion fallback for browsers without details[name=...] support.
@@ -122,27 +191,27 @@
     });
   }
 
-  // Scroll entrance animations: mirrors landing's IntersectionObserver pattern.
-  // Adds .anim-watch / .anim-visible from animations.css to header + version cards
-  // + highlight groups. Idempotent (skips elements already watched).
   function attachScrollAnimations() {
-    if (!window.IntersectionObserver) return;
+    if (window.IntersectionObserver) runCardScrollAnimations();
+  }
 
-    var selectors = [
-      '.changelog-hero',
-      '.cl-version',
-      '.cl-highlight',
-      '.cl-install',
-      '.cl-gh'
-    ];
+  // Cards: skip the first one and its children entirely so the v1.1 card
+  // is visible from the moment the page loads, even when the hero-mini
+  // pushes it below the fold on mobile.
+  function runCardScrollAnimations() {
     var targets = [];
-    selectors.forEach(function (sel) {
-      document.querySelectorAll(sel).forEach(function (el) {
-        if (!el.classList.contains('anim-watch')) {
-          el.classList.add('anim-watch');
-          targets.push(el);
-        }
-      });
+    function watch(el) {
+      if (el && !el.classList.contains('anim-watch')) {
+        el.classList.add('anim-watch');
+        targets.push(el);
+      }
+    }
+
+    var versions = document.querySelectorAll('.cl-version');
+    versions.forEach(function (card, idx) {
+      if (idx === 0) return;
+      watch(card);
+      card.querySelectorAll('.cl-highlight, .cl-install, .cl-gh').forEach(watch);
     });
     if (!targets.length) return;
 
@@ -175,6 +244,7 @@
     // Inline JS data (file:// compatible, no fetch required)
     if (window.MK11_CHANGELOG && Array.isArray(window.MK11_CHANGELOG)) {
       _changelogData = window.MK11_CHANGELOG;
+      renderFilterChips();
       renderChangelog();
     } else {
       var listEl = document.getElementById('changelog-list');

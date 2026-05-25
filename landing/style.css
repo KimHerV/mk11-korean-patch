@@ -9,6 +9,7 @@
   font-display: swap;
 }
 
+
 @font-face {
   font-family: 'Kombat11';
   src: url('assets/fonts/eng.ttf') format('truetype');
@@ -52,7 +53,10 @@ body {
   font-family: 'NanumSquareNeo', sans-serif;
   font-size: var(--text-body);
   line-height: 1.7;
+  word-break: keep-all;
+  overflow-wrap: break-word;
 }
+::selection { background: var(--color-gold); color: var(--color-surface); }
 a { color: var(--color-gold); text-decoration: none; transition: color .2s; }
 a:hover { color: var(--color-gold-bright); }
 img { display: block; width: 100%; height: auto; }
@@ -79,14 +83,14 @@ code {
   display: inline-flex; align-items: center; gap: var(--space-2);
   padding: var(--space-2) var(--space-6);
   border-radius: var(--radius-md);
-  font-weight: 600; font-size: var(--text-body);
+  font-weight: 600; font-size: var(--text-caption);
 }
 .btn-lg {
   padding: var(--space-3) var(--space-8);
+  font-size: var(--text-body);
 }
 .btn-sm {
   padding: var(--space-1) var(--space-4);
-  font-size: var(--text-caption);
 }
 .btn-badge {
   background: rgba(0,0,0,.25);
@@ -324,13 +328,18 @@ code {
   color: var(--color-text-primary);
   width: 48px; height: 48px;
   border-radius: 50%;
-  font-size: 1.75rem;
-  line-height: 1;
   cursor: pointer;
   display: flex; align-items: center; justify-content: center;
   transition: background .2s, border-color .2s, color .2s;
   z-index: 2;
   backdrop-filter: blur(4px);
+}
+.carousel-arrow svg {
+  width: 24px;
+  height: 24px;
+  stroke: currentColor;
+  fill: none;
+  flex-shrink: 0;
 }
 .carousel-arrow:hover {
   background: rgba(201,168,76,.15);
@@ -410,7 +419,8 @@ code {
 
 /* Mobile */
 @media (max-width: 600px) {
-  .carousel-arrow { width: 36px; height: 36px; font-size: 1.25rem; }
+  .carousel-arrow { width: 36px; height: 36px; }
+  .carousel-arrow svg { width: 20px; height: 20px; }
   .carousel-arrow--prev { left: var(--space-3); }
   .carousel-arrow--next { right: var(--space-3); }
   .carousel-footer { padding: var(--space-3) var(--space-4); }
@@ -433,8 +443,15 @@ code {
 .feature-icon {
   display: block;
   color: var(--color-gold);
-  font-size: 1.25rem;
+  width: 28px;
+  height: 28px;
   margin-bottom: var(--space-3);
+}
+.feature-icon svg {
+  width: 100%;
+  height: 100%;
+  fill: currentColor;
+  stroke: none;
 }
 .feature-card h3 {
   font-size: var(--text-subheading);
@@ -480,12 +497,6 @@ code {
   top: 5px;
   width: 10px; height: 10px;
   border-radius: 50%;
-  background: var(--color-text-secondary);
-  box-shadow:
-    0 0 8px  rgba(240, 236, 224, 0.30),
-    0 0 18px rgba(240, 236, 224, 0.12);
-}
-.about-marker--gold {
   background: var(--color-gold);
   box-shadow:
     0 0 10px rgba(201, 168, 76, 0.55),
@@ -573,26 +584,41 @@ code {
   align-items: center;
   justify-content: center;
   padding: var(--space-4);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.25s ease, visibility 0.25s ease;
 }
-.online-modal[hidden] { display: none; }
+/* Override [hidden] so transition works: stays in position:fixed but invisible */
+.online-modal[hidden] { display: flex; }
+.online-modal.is-open {
+  opacity: 1;
+  visibility: visible;
+}
 .online-modal-backdrop {
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.8);
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
 }
 .online-modal-box {
   position: relative;
-  background: var(--color-bg);
+  background: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
   padding: var(--space-8);
-  max-width: 600px;
+  max-width: 480px;
   width: 100%;
   max-height: 85vh;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
   gap: var(--space-6);
+  transform: translateY(12px);
+  transition: transform 0.25s ease;
+}
+.online-modal.is-open .online-modal-box {
+  transform: translateY(0);
 }
 .online-modal-header {
   display: flex;
@@ -626,6 +652,12 @@ code {
   color: var(--color-text-secondary);
   line-height: 1.8;
 }
+.online-modal-body a {
+  color: var(--color-gold);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.online-modal-body a:hover { color: var(--color-gold-bright); }
 .online-modal-list-heading {
   font-size: var(--text-caption);
   font-weight: 700;
@@ -772,46 +804,29 @@ code {
 /* Selected card gets the gold border + glow; unselected card is muted.
    GUI is selected by default (recommended). Replaces the old tab/grid-stack
    pattern that reserved the larger panel's height. */
-/* Install latest version stat chip (decorative, auto-synced) */
-.install-latest-chip {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-2);
-  margin: var(--space-2) 0 var(--space-8);
-  padding: var(--space-2) var(--space-4);
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: 999px;
-  font-size: var(--text-small);
-  color: var(--color-text-secondary);
-  font-family: 'NanumSquareNeo', sans-serif;
-  letter-spacing: 0.02em;
-}
-.install-latest-chip-label {
-  color: var(--color-text-secondary);
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  font-size: 0.7rem;
-}
-.install-latest-chip-version {
-  color: var(--color-gold);
-  font-weight: 700;
-  font-family: 'JetBrains Mono', 'Consolas', monospace;
-}
-.install-latest-chip-sep { color: var(--color-border); }
-.install-latest-chip-date {
+/* Latest version: condensed one-line meta in place of the section subtitle.
+   "v1.1 · 2026-05-17 · 패치 노트 ↗"
+   Visual weight: version (white, bold) > link (gold) > date (secondary).
+   Wraps naturally on narrow widths via word-break: keep-all from body. */
+.install-latest #latest-version {
   color: var(--color-text-primary);
   font-family: 'JetBrains Mono', 'Consolas', monospace;
+  font-weight: 700;
 }
-.install-latest-chip-link {
-  margin-left: var(--space-3);
-  padding-left: var(--space-3);
-  border-left: 1px solid var(--color-border);
+.install-latest #latest-date {
+  font-family: 'JetBrains Mono', 'Consolas', monospace;
+  color: var(--color-text-secondary);
+}
+.install-latest a {
   color: var(--color-gold);
   text-decoration: none;
-  transition: color 0.15s;
 }
-.install-latest-chip-link:hover { color: var(--color-gold-bright); }
+.install-latest a:hover { color: var(--color-gold-bright); }
+.install-latest-extlink {
+  margin-left: 4px;
+  font-size: 0.85em;
+  opacity: 0.85;
+}
 
 .install-cards {
   display: grid;
@@ -821,6 +836,7 @@ code {
 }
 .install-card {
   position: relative;
+  min-width: 0;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -892,7 +908,7 @@ code {
   margin: 0;
 }
 .card-screenshot {
-  width: 90%;
+  width: 100%;
   margin: var(--space-2) 0;
   display: flex;
   flex-direction: column;
@@ -932,10 +948,10 @@ code {
   width: 100%;
   margin: var(--space-2) 0;
   border-radius: var(--radius-lg);
-  background: #0c0c0c;
+  background: var(--color-surface);
   border: 1px solid var(--color-border);
   overflow: hidden;
-  font-family: 'Courier New', monospace;
+  font-family: 'NanumSquareNeo', sans-serif;
 }
 .card-cli-viewer-bar {
   display: flex;
@@ -948,12 +964,16 @@ code {
 .card-cli-viewer-dot {
   width: 10px;
   height: 10px;
+  flex-shrink: 0;
   border-radius: 50%;
   display: inline-block;
 }
-.card-cli-viewer-dot--r { background: #ff5f57; }
-.card-cli-viewer-dot--y { background: #febc2e; }
-.card-cli-viewer-dot--g { background: #28c840; }
+.card-cli-viewer-dot--r,
+.card-cli-viewer-dot--y,
+.card-cli-viewer-dot--g { background: rgba(255, 255, 255, 0.18); }
+.install-card.is-selected .card-cli-viewer-dot--r { background: #ff5f57; }
+.install-card.is-selected .card-cli-viewer-dot--y { background: #febc2e; }
+.install-card.is-selected .card-cli-viewer-dot--g { background: #28c840; }
 .card-cli-viewer-title {
   margin-left: var(--space-2);
   font-size: 11px;
@@ -965,7 +985,8 @@ code {
   padding: var(--space-3) var(--space-4);
   font-size: 12px;
   line-height: 1.65;
-  color: #d4d4d4;
+  font-family: 'NanumSquareNeo', 'Courier New';
+  color: var(--color-text-secondary);
   white-space: pre;
   overflow-x: hidden;
 }
@@ -975,7 +996,7 @@ code {
 .cli-os {
   display: inline-block;
   width: 8ch;
-  color: #7fb1ff;
+  color: var(--color-text-secondary);
 }
 
 /* Hint chip — explains "Windows> install.bat" is meant to be double-clicked.
@@ -1022,7 +1043,7 @@ code {
 .cli-anim--l4 { animation: cli-l4 11s ease-in-out infinite; }
 .cli-anim--l5 { animation: cli-l5 11s ease-in-out infinite; }
 .cli-anim--l6 { animation: cli-l6 11s ease-in-out infinite; }
-.cli-line--success { color: #6ad26a; }
+.cli-line--success { color: var(--color-gold); }
 
 /* Swap container — cursor and typed "Y" overlay at the same position so the
    keystroke reads as the cursor being replaced by the character, not as Y
@@ -1514,25 +1535,37 @@ code {
 .char-picker {
   position: fixed; inset: 0; z-index: 1100;
   display: flex; align-items: center; justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.25s ease, visibility 0.25s ease;
 }
-.char-picker[hidden] { display: none; }
+.char-picker[hidden] { display: flex; }
+.char-picker.is-open {
+  opacity: 1;
+  visibility: visible;
+}
 .char-picker-backdrop {
   position: absolute; inset: 0;
-  background: rgba(0,0,0,.82);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
+  background: rgba(0,0,0,.75);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
 }
 .char-picker-panel {
   position: relative; z-index: 1;
-  background: var(--color-surface-raised);
+  background: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
   max-width: 900px; width: calc(100% - 32px);
   max-height: 90vh; overflow-y: auto;
+  transform: translateY(12px);
+  transition: transform 0.25s ease;
+}
+.char-picker.is-open .char-picker-panel {
+  transform: translateY(0);
 }
 .char-picker-header {
   position: sticky; top: 0;
-  background: var(--color-surface-raised);
+  background: var(--color-surface);
   border-bottom: 1px solid var(--color-border);
   padding: var(--space-4) var(--space-6);
   display: flex; align-items: center; justify-content: space-between;
@@ -1641,7 +1674,7 @@ code {
 /* ── Dialog footer ── */
 .char-picker-footer {
   position: sticky; bottom: 0;
-  background: var(--color-surface-raised);
+  background: var(--color-surface);
   border-top: 1px solid var(--color-border);
   padding: var(--space-4) var(--space-6);
   display: flex; justify-content: flex-end;
@@ -1725,6 +1758,7 @@ code {
 .site-banner-body {
   flex: 1;
   display: inline-flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: center;
   gap: var(--space-6);
@@ -1738,6 +1772,10 @@ code {
   text-align: center;
   cursor: pointer;
   padding: 0;
+  line-height: 1.5;
+  white-space: normal;
+  word-break: keep-all;
+  overflow-wrap: break-word;
   transition: opacity 0.15s;
 }
 .site-banner-body:hover { opacity: 0.8; }
@@ -1746,6 +1784,9 @@ code {
 }
 .site-banner-text-mobile { display: none; }
 @media (max-width: 600px) {
+  .site-banner {
+    padding: var(--space-3) var(--space-4);
+  }
   .site-banner-text-desktop { display: none; }
   .site-banner-text-mobile  { display: inline; }
   .site-banner-cta          { display: none; }
@@ -2688,10 +2729,15 @@ body.changelog-page {
   border-bottom: 1px solid var(--color-border);
 }
 /* Hero-mini block: shared visual identity with landing hero, reduced scale */
-.changelog-hero { text-align: center; }
+.changelog-page .hero-eyebrow,
+.changelog-page .hero-logo,
+.changelog-page .hero-title-kr,
+.changelog-page .hero-divider { animation: none; opacity: 1; transform: none; }
+.changelog-hero { text-align: center; min-height: 200px; }
 .changelog-eyebrow {
   margin-bottom: var(--space-4);
 }
+
 .hero-title--mini {
   font-size: clamp(1.5rem, 4vw, 2.25rem);
   text-shadow: 0 0 40px rgba(201, 168, 76, 0.18);
@@ -2726,6 +2772,66 @@ body.changelog-page {
   padding: var(--space-16) var(--space-8);
   font-size: var(--text-body);
 }
+
+/* Filter chips */
+.changelog-filter {
+  display: flex;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+  margin-bottom: var(--space-4);
+}
+
+.cl-chip {
+  padding: var(--space-2) var(--space-4);
+  border-radius: 999px;
+  border: 1px solid var(--color-border);
+  background: transparent;
+  color: var(--color-text-secondary);
+  font-size: 0.9375rem;
+  font-family: 'NanumSquareNeo', sans-serif;
+  cursor: pointer;
+  transition: color 0.15s;
+  line-height: 1.4;
+}
+
+.cl-chip:not(.cl-chip--active):hover {
+  color: var(--color-text-primary);
+}
+
+.cl-chip--active {
+  background: rgba(201, 168, 76, 0.18);
+  border-color: var(--color-gold);
+  color: var(--color-gold);
+  cursor: default;
+}
+
+/* Entry-level tag chips inside accordion header */
+.cl-entry-chips { display: inline-flex; gap: var(--space-1); align-items: center; }
+
+.cl-entry-chip {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 999px;
+  border: none;
+  font-size: 0.6875rem;
+  font-family: 'NanumSquareNeo', sans-serif;
+  cursor: pointer;
+  transition: opacity 0.15s;
+  line-height: 1.4;
+}
+.cl-entry-chip[data-tag="translation"] {
+  color: var(--color-tag-translation);
+  background: rgba(201, 168, 76, 0.12);
+}
+.cl-entry-chip[data-tag="security"] {
+  color: var(--color-tag-security);
+  background: rgba(201, 90, 76, 0.12);
+}
+.cl-entry-chip[data-tag="platform"] {
+  color: var(--color-tag-platform);
+  background: rgba(138, 108, 200, 0.12);
+}
+.cl-entry-chip:hover { opacity: 0.75; }
 
 .changelog-list {
   display: flex;

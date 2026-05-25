@@ -91,7 +91,7 @@ window.MK11_CONTENT = {
   },
 
   // ── About ─────────────────────────────────────────────────────
-  "about.heading": { kr: "프로젝트 이야기",  en: "Project Story" },
+  "about.heading": { kr: "개발 일지",  en: "Dev Log" },
   "about.sub":     { kr: "시작부터 배포까지", en: "From Start to Release" },
 
   "about.e0_date":  { kr: "20여 년 전", en: "20+ Years Ago" },
@@ -215,7 +215,7 @@ window.MK11_CONTENT = {
 
   // Install latest version stat chip
   "install.latest_label": { kr: "최신 버전",  en: "Latest" },
-  "install.latest_view":  { kr: "패치 노트 보기", en: "View patch notes" },
+  "install.latest_view":  { kr: "패치 노트", en: "Patch notes" },
 
   // ── Install: channel cards (GUI recommended / CLI alternative) ──
   "install.badge_recommended": { kr: "권장", en: "RECOMMENDED" },
@@ -247,8 +247,8 @@ window.MK11_CONTENT = {
 
   // ── Trust strip ──────────────────────────────────────────────
   "install.trust_strip": {
-    kr: "Microsoft Defender 공식 검토 통과 (5/6 제출 · 5/10 승인) · VirusTotal 70여 개 엔진 전수 통과",
-    en: "Cleared by Microsoft Defender (submitted May 6, approved May 10) · Passed across 70+ engines on VirusTotal"
+    kr: "Microsoft Defender 오탐 제거 확인 (2026-05-23)",
+    en: "Microsoft Defender false positive cleared (confirmed 2026-05-23)"
   },
 
   // ── CLI card: platform tags ─────────────────────────────────
@@ -304,6 +304,23 @@ window.MK11_CONTENT = {
   },
   "online.btn_cancel":  { kr: "닫기", en: "Close" },
   "online.btn_confirm": { kr: "확인", en: "OK"    },
+
+  // ── AV Notice (shown on every GUI download click) ─────────────
+  "avnotice.title": { kr: "GUI 설치 전 안내", en: "Note Before GUI Install" },
+  "avnotice.p1": {
+    kr: "이 GUI 설치 파일은 비서명 실행 파일 특성상 일부 보안 제품에서 경고나 오탐이 표시될 수 있습니다.",
+    en: "This GUI installer is an unsigned executable. Some security products may show warnings or false positives due to its packaging method."
+  },
+  "avnotice.p2": {
+    kr: "일반적인 Windows 배포 환경에서는 코드 서명이 중요한 신뢰 기준으로 작동하지만, 현재 이 프로젝트는 <a href=\"./changelog.html?tag=security\" target=\"_blank\" rel=\"noopener noreferrer\">관련 대응 이력</a>과 CLI 대체 경로를 함께 공개하고 있습니다.",
+    en: "Code signing is an important trust signal in typical Windows distribution, but this project publishes a <a href=\"./changelog.html?tag=security\" target=\"_blank\" rel=\"noopener noreferrer\">response history</a> alongside a CLI installation path."
+  },
+  "avnotice.p3": {
+    kr: "EXE 인스톨러 실행이 어렵거나 부담되신다면 CLI 설치 방식을 이용하실 수 있습니다.",
+    en: "If running the EXE installer is blocked or undesirable, the CLI Setup is available."
+  },
+  "avnotice.btn_proceed": { kr: "다운로드 진행", en: "Download Anyway" },
+  "avnotice.btn_cli":     { kr: "CLI 설치로 전환", en: "Switch to CLI" },
 
   // ── FAQ ───────────────────────────────────────────────────────
   "faq.heading": { kr: "자주 묻는 질문", en: "FAQ" },
@@ -417,5 +434,8 @@ window.MK11_CONTENT = {
 
   "changelog.heading": { kr: "패치 노트",  en: "Patch Notes" },
   "changelog.sub":     { kr: "버전별 변경 사항. 최신 버전이 자동으로 펼쳐집니다.", en: "Changes by version. Latest version is expanded by default." },
-  "changelog.loading": { kr: "불러오는 중…", en: "Loading…" }
+  "changelog.loading": { kr: "불러오는 중…", en: "Loading…" },
+
+  "seclog.heading": { kr: "보안 대응 이력", en: "Security Response History" },
+  "seclog.sub":     { kr: "배포 이력별 보안 소프트웨어 탐지 현황과 대응 조치를 기록합니다.", en: "Security software detection status and response actions, logged per release." }
 };

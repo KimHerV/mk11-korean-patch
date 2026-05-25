@@ -1,27 +1,66 @@
 /**
- * Changelog data (inline JS, same pattern as banner.js).
+ * Changelog + security response history (unified).
  *
- * Add new versions to the front of the array.
+ * Add new entries to the FRONT of the array on each release.
+ * Entries are filtered by tag on the changelog page.
  *
  * Schema:
- *   version, date     - required, strings
- *   title             - {kr, en} one-line title
- *   lead              - {kr, en} one-paragraph summary
+ *   version, date     - required strings
+ *   tags              - string[]: one or more of "translation", "security", "platform"
+ *   title             - {kr, en}
+ *   lead              - {kr, en}
  *   highlights        - [{title:{kr,en}, items:{kr:[], en:[]}}]
- *   install_note      - {kr, en} install guidance (optional). string -> single paragraph, array -> bullet list
+ *   install_note      - {kr, en} optional. string -> single <p>, array -> <ul>
  *   github_release    - URL (optional)
+ *
+ * Title rules (see WRITING_STYLE.md):
+ *   - No version prefix (version chip is rendered separately)
+ *   - Title must accurately reflect what highlights document
+ *   - Security cleared entries: "Microsoft Defender 오탐 제거 확인"
+ *   - Rebuild entries:    "즉시 재빌드: ..." / "핫픽스 재빌드: ..."
  */
 window.MK11_CHANGELOG = [
   {
     version: "1.1",
-    date: "2026-05-17",
+    date: "2026-05-22",
+    tags: ["security"],
     title: {
-      kr: "스토리 모드 1부 품질 개선",
-      en: "Story Mode Part 1: Quality Refinement"
+      kr: "Microsoft Defender 오탐 제거 확인",
+      en: "Microsoft Defender False Positive Cleared"
     },
     lead: {
-      kr: "이번 업데이트는 스토리 모드 1부(애프터매스 이전)에 한정된 품질 개선입니다. 1부 전체를 다시 검토하여 등장인물별 말투와 표현을 다듬었습니다. 같은 인물이라도 처한 상황에 따라 말투가 자연스럽게 달라지도록 체계를 정비했습니다. 2부(애프터매스)와 그 외 영역은 이번 범위에서 제외되며, 후속 버전에서 다뤄집니다.",
-      en: "This update is limited to Story Mode Part 1 (pre-Aftermath). Part 1 was re-reviewed end-to-end, and each character's speech and expressions were refined. The system was updated so a character's tone now varies naturally by state (revenant, past, etc.). Part 2 (Aftermath) and other areas are out of scope and will be addressed in later versions."
+      kr: "v1.1 핫픽스 빌드에 대한 Defender 탐지를 확인하고 패치 인스톨러·패치 매니저 2건을 Microsoft Security Intelligence에 제출했습니다.",
+      en: "Defender detection against the v1.1 hotfix build was identified. The patch installer and patch manager were submitted to Microsoft Security Intelligence."
+    },
+    highlights: [
+      {
+        title: { kr: "결과", en: "Outcome" },
+        items: {
+          kr: [
+            "패치 인스톨러: \"detection has been removed\" 확인됐습니다.",
+            "패치 매니저: 스캐너 탐지 없음 응답을 받았습니다. 추가 조치 없이 종결됐습니다.",
+            ".asi 파일의 메모리 패처 행위는 일부 엔진이 구조적으로 탐지합니다. VirusTotal 잔여 탐지 가능성이 있습니다."
+          ],
+          en: [
+            "Patch installer: \"detection has been removed\" confirmed.",
+            "Patch manager: \"no positive detection\" response received. Closed with no further action.",
+            "The .asi memory-patching behavior is structurally detected by some engines; residual VirusTotal detections may remain."
+          ]
+        }
+      }
+    ]
+  },
+  {
+    version: "1.1",
+    date: "2026-05-17",
+    tags: ["translation", "security"],
+    title: {
+      kr: "스토리 모드 1부 품질 개선: 패치 매니저 핫픽스 포함",
+      en: "Story Mode Part 1 Quality Refinement, Patch Manager Hotfix"
+    },
+    lead: {
+      kr: "이번 업데이트는 스토리 모드 1부(애프터매스 이전)에 한정된 품질 개선입니다. 1부 전체를 다시 검토하여 등장인물별 말투와 표현을 다듬었습니다. 출시 직후 패치 매니저 자동 업데이트 경로의 결함 2건을 발견하여 당일 수정 후 재빌드했습니다.",
+      en: "This update is limited to Story Mode Part 1 (pre-Aftermath). Part 1 was re-reviewed end-to-end and character speech was refined throughout. Two defects in the patch manager auto-update path were discovered shortly after release and fixed in a same-day rebuild."
     },
     highlights: [
       {
@@ -101,15 +140,32 @@ window.MK11_CHANGELOG = [
             "Reviewed Story Part 1 end-to-end by hand."
           ]
         }
+      },
+      {
+        title: { kr: "패치 매니저 핫픽스 (2026-05-18 재빌드)", en: "Patch Manager Hotfix (2026-05-18 rebuild)" },
+        items: {
+          kr: [
+            "결함 1: 자동 업데이트 중 패치 파일이 정상적으로 내려받아지지 않던 문제를 수정했습니다.",
+            "결함 2: 업데이트 완료 후에도 '재설치 필요'로 오판정하던 문제를 수정했습니다.",
+            "패치 인스톨러 SHA256: cf4f6b5c85b07f23c6c2ea5bcdc757b42023246d7869199b695359cf43146e96",
+            "패치 매니저 SHA256: ca135f899479c3628366cd9e545804c608d009606cd7759766898aaffcb96b36"
+          ],
+          en: [
+            "Defect 1: Patch files failed to download during auto-update. Fixed.",
+            "Defect 2: A successful update was falsely reported as 'reinstall required'. Fixed.",
+            "Patch installer SHA256: cf4f6b5c85b07f23c6c2ea5bcdc757b42023246d7869199b695359cf43146e96",
+            "Patch manager SHA256: ca135f899479c3628366cd9e545804c608d009606cd7759766898aaffcb96b36"
+          ]
+        }
       }
     ],
     install_note: {
       kr: [
-        "GUI: 매니저에서 v1.1 업데이트를 내려받아 주세요.",
+        "GUI: 패치 매니저에서 v1.1 업데이트를 내려받아 주세요.",
         "CLI: install 스크립트를 다시 실행하면 최신 버전으로 받아집니다."
       ],
       en: [
-        "GUI: download the v1.1 update from the manager.",
+        "GUI: download the v1.1 update from the patch manager.",
         "CLI: re-run the install script to fetch the latest version."
       ]
     },
@@ -118,6 +174,7 @@ window.MK11_CHANGELOG = [
   {
     version: "1.0",
     date: "2026-05-13",
+    tags: ["platform"],
     title: {
       kr: "플랫폼 지원 확장: Steam Deck 및 Linux Bazzite",
       en: "Platform Support Expansion: Steam Deck and Linux Bazzite"
@@ -149,11 +206,11 @@ window.MK11_CHANGELOG = [
         items: {
           kr: [
             "install 스크립트를 다시 실행하면 최신 패치로 자동 갱신됩니다.",
-            "별도 매니저 없이 스크립트 한 번으로 적용, 복구, 갱신이 모두 처리됩니다."
+            "별도 패치 매니저 없이 스크립트 한 번으로 적용, 복구, 갱신이 모두 처리됩니다."
           ],
           en: [
             "Re-running the install script automatically updates to the latest patch.",
-            "Handled apply, restore, and update through a single script, without a separate manager."
+            "Handled apply, restore, and update through a single script, without a separate patch manager."
           ]
         }
       }
@@ -166,14 +223,45 @@ window.MK11_CHANGELOG = [
   },
   {
     version: "1.0",
+    date: "2026-05-06",
+    tags: ["security"],
+    title: {
+      kr: "Microsoft Defender 오탐 제거 확인",
+      en: "Microsoft Defender False Positive Cleared"
+    },
+    lead: {
+      kr: "Trojan:Win32/Wacatac.H!ml 오탐 건으로 패치 인스톨러·패치 매니저 등 6건을 Microsoft Security Intelligence에 제출했습니다. 2026-05-10에 EXE 및 dinput8.dll 심사 완료를 확인했습니다.",
+      en: "Six files including the patch installer, patch manager, and bundled components were submitted to Microsoft Security Intelligence for a Trojan:Win32/Wacatac.H!ml false positive. EXE and dinput8.dll reviews were completed on 2026-05-10."
+    },
+    highlights: [
+      {
+        title: { kr: "결과", en: "Outcome" },
+        items: {
+          kr: [
+            "패치 인스톨러·패치 매니저: \"detection has been removed\" 확인됐습니다.",
+            "dinput8.dll·ASI·DLL류: 스캐너 탐지 없음 응답을 받았습니다. 추가 조치 없이 종결됐습니다.",
+            "랜딩 페이지 FAQ 및 README에 정상 판정을 반영해 배포했습니다(2026-05-11)."
+          ],
+          en: [
+            "Patch installer and patch manager: \"detection has been removed\" confirmed.",
+            "dinput8.dll, ASI, and DLLs: \"no positive detection\" response received. Closed with no further action.",
+            "Landing page FAQ and README updated to reflect clearance, deployed on 2026-05-11."
+          ]
+        }
+      }
+    ]
+  },
+  {
+    version: "1.0",
     date: "2026-05-04",
+    tags: ["translation", "security"],
     title: {
       kr: "첫 정식 출시: 게임 전체 한글화",
       en: "Initial Release: Full Game Localization"
     },
     lead: {
-      kr: "MK11 한글 패치의 첫 정식 버전입니다. 스토리 모드, 무브리스트, UI, DLC, 인게임 교환 대사까지 게임 전체에 걸쳐 총 53,000건 이상의 번역을 적용했습니다.",
-      en: "First official release of the MK11 Korean Patch. Over 53,000 translations were applied across story mode, movelists, UI, DLC, and in-game dialogue exchanges."
+      kr: "MK11 한글 패치의 첫 정식 버전입니다. 스토리 모드, 무브리스트, UI, DLC, 인게임 교환 대사까지 게임 전체에 걸쳐 총 53,000건 이상의 번역을 적용했습니다. 출시 당일 PyInstaller UPX 압축으로 인한 Defender 오탐이 확인되어 당일 --noupx 정책을 수립하고 재빌드했습니다.",
+      en: "First official release of the MK11 Korean Patch. Over 53,000 translations were applied across story mode, movelists, UI, DLC, and in-game dialogue exchanges. A Defender false positive caused by PyInstaller UPX compression was identified on release day; a --noupx rebuild was shipped the same day."
     },
     highlights: [
       {
@@ -213,19 +301,19 @@ window.MK11_CHANGELOG = [
         }
       },
       {
-        title: { kr: "Windows GUI 인스톨러 및 매니저", en: "Windows GUI installer and manager" },
+        title: { kr: "Windows GUI 패치 인스톨러 및 패치 매니저", en: "Windows GUI patch installer and patch manager" },
         items: {
           kr: [
-            "단일 실행파일 인스톨러(MK11-Korean-Patch-Setup.exe)를 제공합니다.",
+            "패치 인스톨러(MK11-Korean-Patch-Setup.exe)를 단일 실행파일로 제공합니다.",
             "상태 확인과 재적용을 위한 패치 매니저를 동봉했습니다.",
             "사전 요구사항으로 VC++ 2013 / 2015-2022 재배포 패키지와 WebView2 Evergreen이 필요합니다.",
-            "인스톨러, 매니저, dinput8.dll이 Microsoft Defender 공식 심사를 통과했습니다(2026-05-10 승인)."
+            "패치 인스톨러, 패치 매니저, dinput8.dll의 Defender 오탐이 해제되었습니다(2026-05-10)."
           ],
           en: [
-            "Provided a single-executable installer (MK11-Korean-Patch-Setup.exe).",
+            "Provided a single-executable patch installer (MK11-Korean-Patch-Setup.exe).",
             "Bundled a patch manager for status check and re-application.",
             "Required VC++ 2013 / 2015-2022 redistributables and WebView2 Evergreen as prerequisites.",
-            "Cleared the installer, manager, and dinput8.dll through Microsoft Defender's official review (approved on 2026-05-10)."
+            "Defender false positive detections on the patch installer, patch manager, and dinput8.dll were cleared (2026-05-10)."
           ]
         }
       },
@@ -243,11 +331,26 @@ window.MK11_CHANGELOG = [
             "Provided MK11-CVD-Bypass.zip as the CVD bypass plugin for manual install."
           ]
         }
+      },
+      {
+        title: { kr: "출시 당일 재빌드: PyInstaller UPX 오탐 해소", en: "Same-day Rebuild: PyInstaller UPX False Positive Resolved" },
+        items: {
+          kr: [
+            "PyInstaller --noupx 플래그를 추가했습니다.",
+            "--version-file로 PE 메타데이터(CompanyName, FileDescription, FileVersion, LegalCopyright, ProductName)를 삽입했습니다.",
+            "VirusTotal 7/69. 주요 백신 클린(MS, Norton, McAfee, BitDefender, ESET, Avast, AVG)입니다. Defender Cloud ML 통과를 확인했습니다."
+          ],
+          en: [
+            "Added PyInstaller --noupx flag.",
+            "Injected PE metadata (CompanyName, FileDescription, FileVersion, LegalCopyright, ProductName) via --version-file.",
+            "VirusTotal 7/69. Major engines clean: MS, Norton, McAfee, BitDefender, ESET, Avast, AVG. Defender Cloud ML cleared."
+          ]
+        }
       }
     ],
     install_note: {
-      kr: "Steam의 MK11 → 속성 → 언어를 \"간체 중국어\"로 설정한 뒤 인스톨러를 실행하시기 바랍니다.",
-      en: "Set Steam → MK11 → Properties → Language to \"Simplified Chinese\", then run the installer."
+      kr: "Steam의 MK11 → 속성 → 언어를 \"간체 중국어\"로 설정한 뒤 패치 인스톨러를 실행하시기 바랍니다.",
+      en: "Set Steam → MK11 → Properties → Language to \"Simplified Chinese\", then run the patch installer."
     },
     github_release: "https://github.com/KimHerV/mk11-korean-patch/releases/tag/v1.0"
   }

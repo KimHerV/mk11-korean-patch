@@ -281,8 +281,8 @@
         </div>
       </div>
 
-      <button class="carousel-arrow carousel-arrow--prev" id="carousel-prev" aria-label="Previous">&#8249;</button>
-      <button class="carousel-arrow carousel-arrow--next" id="carousel-next" aria-label="Next">&#8250;</button>
+      <button class="carousel-arrow carousel-arrow--prev" id="carousel-prev" aria-label="Previous"><i data-lucide="chevron-left" aria-hidden="true"></i></button>
+      <button class="carousel-arrow carousel-arrow--next" id="carousel-next" aria-label="Next"><i data-lucide="chevron-right" aria-hidden="true"></i></button>
 
       <div class="carousel-footer">
         <span class="carousel-caption" id="carousel-caption"></span>
@@ -298,32 +298,32 @@
       <h2 class="section-title" data-i18n="features.heading"></h2>
       <div class="features-grid">
         <div class="feature-card">
-          <span class="feature-icon">&#9654;</span>
+          <i data-lucide="scroll" class="feature-icon" aria-hidden="true"></i>
           <h3 data-i18n="features.card1_title"></h3>
           <p data-i18n="features.card1_desc"></p>
         </div>
         <div class="feature-card">
-          <span class="feature-icon">&#9650;</span>
+          <i data-lucide="zap" class="feature-icon" aria-hidden="true"></i>
           <h3 data-i18n="features.card2_title"></h3>
           <p data-i18n="features.card2_desc"></p>
         </div>
         <div class="feature-card">
-          <span class="feature-icon">&#9632;</span>
+          <i data-lucide="layout-grid" class="feature-icon" aria-hidden="true"></i>
           <h3 data-i18n="features.card3_title"></h3>
           <p data-i18n="features.card3_desc"></p>
         </div>
         <div class="feature-card">
-          <span class="feature-icon">&#9670;</span>
+          <i data-lucide="gem" class="feature-icon" aria-hidden="true"></i>
           <h3 data-i18n="features.card4_title"></h3>
           <p data-i18n="features.card4_desc"></p>
         </div>
         <div class="feature-card">
-          <span class="feature-icon">&#9733;</span>
+          <i data-lucide="star" class="feature-icon" aria-hidden="true"></i>
           <h3 data-i18n="features.card5_title"></h3>
           <p data-i18n="features.card5_desc"></p>
         </div>
         <div class="feature-card">
-          <span class="feature-icon">&#9679;</span>
+          <i data-lucide="message-circle" class="feature-icon" aria-hidden="true"></i>
           <h3 data-i18n="features.card6_title"></h3>
           <p data-i18n="features.card6_desc"></p>
         </div>
@@ -391,7 +391,7 @@
           </div>
 
           <div class="about-entry">
-            <div class="about-marker about-marker--gold"></div>
+            <div class="about-marker"></div>
             <div class="about-body">
               <span class="about-date" data-i18n="about.e3_date"></span>
               <h3 data-i18n="about.e3_title"></h3>
@@ -400,7 +400,7 @@
           </div>
 
           <div class="about-entry">
-            <div class="about-marker about-marker--gold"></div>
+            <div class="about-marker"></div>
             <div class="about-body">
               <span class="about-date" data-i18n="about.e4_date"></span>
               <h3 data-i18n="about.e4_title"></h3>
@@ -427,7 +427,7 @@
           </div>
 
           <div class="about-entry">
-            <div class="about-marker about-marker--gold"></div>
+            <div class="about-marker"></div>
             <div class="about-body">
               <span class="about-date" data-i18n="about.e7_date"></span>
               <h3 data-i18n="about.e7_title"></h3>
@@ -452,16 +452,16 @@
   <section class="section" id="install">
     <div class="container">
       <h2 class="section-title" data-i18n="install.heading"></h2>
-      <p class="section-subtitle" data-i18n="install.subheading"></p>
-
-      <!-- Latest version stat chip (auto-synced by update_version_refs.py) -->
-      <div class="install-latest-chip">
-        <span class="install-latest-chip-label" data-i18n="install.latest_label"></span>
-        <span class="install-latest-chip-version">v1.1</span>
-        <span class="install-latest-chip-sep">·</span>
-        <span class="install-latest-chip-date">2026-05-17</span>
-        <a class="install-latest-chip-link" href="changelog.html" target="_blank" rel="noopener" data-i18n="install.latest_view"></a>
-      </div>
+      <p class="section-subtitle install-latest">
+        <span id="latest-version">v1.1</span>
+        ·
+        <span id="latest-date">2026-05-17</span>
+        ·
+        <a href="changelog.html?tag=translation" target="_blank" rel="noopener">
+          <span data-i18n="install.latest_view"></span>
+          <span class="install-latest-extlink" aria-hidden="true">↗</span>
+        </a>
+      </p>
 
       <!-- Channel cards: GUI (recommended) ↔ CLI (alternative) -->
       <div class="install-cards" role="radiogroup" aria-label="Install method">
@@ -730,6 +730,26 @@
       <div class="char-grid" id="char-grid"></div>
       <div class="char-picker-footer">
         <button type="button" id="char-picker-confirm" class="btn btn-primary" data-i18n="feedback.char_picker_confirm"></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── AV NOTICE MODAL (shown on every GUI download click) ─ -->
+  <div id="av-notice-modal" class="online-modal" role="dialog" aria-modal="true" aria-labelledby="av-notice-title" hidden>
+    <div class="online-modal-backdrop" id="av-notice-backdrop"></div>
+    <div class="online-modal-box">
+      <div class="online-modal-header">
+        <h2 class="online-modal-title" id="av-notice-title" data-i18n="avnotice.title"></h2>
+        <button class="online-modal-close" id="av-notice-close" aria-label="닫기">&#10005;</button>
+      </div>
+      <div class="online-modal-body">
+        <p data-i18n="avnotice.p1"></p>
+        <p data-i18n="avnotice.p2"></p>
+        <p data-i18n="avnotice.p3"></p>
+      </div>
+      <div class="online-modal-footer">
+        <button type="button" class="btn btn-secondary" id="av-notice-btn-cli" data-i18n="avnotice.btn_cli"></button>
+        <button type="button" class="btn btn-primary" id="av-notice-btn-proceed" data-i18n="avnotice.btn_proceed"></button>
       </div>
     </div>
   </div>

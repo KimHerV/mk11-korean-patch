@@ -44,7 +44,7 @@ window.MK11_FAQ = [
           en: "How does install and uninstall work?"
         },
         a: {
-          kr: "설치 시 원본 파일이 자동으로 백업됩니다.\n<b>GUI 설치</b>: 매니저에서 제거를 실행하면 원본 상태로 복구됩니다.\n<b>CLI 설치</b>: 설치 시 압축 해제한 폴더의 <code>uninstall.bat</code>(Windows) 또는 <code>bash uninstall.sh</code>(Steam Deck / Linux)를 실행하세요.\n제거 후 영어로 플레이하려면 Steam → 게임 속성 → 언어에서 영어로 변경해 주세요.",
+          kr: "설치 시 원본 파일이 자동으로 백업됩니다.\n<b>GUI 설치</b>: 매니저에서 제거를 실행하면 원본 상태로 복구됩니다.\n<b>CLI 설치</b>: 설치 시 압축 해제한 폴더의 <code>uninstall.bat</code>(Windows) 또는 <code>bash uninstall.sh</code>(Steam Deck / Linux)를 실행하십시오.\n제거 후 영어로 플레이하려면 Steam → 게임 속성 → 언어에서 영어로 변경해 주십시오.",
           en: "Original files are automatically backed up at install time.\n<b>GUI Setup</b>: Run uninstall from the manager to restore original files.\n<b>CLI Setup</b>: Run <code>uninstall.bat</code> (Windows) or <code>bash uninstall.sh</code> (Steam Deck / Linux) from the folder you extracted at install time.\nAfterward, go to Steam → game Properties → Language and switch to English."
         },
         note: {
@@ -58,11 +58,11 @@ window.MK11_FAQ = [
           en: "Does it work outside of Steam?"
         },
         a: {
-          kr: "Steam PC 버전을 공식 지원합니다. Epic Games 버전은 미검증입니다. Steam Deck / Linux는 <a href='https://github.com/KimHerV/mk11-korean-patch/releases/latest' target='_blank' rel='noopener'>CLI 설치</a>를 사용하세요.",
+          kr: "Steam PC 버전을 공식 지원합니다. Epic Games 버전은 미검증입니다. Steam Deck / Linux는 <a href='https://github.com/KimHerV/mk11-korean-patch/releases/latest' target='_blank' rel='noopener'>CLI 설치</a>를 권장합니다.",
           en: "Officially supported on Steam PC. The Epic Games version has not been tested. For Steam Deck / Linux, use the <a href='https://github.com/KimHerV/mk11-korean-patch/releases/latest' target='_blank' rel='noopener'>CLI Setup</a>."
         },
         note: {
-          kr: "Steam Deck / Linux에서 한글이 표시되지 않는 경우, Steam 시작 옵션에 <code>WINEDLLOVERRIDES=\"dinput8=n,b\" %command%</code>를 추가해 보세요.",
+          kr: "Steam Deck / Linux에서 한글이 표시되지 않는 경우, Steam 시작 옵션에 <code>WINEDLLOVERRIDES=\"dinput8=n,b\" %command%</code>를 추가해 보시기 바랍니다.",
           en: "If Korean text doesn't appear on Steam Deck or Linux, try adding <code>WINEDLLOVERRIDES=\"dinput8=n,b\" %command%</code> to your Steam launch options."
         }
       },
@@ -91,7 +91,7 @@ window.MK11_FAQ = [
           en: "I installed the 4K Cinematic Pack but cinematics still look standard."
         },
         a: {
-          kr: "MK11의 오래된 동작 방식 때문입니다. 게임이 Movies_4k 폴더를 직접 읽지 않고 Movies 폴더를 기준으로 재생합니다.\n해결 방법: Movies_4k 안의 파일들을 Movies 폴더에 덮어쓰세요. Movies_4k가 Movies의 모든 파일을 포함하지는 않으므로, 기존 파일을 삭제하지 말고 덮어쓰는 방식으로만 진행해야 합니다.",
+          kr: "MK11의 오래된 동작 방식 때문입니다. 게임이 Movies_4k 폴더를 직접 읽지 않고 Movies 폴더를 기준으로 재생합니다.\n해결 방법: Movies_4k 안의 파일들을 Movies 폴더에 덮어쓰십시오. Movies_4k가 Movies의 모든 파일을 포함하지는 않으므로, 기존 파일을 삭제하지 말고 덮어쓰는 방식으로만 진행해야 합니다.",
           en: "This is a long-standing MK11 behavior. The game reads cinematics from the Movies folder, not Movies_4k, even with the pack installed.\nFix: Copy files from Movies_4k into the Movies folder. Do not delete existing Movies files. Overwrite only, since Movies_4k does not contain every file in Movies."
         },
         note: {
@@ -110,7 +110,7 @@ window.MK11_FAQ = [
           en: "I see \"Unable to load ASIMK11.asi. Error: 126\"."
         },
         a: {
-          kr: "의존성 파일 누락이 원인입니다. 아래 순서로 확인해 주세요.",
+          kr: "의존성 파일 누락이 원인입니다. 아래 순서로 확인해 주십시오.",
           en: "A missing dependency is the likely cause. Try the following in order."
         },
         list: {
@@ -124,7 +124,7 @@ window.MK11_FAQ = [
           ]
         },
         note: {
-          kr: "해결되지 않으면 에러 문구와 인스톨러 버전을 피드백으로 제보해 주세요.",
+          kr: "해결되지 않으면 에러 문구와 인스톨러 버전을 피드백으로 제보해 주십시오.",
           en: "If the issue persists, please report the exact error and installer version via the feedback form."
         }
       },
@@ -134,7 +134,7 @@ window.MK11_FAQ = [
           en: "The patch installed but isn't working, or the game has issues."
         },
         a: {
-          kr: "Steam 라이브러리에서 게임 우클릭 → 속성 → 언어가 중국어 간체로 설정되어 있는지 먼저 확인해 주세요. 인게임 언어 설정은 적용되지 않습니다. 설치 경로와 보안 프로그램 차단 여부도 함께 확인하시면 좋습니다.\n프레임 드랍이나 오디오 끊김은 패치가 원인일 가능성이 낮습니다. DX11/DX12 설정, 드라이버, 원본 게임 환경을 먼저 점검해 주세요.",
+          kr: "Steam 라이브러리에서 게임 우클릭 → 속성 → 언어가 중국어 간체로 설정되어 있는지 먼저 확인해 주십시오. 인게임 언어 설정은 적용되지 않습니다. 설치 경로와 보안 프로그램 차단 여부도 함께 확인하시면 좋습니다.\n프레임 드랍이나 오디오 끊김은 패치가 원인일 가능성이 낮습니다. DX11/DX12 설정, 드라이버, 원본 게임 환경을 먼저 점검해 주십시오.",
           en: "First, check Steam library → right-click game → Properties → Language and confirm it is set to Simplified Chinese. The in-game language setting will not apply the patch. Also check the install path and whether any security software blocked the patch.\nFrame drops and audio stuttering are unlikely to be caused by the patch. Check DX11/DX12 settings, driver, and base game environment first."
         }
       },
@@ -144,12 +144,12 @@ window.MK11_FAQ = [
           en: "Windows Defender is flagging the installer as malicious."
         },
         a: {
-          kr: "최신 빌드는 Microsoft 제출 결과 인스톨러와 패치 매니저 모두 정상 판정이 완료되었습니다. 이전에 경고가 발생했다면 구버전일 가능성이 있으므로, 최신 설치 파일로 다시 받아 확인해 주세요. 최신 빌드에서도 동일 증상이 지속되면 <a href='https://github.com/KimHerV/mk11-korean-patch/releases/latest' target='_blank' rel='noopener'>CLI 설치</a>를 대신 사용하세요. CLI 설치는 EXE 없이 스크립트만으로 동작합니다.",
-          en: "The latest build has been cleared through Microsoft's official review process. Both the installer and patch manager received a clean verdict. If you saw a warning before, you may have an older build — please re-download the latest installer and try again. If the issue persists on the latest build, use the <a href='https://github.com/KimHerV/mk11-korean-patch/releases/latest' target='_blank' rel='noopener'>CLI Setup</a> instead. CLI Setup runs entirely as a script without an EXE."
+          kr: "패치 인스톨러에 대한 Windows Defender 오탐 제거가 2026-05-23 기준으로 확인되었습니다. 탐지가 계속 보인다면 로컬 보안 정의 캐시가 아직 갱신되지 않은 경우일 수 있습니다.\n먼저 <b>Windows 보안 → 바이러스 및 위협 방지 → 보호 업데이트 → 업데이트 확인</b>을 실행해 주십시오.\n즉시 갱신이 필요하면, 관리자 권한 명령 프롬프트에서 아래 명령을 순서대로 실행하십시오.\n<code>cd \"C:\\Program Files\\Windows Defender\"</code>\n<code>MpCmdRun.exe -removedefinitions -dynamicsignatures</code>\n<code>MpCmdRun.exe -SignatureUpdate</code>",
+          en: "Windows Defender false positive on the patch installer was confirmed removed as of 2026-05-23. If the warning still appears, the local security definition cache may not have updated yet.\nFirst, run <b>Windows Security → Virus &amp; threat protection → Protection updates → Check for updates</b>.\nIf an immediate update is needed, run the following commands in order in an administrator Command Prompt.\n<code>cd \"C:\\Program Files\\Windows Defender\"</code>\n<code>MpCmdRun.exe -removedefinitions -dynamicsignatures</code>\n<code>MpCmdRun.exe -SignatureUpdate</code>"
         },
         note: {
-          kr: "2026년 5월 6일 Microsoft에 제출, 5월 10일 정상 판정 확인.",
-          en: "Submitted to Microsoft on May 6, 2026; clearance confirmed May 10, 2026."
+          kr: "v1.1 패치 인스톨러: 2026년 5월 23일 오탐 제거 확인.",
+          en: "v1.1 patch installer: false positive removed, confirmed May 23, 2026."
         }
       },
       {
@@ -158,12 +158,26 @@ window.MK11_FAQ = [
           en: "Smart App Control is blocking the installer."
         },
         a: {
-          kr: "최신 빌드는 Microsoft 제출을 통해 인스톨러와 패치 매니저의 정상 판정이 확인되었습니다. SAC 환경에서도 설치 차단이 재현되지 않는 것을 확인했습니다. 만약 동일 증상이 남아 있다면 최신 빌드 재다운로드 후 다시 시도해 주세요. 그래도 해결되지 않으면 <a href='https://github.com/KimHerV/mk11-korean-patch/releases/latest' target='_blank' rel='noopener'>CLI 설치</a>를 사용하세요. CLI 설치는 EXE 없이 스크립트만으로 동작하므로 SAC 차단 대상이 아닙니다.",
-          en: "The latest build has been cleared through Microsoft's official review process. We confirmed that installation proceeds without Smart App Control blocking on SAC-enabled systems. If you are still experiencing a block, please re-download the latest build and try again. If that doesn't resolve it, use the <a href='https://github.com/KimHerV/mk11-korean-patch/releases/latest' target='_blank' rel='noopener'>CLI Setup</a> instead. CLI Setup runs as a script without an EXE, so it is not subject to SAC restrictions."
+          kr: "Smart App Control(SAC)은 코드 서명과 실행 파일 평판을 기준으로 차단 여부를 판단하는 시스템으로, Windows Defender 오탐 해제와는 별도로 동작합니다. 따라서 Defender에서 오탐이 제거되었더라도, 서명되지 않은 실행 파일은 SAC 환경에서 계속 차단될 수 있습니다.\nSAC 환경에서는 <a href='https://github.com/KimHerV/mk11-korean-patch/releases/latest' target='_blank' rel='noopener'>CLI 설치</a>를 권장합니다. CLI 설치는 EXE 인스톨러 대신 스크립트만으로 동작하므로, GUI 설치기와 같은 방식의 차단 대상이 아닙니다.",
+          en: "Smart App Control (SAC) determines whether to block based on code signing and executable reputation, operating independently of Windows Defender false positive status. Unsigned executables may continue to be blocked by SAC even after a Defender false positive has been cleared.\nFor SAC-enabled systems, the <a href='https://github.com/KimHerV/mk11-korean-patch/releases/latest' target='_blank' rel='noopener'>CLI Setup</a> is recommended. CLI Setup runs as a script rather than an EXE installer, so it is not subject to the same type of blocking as the GUI installer."
         },
         note: {
-          kr: "2026년 5월 6일 Microsoft에 제출, 5월 10일 정상 판정 확인.",
-          en: "Submitted to Microsoft on May 6, 2026; clearance confirmed May 10, 2026."
+          kr: "CLI 설치는 SAC 환경에서 실행 제한 없이 사용할 수 있는 공식 대안입니다.",
+          en: "CLI Setup is the recommended alternative for SAC-enabled environments."
+        }
+      },
+      {
+        q: {
+          kr: "VirusTotal이나 다른 보안 프로그램에서도 탐지됩니다.",
+          en: "VirusTotal or other security tools are also flagging the files."
+        },
+        a: {
+          kr: "Microsoft Defender에서는 2026-05-23 기준으로 설치 파일의 탐지 제거가 확인되었습니다. 다만 VirusTotal은 여러 독립 엔진이 각자 다른 기준으로 판단하므로, Defender 결과와 별개로 일부 엔진에서는 탐지가 남아 있을 수 있습니다.\n원인은 크게 세 가지입니다.\n<b>1. 비서명 실행 파일</b>\n현재 GUI 설치기는 코드 서명이 없는 실행 파일입니다. 일반적인 Windows 배포 환경에서는 코드 서명이 중요한 신뢰 기준으로 작동하며, 일부 보안 제품은 비서명 실행 파일에 더 엄격하게 반응할 수 있습니다.\n<b>2. 인스톨러 패키징 방식</b>\n현재 GUI 설치기는 PyInstaller 기반으로 패키징되어 있습니다. 이 방식은 실행 시 내부 파일을 임시 경로에 풀어 로드하고, 패치 설정 및 관리 파일을 AppData 경로에 배치합니다. 일부 보안 엔진은 이런 실행 패턴 자체를 의심 신호로 해석할 수 있습니다.\n<b>3. CVD 우회 로더 체인(ASIMK11.asi)</b>\n이 패치는 수정된 게임 파일이 정상적으로 로드되도록 CVD 우회 로더 체인을 사용합니다. 게임 실행 시 로더가 함께 동작하며, 일부 휴리스틱 엔진은 이런 메모리 접근 및 로더 체인 동작을 경고 대상으로 볼 수 있습니다.\n또한 v1.1은 업데이트 기능 오류 수정으로 인해 핵심 실행 파일이 다시 빌드되면서 해시가 변경되었고, 그 과정에서 일부 엔진에서 오탐이 다시 발생했습니다.",
+          en: "Microsoft Defender detections on the installer were confirmed removed as of 2026-05-23. However, VirusTotal aggregates many independent engines each using its own criteria, so some may still flag the files independently of Defender's result.\nThere are three main causes.\n<b>1. Unsigned executable</b>\nThe GUI installer is an unsigned executable. In standard Windows distribution environments, code signing is an important trust signal, and some security products apply stricter scrutiny to unsigned executables.\n<b>2. Installer packaging method</b>\nThe GUI installer is packaged using PyInstaller. At runtime, it extracts internal files to a temporary path and places patch configuration and manager files under AppData. Some security engines may interpret this execution pattern as a suspicious signal.\n<b>3. CVD bypass loader chain (ASIMK11.asi)</b>\nThis patch uses a CVD bypass loader chain to allow modified game files to load correctly. The loader runs alongside the game at launch, and some heuristic engines may flag this type of memory access and loader chain behavior.\nAdditionally, the v1.1 hotfix required rebuilding core executables to fix an update function bug, which changed the file hash and caused false positives to re-emerge in some engines."
+        },
+        note: {
+          kr: "현재 False Positive 제출 대응과 함께, GUI 인스톨러의 내부 패키징 구조를 계속 정리하고 있으며, 보다 신뢰 가능한 배포 방식으로 개선해가고 있습니다. EXE 인스톨러 실행이 어렵거나 부담되신다면 GUI 대신 CLI 설치 방식을 권장합니다.",
+          en: "False positive submissions are being handled as needed, alongside ongoing improvements to the GUI installer's internal packaging toward a more trustworthy distribution method. If running the EXE installer is blocked or undesirable, the CLI Setup is recommended."
         }
       }
     ]
@@ -203,8 +217,8 @@ window.MK11_FAQ = [
           en: "I want to report a mistranslation or an error."
         },
         a: {
-          kr: "이 페이지 하단의 피드백 폼을 이용해 주세요. 문제 위치(스토리/메뉴/무브리스트 등)와 현재 표시 문구를 함께 남겨주시면 빠르게 확인할 수 있습니다.",
-          en: "Use the feedback form at the bottom of this page. Include the location (story/menu/movelist/etc.) and the current text to help us find and fix the issue faster."
+          kr: "이 페이지 하단의 피드백 폼을 이용해 주십시오. 문제 위치(스토리/메뉴/무브리스트 등)와 현재 표시 문구를 함께 남겨주시면 빠르게 확인할 수 있습니다.",
+          en: "Use the feedback form at the bottom of this page. Include the location (story/menu/movelist/etc.) and the current text to help locate and resolve the issue faster."
         }
       }
     ]
