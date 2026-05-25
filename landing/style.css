@@ -3044,4 +3044,8 @@ body.changelog-page {
   .cl-version-body { padding: 0 var(--space-6) var(--space-6); }
   .cl-highlights { gap: var(--space-6); }
   .cl-install { padding: var(--space-4) var(--space-6); }
+  /* Meta row: version+date pinned to row 1, chips wrap to row 2 */
+  .cl-version-meta { flex-wrap: wrap; }
+  .cl-entry-chips { width: 100%; margin-top: var(--space-1); }
+  .cl-tags-sep { display: none; }
 }

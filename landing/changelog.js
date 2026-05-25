@@ -94,7 +94,7 @@
                escapeHtml(_locale === 'en' ? info.en : info.kr) + '</button>';
     }).join('');
     var tagsMetaHtml = entryChipsHtml
-      ? '<span class="cl-version-sep">·</span><span class="cl-entry-chips">' + entryChipsHtml + '</span>'
+      ? '<span class="cl-version-sep cl-tags-sep">·</span><span class="cl-entry-chips">' + entryChipsHtml + '</span>'
       : '';
 
     return '<details class="cl-version" name="cl-versions"' + openAttr + '>' +
