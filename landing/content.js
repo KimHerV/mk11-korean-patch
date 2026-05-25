@@ -41,10 +41,10 @@ window.MK11_CONTENT = {
   "stats.s1_label": { kr: "번역 완료율",   en: "Translation Complete" },
   "stats.s2_num":   "53,000+",
   "stats.s2_label": { kr: "번역 항목",     en: "Translated Entries" },
-  "stats.s3_num":   { kr: "37개",          en: "37" },
+  "stats.s3_num":   "37",
   "stats.s3_label": { kr: "번역 파일",     en: "Translation Files" },
   "stats.s4_label":  { kr: "총 다운로드",   en: "Total Downloads" },
-  "stats.count_suffix": { kr: "회", en: "" },
+  "stats.count_suffix": "",
 
   // ── Screenshots ───────────────────────────────────────────────
   "screenshots.heading": { kr: "스크린샷",              en: "Screenshots" },
