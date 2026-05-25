@@ -20,6 +20,9 @@
   --color-danger:         #cc3333;
   --color-success:        #4a9a5a;
   --color-warning:        #c47a20;
+  --color-tag-translation: var(--color-gold);
+  --color-tag-security:    #c95a4c;
+  --color-tag-platform:    #8a6cc8;
 
   /* Short aliases for app contexts */
   --bg:             var(--color-bg);
