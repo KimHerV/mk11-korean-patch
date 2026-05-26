@@ -74,6 +74,42 @@ code {
 .container { max-width: 1100px; margin: 0 auto; padding: 0 var(--space-6); }
 .container-narrow { max-width: 680px; }
 
+/* ── Fluent Reveal highlight (add class="reveal" to any card) ── */
+.reveal { position: relative; overflow: hidden; }
+.reveal::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    350px circle at var(--x, 50%) var(--y, 50%),
+    rgba(201, 168, 76, 0.07),
+    transparent 60%
+  );
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  pointer-events: none;
+}
+.reveal:hover::before { opacity: 1; }
+.reveal::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: radial-gradient(
+    280px circle at var(--x, 50%) var(--y, 50%),
+    rgba(201, 168, 76, 0.5),
+    transparent 55%
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: destination-out;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+}
+.reveal:hover::after { opacity: 1; }
+
 /* ── Buttons ───────────────────────────────────────────────── */
 /* Colors/hover behavior from design-system.css.
    Landing overrides: sizing, layout.
@@ -166,10 +202,10 @@ code {
 .hero-divider {
   display: block;
   width: 100%;
-  max-width: 560px;
+  max-width: 540px;
   height: auto;
   margin: var(--space-4) auto;
-  opacity: 0.75;
+  opacity: 1;
 }
 .hero-title-kr {
   display: block;
@@ -211,7 +247,7 @@ code {
 .hero-legal {
   font-size: var(--text-small);
   color: var(--color-text-secondary);
-  max-width: 500px; margin: 0 auto;
+  max-width: 600px; margin: 0 auto;
 }
 .hero-credit {
   font-size: var(--text-small);
@@ -275,7 +311,7 @@ code {
 .carousel {
   position: relative;
   width: 100%;
-  background: #000;
+  background: var(--color-bg);
   border-top: 1px solid var(--color-border);
   border-bottom: 1px solid var(--color-border);
 }
@@ -356,7 +392,7 @@ code {
   grid-template-columns: 1fr auto 1fr;
   align-items: center;
   padding: var(--space-4) var(--space-8);
-  background: var(--color-surface);
+  background: var(--color-bg);
   border-top: 1px solid var(--color-border);
   gap: var(--space-4);
 }
@@ -476,7 +512,7 @@ code {
 /* ── About timeline ────────────────────────────────────────── */
 .about-timeline {
   position: relative;
-  padding-left: var(--space-8);
+  padding-left: 0;
   margin-top: var(--space-8);
 }
 .about-timeline::before {
@@ -491,9 +527,10 @@ code {
   margin-bottom: var(--space-12);
 }
 .about-entry:last-child { margin-bottom: 0; }
+.about-body { padding-left: var(--space-6); }
 .about-marker {
   position: absolute;
-  left: calc(-1 * var(--space-8) + 3px);
+  left: 3px;
   top: 5px;
   width: 10px; height: 10px;
   border-radius: 50%;
@@ -532,9 +569,6 @@ code {
   position: relative;
   max-height: 360px;
   overflow: hidden;
-  /* Reserve horizontal padding so the timeline dot glow is not clipped
-     by overflow:hidden on the left edge. */
-  padding: 0 var(--space-6);
   transition: max-height 0.6s cubic-bezier(0.4, 0, 0.2, 1);
   -webkit-mask-image: linear-gradient(to bottom, black 55%, transparent 100%);
   mask-image: linear-gradient(to bottom, black 55%, transparent 100%);

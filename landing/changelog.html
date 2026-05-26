@@ -3,17 +3,25 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>패치 노트 · 모탈컴뱃 11 한글 패치</title>
-  <meta name="description" content="모탈컴뱃 11 한글 패치 버전별 변경 사항. 번역 품질 개선, 시스템 진화, 캐릭터 어조 정밀화 기록." />
+  <title>패치 노트 · 모탈 컴뱃 11 한글 패치</title>
+  <meta name="description" content="모탈 컴뱃 11 한글 패치 버전별 변경 사항. 번역 품질 개선, 시스템 진화, 캐릭터 어조 정밀화 기록." />
   <link rel="canonical" href="https://mk11-korean-patch.pages.dev/changelog.html" />
   <link rel="icon" type="image/png" href="assets/favicon.png" />
 
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://mk11-korean-patch.pages.dev/changelog.html" />
-  <meta property="og:title" content="패치 노트 · 모탈컴뱃 11 한글 패치" />
+  <meta property="og:title" content="패치 노트 · 모탈 컴뱃 11 한글 패치" />
   <meta property="og:description" content="버전별 변경 사항 · 번역 품질 개선 기록" />
   <meta property="og:image" content="https://mk11-korean-patch.pages.dev/assets/og_image.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
   <meta property="og:locale" content="ko_KR" />
+  <meta property="og:site_name" content="모탈 컴뱃 11 한글 패치" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="패치 노트 · 모탈 컴뱃 11 한글 패치" />
+  <meta name="twitter:description" content="버전별 변경 사항 · 번역 품질 개선 기록" />
+  <meta name="twitter:image" content="https://mk11-korean-patch.pages.dev/assets/og_image.jpg" />
 
   <link rel="stylesheet" href="shared/design-system.css" />
   <link rel="stylesheet" href="style.css" />
@@ -117,6 +125,13 @@
   <script src="changelog.js"></script>
   <script>
     if (window.lucide) window.lucide.createIcons();
+    document.addEventListener('mousemove', function (e) {
+      var card = e.target.closest('.reveal');
+      if (!card) return;
+      var r = card.getBoundingClientRect();
+      card.style.setProperty('--x', (e.clientX - r.left) + 'px');
+      card.style.setProperty('--y', (e.clientY - r.top) + 'px');
+    });
   </script>
 </body>
 </html>

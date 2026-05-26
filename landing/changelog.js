@@ -97,7 +97,7 @@
       ? '<span class="cl-version-sep cl-tags-sep">·</span><span class="cl-entry-chips">' + entryChipsHtml + '</span>'
       : '';
 
-    return '<details class="cl-version" name="cl-versions"' + openAttr + '>' +
+    return '<details class="cl-version reveal" name="cl-versions"' + openAttr + '>' +
              '<summary class="cl-version-summary">' +
                '<div class="cl-version-meta">' +
                  '<span class="cl-version-tag">v' + escapeHtml(v.version) + '</span>' +

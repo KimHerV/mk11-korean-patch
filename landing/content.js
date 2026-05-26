@@ -31,8 +31,8 @@ window.MK11_CONTENT = {
   "hero.platform_epic":      { kr: "Epic Games · 미검증",        en: "Epic Games · Unverified" },
   "hero.platform_msstore":   { kr: "Microsoft Store · 미검증",   en: "Microsoft Store · Unverified" },
   "hero.legal": {
-    kr: "비공식 팬 제작 패치입니다. Mortal Kombat 11 및 관련 상표는 Warner Bros. Entertainment Inc. 및 NetherRealm Studios의 소유입니다. 본 패치는 한국 사용자를 위한 접근성 개선 목적으로 제작되었으며, 피드백은 언제든 환영입니다.",
-    en: "Unofficial fan-made patch. Mortal Kombat 11 and all related trademarks are the property of Warner Bros. Entertainment Inc. and NetherRealm Studios. This patch was created for accessibility purposes for Korean-speaking players. Feedback is always welcome."
+    kr: "비공식 비영리 개인 제작 패치입니다. Mortal Kombat 11 및 관련 저작권, 상표는 Warner Bros. Entertainment Inc., NetherRealm Studios 및 각 권리자에게 있습니다. 본 패치는 정품 Steam 사용자를 위한 한국어 접근성 개선 목적으로 제작되었습니다. Warner Bros. Games 또는 NetherRealm Studios와 제휴, 승인된 프로젝트가 아닙니다. 권리자 요청이 있을 경우 관련 배포 및 공개 범위는 재검토 또는 중단될 수 있습니다.",
+    en: "An unofficial, non-commercial patch created by an individual. Mortal Kombat 11 and all related copyrights and trademarks are the property of Warner Bros. Entertainment Inc., NetherRealm Studios, and their respective rights holders. Created for Korean language accessibility for legitimate Steam owners. Not affiliated with or endorsed by Warner Bros. Games or NetherRealm Studios. Distribution and availability are subject to review or discontinuation upon request by rights holders."
   },
   "hero.credit": "by KimHerV",
 
@@ -47,17 +47,19 @@ window.MK11_CONTENT = {
   "stats.count_suffix": "",
 
   // ── Screenshots ───────────────────────────────────────────────
-  "screenshots.heading": { kr: "스크린샷",              en: "Screenshots" },
+  // "screenshots.heading": { kr: "스크린샷",              en: "Screenshots" },
+  "screenshots.heading": { kr: "Screenshots",            en: "Screenshots" },
   "screenshots.sub":     { kr: "실제 인게임 한글 화면", en: "In-game Korean text" },
   "screenshots.slide1_label": { kr: "캐릭터 선택",        en: "Character Select" },
   "screenshots.slide2_label": { kr: "스토리 모드",         en: "Story Mode" },
   "screenshots.slide3_label": { kr: "전투 대사",           en: "Battle Dialogue" },
   "screenshots.slide4_label": { kr: "무브리스트",          en: "Movelist" },
   "screenshots.slide5_label": { kr: "튜토리얼",            en: "Tutorial" },
-  "screenshots.slide6_label": { kr: "아이템 · 커스터마이즈", en: "Items & Customize" },
+  "screenshots.slide6_label": { kr: "커스터마이즈",           en: "Customize" },
 
   // ── Features ──────────────────────────────────────────────────
-  "features.heading": { kr: "번역 범위", en: "What's Translated" },
+  // "features.heading": { kr: "번역 범위", en: "What's Translated" },
+  "features.heading": { kr: "What's Translated", en: "What's Translated" },
 
   "features.card1_title": { kr: "스토리 모드", en: "Story Mode" },
   "features.card1_desc": {
@@ -91,7 +93,8 @@ window.MK11_CONTENT = {
   },
 
   // ── About ─────────────────────────────────────────────────────
-  "about.heading": { kr: "개발 일지",  en: "Dev Log" },
+  // "about.heading": { kr: "개발 일지",  en: "Dev Log" },
+  "about.heading": { kr: "Dev Log",    en: "Dev Log" },
   "about.sub":     { kr: "시작부터 배포까지", en: "From Start to Release" },
 
   "about.e0_date":  { kr: "20여 년 전", en: "20+ Years Ago" },
@@ -154,7 +157,8 @@ window.MK11_CONTENT = {
   },
 
   // ── Install ───────────────────────────────────────────────────
-  "install.heading": { kr: "설치 방법", en: "How to Install" },
+  // "install.heading": { kr: "설치 방법", en: "How to Install" },
+  "install.heading": { kr: "How to Install", en: "How to Install" },
   "install.subheading": {
     kr: "환경에 맞는 설치 방법을 선택하세요.",
     en: "Choose the setup path that fits your environment."
@@ -217,9 +221,9 @@ window.MK11_CONTENT = {
   "install.latest_label": { kr: "최신 버전",  en: "Latest" },
   "install.latest_view":  { kr: "패치 노트", en: "Patch notes" },
 
-  // ── Install: channel cards (GUI recommended / CLI alternative) ──
-  "install.badge_recommended": { kr: "권장", en: "RECOMMENDED" },
-  "install.badge_alternative": { kr: "대체", en: "ALTERNATIVE" },
+  // ── Install: channel cards (GUI easy / CLI direct) ──
+  "install.badge_recommended": { kr: "간편 설치", en: "EASY INSTALL" },
+  "install.badge_alternative": { kr: "직접 설치", en: "DIRECT INSTALL" },
 
   "install.card_gui_title": { kr: "GUI INSTALL", en: "GUI INSTALL" },
   "install.card_gui_tagline": {
@@ -299,7 +303,7 @@ window.MK11_CONTENT = {
     en: "Online play has been verified on a genuine Steam copy. This patch uses only the minimum components needed to apply the translation and font, and contains no cheats, unlocks, or gameplay modifications."
   },
   "online.p2": {
-    kr: "비공식 팬 제작 패치이므로 환경에 따라 차이가 있을 수 있습니다. 자세한 내용은 <a href='#faq' class='online-faq-link'>자주 묻는 질문 ↗</a>을 참고하세요.",
+    kr: "비공식 비영리 개인 제작 패치이므로 환경에 따라 차이가 있을 수 있습니다. 자세한 내용은 <a href='#faq' class='online-faq-link'>자주 묻는 질문 ↗</a>을 참고하세요.",
     en: "As an unofficial patch, behavior may vary by environment. For details, see the <a href='#faq' class='online-faq-link'>FAQ ↗</a>."
   },
   "online.btn_cancel":  { kr: "닫기", en: "Close" },
@@ -312,22 +316,24 @@ window.MK11_CONTENT = {
     en: "This GUI installer is an unsigned executable. Some security products may show warnings or false positives due to its packaging method."
   },
   "avnotice.p2": {
-    kr: "일반적인 Windows 배포 환경에서는 코드 서명이 중요한 신뢰 기준으로 작동하지만, 현재 이 프로젝트는 <a href=\"./changelog.html?tag=security\" target=\"_blank\" rel=\"noopener noreferrer\">관련 대응 이력</a>과 CLI 대체 경로를 함께 공개하고 있습니다.",
-    en: "Code signing is an important trust signal in typical Windows distribution, but this project publishes a <a href=\"./changelog.html?tag=security\" target=\"_blank\" rel=\"noopener noreferrer\">response history</a> alongside a CLI installation path."
+    kr: "현재 이 프로젝트는 <a href=\"./changelog.html?tag=security\" target=\"_blank\" rel=\"noopener noreferrer\">관련 대응 이력</a>을 공개하고 있으며, CLI 설치 경로도 함께 제공하고 있습니다.",
+    en: "A <a href=\"./changelog.html?tag=security\" target=\"_blank\" rel=\"noopener noreferrer\">response history</a> is published for reference, and a CLI installation path is also provided."
   },
   "avnotice.p3": {
-    kr: "EXE 인스톨러 실행이 어렵거나 부담되신다면 CLI 설치 방식을 이용하실 수 있습니다.",
-    en: "If running the EXE installer is blocked or undesirable, the CLI Setup is available."
+    kr: "보안 경고가 부담되시거나 EXE 실행을 원하지 않으신다면, CLI 설치 방식을 이용하실 수 있습니다.",
+    en: "If security warnings are a concern or running the EXE is not preferred, the CLI Setup is available."
   },
-  "avnotice.btn_proceed": { kr: "다운로드 진행", en: "Download Anyway" },
-  "avnotice.btn_cli":     { kr: "CLI 설치로 전환", en: "Switch to CLI" },
+  "avnotice.btn_proceed": { kr: "다운로드",      en: "Download" },
+  "avnotice.btn_cli":     { kr: "CLI 설치 전환", en: "Switch to CLI" },
 
   // ── FAQ ───────────────────────────────────────────────────────
-  "faq.heading": { kr: "자주 묻는 질문", en: "FAQ" },
+  // "faq.heading": { kr: "자주 묻는 질문", en: "FAQ" },
+  "faq.heading": { kr: "FAQ",            en: "FAQ" },
   "faq.sub":     { kr: "설치·호환성·보안·피드백 관련 안내", en: "Installation, compatibility, security, and feedback" },
 
   // ── Feedback ──────────────────────────────────────────────────
-  "feedback.heading": { kr: "번역 피드백", en: "Translation Feedback" },
+  // "feedback.heading": { kr: "번역 피드백", en: "Translation Feedback" },
+  "feedback.heading": { kr: "Translation Feedback", en: "Translation Feedback" },
   "feedback.sub": {
     kr: "오역이나 어색한 번역을 발견하셨나요?<br>파트를 선택하고 내용을 남겨주세요. 익명으로 제출할 수 있으며,<br>피드백은 번역 품질 개선에만 사용됩니다.",
     en: "Found a mistranslation or awkward phrasing?<br>Select a category and leave your feedback. Submissions are anonymous<br>and used solely for translation quality improvement."
@@ -367,7 +373,7 @@ window.MK11_CONTENT = {
   "feedback.opt_story":     { kr: "스토리 모드",           en: "Story Mode" },
   "feedback.opt_movelist":  { kr: "무브리스트",             en: "Movelist" },
   "feedback.opt_tutorial":  { kr: "튜토리얼",              en: "Tutorial" },
-  "feedback.opt_items":     { kr: "아이템 · 커스터마이즈", en: "Items & Customize" },
+  "feedback.opt_items":     { kr: "커스터마이즈",           en: "Customize" },
   "feedback.opt_ui":        { kr: "UI · 메뉴",             en: "UI & Menus" },
   "feedback.opt_krypt":     { kr: "크립트",                 en: "Krypt" },
   "feedback.opt_other":     { kr: "기타",                   en: "Other" },
@@ -426,11 +432,11 @@ window.MK11_CONTENT = {
   "engine.pair_hint":         { kr: "그래프에서 다른 캐릭터를 클릭하면 화법 관계를 비교합니다.", en: "Click another node in the graph to compare speech registers." },
   "engine.close":             { kr: "닫기", en: "Close" },
   "footer.legal": {
-    kr: "비공식 팬 제작 패치. Mortal Kombat 11 및 관련 상표는<br>Warner Bros. Entertainment Inc. 및 NetherRealm Studios의 소유입니다.",
-    en: "Unofficial fan-made patch. Mortal Kombat 11 and related trademarks are the property of<br>Warner Bros. Entertainment Inc. and NetherRealm Studios."
+    kr: "비공식 비영리 개인 제작 패치입니다. Mortal Kombat 11 및 관련 저작권, 상표는<br>Warner Bros. Entertainment Inc., NetherRealm Studios 및 각 권리자에게 있습니다.",
+    en: "Unofficial non-commercial patch. Mortal Kombat 11 and related copyrights and trademarks are the property of<br>Warner Bros. Entertainment Inc., NetherRealm Studios, and their respective rights holders."
   },
 
-  "footer.byline":  { kr: "MK11 한글 패치 · 비공식 팬 제작 by KimHerV", en: "MK11 Korean Patch · Unofficial fan-made by KimHerV" },
+  "footer.byline":  { kr: "MK11 한글 패치 · 비공식 비영리 개인 제작 by KimHerV", en: "MK11 Korean Patch · Unofficial fan-made by KimHerV" },
 
   "changelog.heading": { kr: "패치 노트",  en: "Patch Notes" },
   "changelog.sub":     { kr: "버전별 변경 사항. 최신 버전이 자동으로 펼쳐집니다.", en: "Changes by version. Latest version is expanded by default." },

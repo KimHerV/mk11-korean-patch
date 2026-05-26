@@ -15,18 +15,15 @@
  * then reload.
  */
 window.MK11_BANNER = {
-  id: 'v1-1-release',
+  id: 'v1-1-story-update',
   active: true,
-  kr: 'v1.1 업데이트가 출시되었습니다.',
-  en: 'v1.1 update is now available.',
-  kr_mobile: 'v1.1 업데이트 출시',
-  en_mobile: 'v1.1 update available',
-  // CTA disabled: whole banner is clickable and opens in a new tab.
+  kr: 'v1.1 업데이트: 스토리 1부 번역 품질 개선.',
+  en: 'Story Part 1 translation updated.',
+  kr_mobile: 'v1.1 업데이트: 스토리 1부 번역 품질 개선.',
+  en_mobile: 'Story Part 1 updated.',
   cta_kr: '',
   cta_en: '',
-  href: 'changelog.html',
-  // Open href in a new tab. Use true for external links and standalone subpages.
-  // false / omitted keeps default same-window behavior for in-page anchors.
-  new_tab: true,
-  channel: null,
+  href: '#install',
+  new_tab: false,
+  channel: 'gui',
 };
