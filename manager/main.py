@@ -74,7 +74,7 @@ class Api:
         import json
         import tempfile
         import urllib.request
-        from patch_ops import PATCH_FILES_DIR
+        from patch_ops import PATCH_FILES_DIR, PATCH_FILE_DIRS, _sha256
 
         def push(pct: int, msg: str):
             safe = msg.replace('"', '\\"')
@@ -112,7 +112,18 @@ class Api:
 
                 req = urllib.request.Request(
                     url, headers={'User-Agent': 'MK11KoreanPatch-Manager/1.0'})
-                urllib.request.urlretrieve(req, tmp_path, reporthook=_hook)
+                with urllib.request.urlopen(req, timeout=60) as resp:
+                    total = int(resp.headers.get('Content-Length') or 0)
+                    block_size = 64 * 1024
+                    count = 0
+                    with open(tmp_path, 'wb') as out:
+                        while True:
+                            chunk = resp.read(block_size)
+                            if not chunk:
+                                break
+                            out.write(chunk)
+                            count += 1
+                            _hook(count, block_size, total)
                 os.replace(tmp_path, dst_final)
                 push(pct_end, f'{filename} 완료')
 
@@ -126,6 +137,30 @@ class Api:
                 self._config.set('installed_version', new_ver)
             if new_date:
                 self._config.set('installed_build_date', new_date)
+
+            # Policy: after a successful update, re-sync stored state to the
+            # newly applied files, and verify on-disk state matches.
+            # Without this, the integrity check on next launch will (wrongly)
+            # report OVERWRITTEN because the stored hash is from the previous
+            # version. Skipping the verification step turns silent corruption
+            # into a latent UX bug.
+            new_coalesced = os.path.join(PATCH_FILES_DIR, 'Coalesced.CHS')
+            if os.path.exists(new_coalesced):
+                new_hash = _sha256(new_coalesced)
+                self._config.set('patch_hash', new_hash)
+
+                # Layer 3 verification: stored hash MUST equal the actual
+                # file in the game folder after apply_patch.
+                game_path = self._config.get('game_path', '')
+                if game_path:
+                    game_file = os.path.join(
+                        game_path, PATCH_FILE_DIRS['Coalesced.CHS'], 'Coalesced.CHS')
+                    if os.path.exists(game_file):
+                        actual_hash = _sha256(game_file)
+                        if actual_hash != new_hash:
+                            raise RuntimeError(
+                                f'적용 검증 실패: stored={new_hash[:12]}.., '
+                                f'actual={actual_hash[:12]}..')
 
             push(100, '완료')
             self._window.evaluate_js('onUpdateDone(true)')

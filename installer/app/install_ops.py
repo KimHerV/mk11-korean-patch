@@ -6,8 +6,8 @@ import subprocess
 import winreg
 from datetime import date
 
-APP_VERSION       = '1.0'
-APP_BUILD_DATE    = '2026-05-04'
+APP_VERSION       = '1.1'
+APP_BUILD_DATE    = '2026-05-17'
 APPDATA_DIR       = os.path.join(os.environ['APPDATA'], 'MK11KoreanPatch')
 PATCH_FILES_DIR   = os.path.join(APPDATA_DIR, 'patch_files')
 BACKUP_DIR_NAME   = '_backup_korean_patch'

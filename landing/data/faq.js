@@ -19,7 +19,7 @@ window.MK11_FAQ = [
           en: "What does this patch translate?"
         },
         a: {
-          kr: "스토리, UI, 튜토리얼, 무브리스트, 아이템, 크립트, DLC, 인게임 대사, Aftermath까지 번역 가능한 모든 항목을 반영했습니다. 비공식 팬 제작 패치로, 상업적 목적 없이 만들어졌습니다.",
+          kr: "스토리, UI, 튜토리얼, 무브리스트, 아이템, 크립트, DLC, 인게임 대사, Aftermath까지 번역 가능한 모든 항목을 반영했습니다. 비공식 비영리 개인 제작 패치로, 상업적 목적 없이 만들어졌습니다.",
           en: "Story, UI, tutorials, movelists, items, the Krypt, DLC content, in-game dialogue, and Aftermath. All translatable content in the game. This is an unofficial fan-made patch with no commercial intent."
         }
       },

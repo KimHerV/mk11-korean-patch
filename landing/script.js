@@ -358,13 +358,16 @@ const CHARS = [
     updateBadges();
     updateStatus();
     picker.hidden = false;
+    requestAnimationFrame(function () { picker.classList.add('is-open'); });
     document.body.style.overflow = 'hidden';
     closeBtn.focus();
   }
 
   function closePicker() {
-    picker.hidden = true;
+    if (!picker.classList.contains('is-open')) return;
+    picker.classList.remove('is-open');
     document.body.style.overflow = '';
+    setTimeout(function () { picker.hidden = true; }, 260);
   }
 
   function updateCharRow() {
@@ -388,7 +391,7 @@ const CHARS = [
   backdrop.addEventListener('click', closePicker);
   closeBtn.addEventListener('click', closePicker);
   document.addEventListener('keydown', function (e) {
-    if (e.key === 'Escape' && !picker.hidden) closePicker();
+    if (e.key === 'Escape' && picker.classList.contains('is-open')) closePicker();
   });
 
   // ── i18n refresh hook ────────────────────────────────────────
@@ -695,6 +698,69 @@ fetchReleaseStats();
       });
     }
   }
+})();
+
+// ── AV notice modal (intercepts GUI download button) ──────────
+// Shows every time the user clicks the download button while the GUI channel
+// is active. Primary action proceeds to the download URL; secondary action
+// switches the channel to CLI and closes the modal without downloading.
+(function () {
+  var modal    = document.getElementById('av-notice-modal');
+  var backdrop = document.getElementById('av-notice-backdrop');
+  var closeBtn = document.getElementById('av-notice-close');
+  var proceedBtn = document.getElementById('av-notice-btn-proceed');
+  var cliBtn   = document.getElementById('av-notice-btn-cli');
+  var dlBtn    = document.getElementById('download-btn');
+  var action   = document.querySelector('.install-action');
+
+  if (!modal || !dlBtn || !action) return;
+
+  var _pendingHref = null;
+
+  function openModal(href) {
+    _pendingHref = href;
+    modal.removeAttribute('hidden');
+    requestAnimationFrame(function () { modal.classList.add('is-open'); });
+    if (typeof window.applyI18n === 'function') window.applyI18n();
+    if (proceedBtn) proceedBtn.focus();
+  }
+
+  function closeModal() {
+    if (!modal.classList.contains('is-open')) return;
+    modal.classList.remove('is-open');
+    _pendingHref = null;
+    setTimeout(function () { modal.setAttribute('hidden', ''); }, 260);
+    dlBtn.focus();
+  }
+
+  dlBtn.addEventListener('click', function (e) {
+    if (action.getAttribute('data-active-channel') !== 'gui') return;
+    e.preventDefault();
+    openModal(dlBtn.getAttribute('href'));
+  });
+
+  if (proceedBtn) {
+    proceedBtn.addEventListener('click', function () {
+      var href = _pendingHref;
+      closeModal();
+      if (href) window.open(href, '_blank', 'noopener,noreferrer');
+    });
+  }
+
+  if (cliBtn) {
+    cliBtn.addEventListener('click', function () {
+      closeModal();
+      var cliCard = document.querySelector('.install-card[data-channel="cli"]');
+      if (cliCard) cliCard.click();
+    });
+  }
+
+  if (closeBtn) closeBtn.addEventListener('click', closeModal);
+  if (backdrop) backdrop.addEventListener('click', closeModal);
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && modal.classList.contains('is-open')) closeModal();
+  });
 })();
 
 // ── Live download counter sparkles ────────────────────────
