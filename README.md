@@ -6,6 +6,8 @@
 
 Unofficial, non-commercial Korean localization patch for legitimate Steam owners of Mortal Kombat 11.
 
+> **한국어 사용자**: [랜딩 페이지에서 설치 안내](https://mk11-korean-patch.pages.dev)
+
 - Story Mode / Movelist / UI / DLC / In-game dialogue
 - 53,000+ translated entries
 - Windows GUI installer + CLI installer for Steam Deck / Linux
