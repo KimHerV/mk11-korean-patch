@@ -191,6 +191,10 @@ if ($DryRun) {
 } else {
   if ($tagExists) {
     & gh release upload $Tag --repo $Repo @($uploadList.ToArray()) --clobber
+    if ($Notes -and (Test-Path $Notes)) {
+      & gh release edit $Tag --repo $Repo --notes-file $Notes
+      Write-Host "  Release notes updated from $Notes"
+    }
   } else {
     $createArgs = [System.Collections.Generic.List[string]]::new()
     $createArgs.Add($Tag)
