@@ -15,12 +15,12 @@
  * then reload.
  */
 window.MK11_BANNER = {
-  id: 'v1-1-story-update',
+  id: 'v1-2-release',
   active: true,
-  kr: 'v1.2 업데이트: 스토리 1부 번역 품질 개선.',
-  en: 'Story Part 1 translation updated.',
-  kr_mobile: 'v1.2 업데이트: 스토리 1부 번역 품질 개선.',
-  en_mobile: 'Story Part 1 updated.',
+  kr: 'v1.2: 전투 자동 대사 한국어 추가, 인게임 대화 교정.',
+  en: 'v1.2: Combat lines now in Korean, in-game dialogue re-tuned.',
+  kr_mobile: 'v1.2: 전투 대사 한국어 추가.',
+  en_mobile: 'v1.2: Combat lines now in Korean.',
   cta_kr: '',
   cta_en: '',
   href: '#install',
