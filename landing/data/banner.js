@@ -17,9 +17,9 @@
 window.MK11_BANNER = {
   id: 'v1-1-story-update',
   active: true,
-  kr: 'v1.1 업데이트: 스토리 1부 번역 품질 개선.',
+  kr: 'v1.2 업데이트: 스토리 1부 번역 품질 개선.',
   en: 'Story Part 1 translation updated.',
-  kr_mobile: 'v1.1 업데이트: 스토리 1부 번역 품질 개선.',
+  kr_mobile: 'v1.2 업데이트: 스토리 1부 번역 품질 개선.',
   en_mobile: 'Story Part 1 updated.',
   cta_kr: '',
   cta_en: '',

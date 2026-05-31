@@ -21,6 +21,142 @@
  */
 window.MK11_CHANGELOG = [
   {
+    version: "1.2",
+    date: "2026-05-31",
+    tags: ["translation"],
+    title: {
+      kr: "인게임 대화·스토리 2부 화법 교정: 기술명 동기화",
+      en: "In-Game Dialogue and Story Part 2 Speech Corrections: Move Name Sync"
+    },
+    lead: {
+      kr: "무브리스트·튜토리얼 기술명 765건을 통합 동기화하고, 인게임 1v1 대화 8,964건의 말투를 각 캐릭터 화법에 맞게 교정했습니다. 이전까지 영문으로만 표시됐던 전투 중 자동 대사 2,306건을 한국어로 새로 번역하고, 스토리 모드 2부(애프터매스) 대사 795건을 개선했습니다. v1.1 대비 총 12,830건이 업데이트됩니다.",
+      en: "Synchronized 765 move name entries across movelist and tutorial, and corrected speech style in 8,964 in-game 1v1 dialogue lines. Translated 2,306 combat auto-lines previously shown in English only and improved 795 story mode Part 2 (Aftermath) lines. 12,830 total changes from v1.1."
+    },
+    highlights: [
+      {
+        title: { kr: "기술명 통합 관리 및 동기화 파이프라인 추가", en: "Move name database consolidation and sync pipeline" },
+        items: {
+          kr: [
+            "기술명 데이터베이스를 1,199개로 통합하여 게임 전체 기술명의 일관성을 확보했습니다. 기존에는 Movelist, Tutorial.HUB, Tutorial 세 섹션에 분산된 기술명들이 표기마다 차이가 있었습니다.",
+            "기술명 번역 기준을 새로이 체계화하여 1,199개를 전수 재검토하고 765건을 갱신했습니다. 고유 능력명은 음차(소울 크러시), 동작 서술형은 의미 번역(삼지창 찌르기), 위치·방향 수식어는 의미 번역(공중, 근거리) 방식으로 정합성을 확보했습니다.",
+            "동기화 파이프라인을 추가하여 DB 변경 시 Movelist(228건)·Tutorial.HUB(142건)·Tutorial(395건) 세 섹션에 자동으로 반영되도록 개선했습니다. 향후 기술명 추가·수정 시 일관성이 자동으로 유지됩니다."
+          ],
+          en: [
+            "Consolidated 1,199 move name entries into a unified database for consistency across the game. Previously, move names across the Movelist, Tutorial.HUB, and Tutorial sections had inconsistent notation.",
+            "Reviewed all 1,199 entries against a systematized dual-criteria policy and updated 765. Ability names use phonetic transcription (소울 크러시), action descriptions use semantic translation (삼지창 찌르기), and positional modifiers use semantic translation (공중, 근거리).",
+            "Added a synchronization pipeline so that database updates automatically flow to all three sections: Movelist (228 entries), Tutorial.HUB (142 entries), and Tutorial (395 entries). Future move name changes will maintain consistency automatically."
+          ]
+        }
+      },
+      {
+        title: { kr: "인게임 1v1 대화 말투 교정", en: "In-game 1v1 dialogue speech corrections" },
+        items: {
+          kr: [
+            "대전 전후 인트로·아웃트로 대화 8,964건을 각 캐릭터 화법에 맞게 교정했습니다. 기본 캐릭터 및 DLC 전 캐릭터의 1v1 대화를 포함합니다.",
+            "세트리온: 선언체를 하게체로 교정했습니다(97건). 모성적 권위와 자애로운 신격 어조를 살렸습니다.",
+            "쉬바: 선언체를 하게체로 교정했습니다(105건). 쇼칸 여왕의 품위 있는 전사 화법을 반영했습니다.",
+            "샤오 칸: 반말을 선언체로 교정했습니다(98건). 폭군의 단언 어조를 살렸습니다.",
+            "프로스트: 반말을 선언체로 통일했습니다(98건).",
+            "섕 쑹: 반말을 하게체로 교정했습니다(48건). 격조 있는 음험한 화법을 적용했습니다.",
+            "라이덴: 필멸자 앞 멘토 화법에서 선언체를 하게체로 교정했습니다(42건). 신격 선포와 멘토 대화를 상황별로 구분했습니다.",
+            "신델: 선언체를 반말로 교정했습니다(53건). 오만한 냉담 어조를 살렸습니다.",
+            "제이드: 친밀 상대(코탈 칸·키타나)에게는 반말을, 그 외에는 존댓말_비격식을 적용했습니다(81건). 에데니아 귀족의 냉담한 예의바름을 유지했습니다.",
+            "케이노: 반말 일부를 반말_거침으로 강화했습니다(23건). 공격적인 대결 어조를 살렸습니다.",
+            "재키 브릭스·잭스·캐시: 신격·왕족 상대 대사를 반말에서 존댓말_비격식으로 교정했습니다(각 36·22·36건)."
+          ],
+          en: [
+            "Corrected speech style in 8,964 in-game intro/outro dialogue lines across base characters and all DLC.",
+            "Cetrion: Corrected declarative (Seon-eon-che) to respectful elder speech (Hage-che) (97 lines). Restored her maternal divine warmth.",
+            "Sheeva: Corrected declarative to Hage-che (105 lines). Reflected the Shokan queen's dignified warrior bearing.",
+            "Shao Kahn: Corrected casual speech to declarative (98 lines). Restored the tyrant's commanding decree.",
+            "Frost: Unified casual speech to declarative (98 lines).",
+            "Shang Tsung: Corrected casual speech to Hage-che (48 lines). Applied his ceremoniously sinister formality.",
+            "Raiden: Corrected declarative to Hage-che in mentor contexts (42 lines). Distinguished cosmic proclamation from elder counsel.",
+            "Sindel: Corrected declarative to plain speech (98 lines). Restored her haughty, dismissive tone.",
+            "Jade: Applied plain speech toward intimate characters (Kotal Kahn, Kitana) and polite (Jondae) speech toward others (81 lines). Preserved her icy Edenian politeness.",
+            "Kano: Strengthened a subset of casual speech to aggressive speech (23 lines).",
+            "Jacqui, Jax, Cassie: Corrected speech toward deities and royalty from casual to polite (36/22/36 lines respectively)."
+          ]
+        }
+      },
+      {
+        title: { kr: "전투 중 자동 대사 신규 번역 추가", en: "Combat auto-lines added in Korean" },
+        items: {
+          kr: [
+            "대전 중 자동으로 재생되는 도발·승리·반응 대사 2,306건이 이전까지 영문으로만 표시됐습니다. 이번 업데이트에서 전 캐릭터·DLC의 해당 대사를 한국어로 번역했습니다.",
+            "포함 유형: 전투 중 도발, 상대 도착 반응, 매치 시작 반응, 승리 인용구입니다."
+          ],
+          en: [
+            "Translated 2,306 auto-triggered combat lines across all characters and DLC that were previously shown in English only.",
+            "Includes mid-fight taunts, opponent-encounter reactions, match-start quips, and victory lines."
+          ]
+        }
+      },
+      {
+        title: { kr: "스토리 모드 품질 개선", en: "Story mode quality improvements" },
+        items: {
+          kr: [
+            "스토리 모드 2부(Aftermath) 1,058줄 중 786줄을 개선했습니다. 109개 스토리 장면 중 104개에 걸쳐 정밀하게 다듬었습니다.",
+            "Aftermath 신규 캐릭터(푸진·쉬바·람보)의 화자 화법을 장면 컨텍스트 기반으로 정립했습니다. 화자·청자 관계, 씬의 긴장도, 신격 여부에 따라 하게체·선언체·반말이 구분됩니다. 리우 캉의 신격 전환 후 화법은 일반 상태와 별도로 관리됩니다.",
+            "1부 대사 9건도 추가 교정했습니다. 합계 795건의 스토리 대사가 이번 업데이트에 포함됩니다."
+          ],
+          en: [
+            "Refined 786 of 1,058 Aftermath story lines across 104 of 109 story scenes.",
+            "Established scene-context-based speech registers for new Aftermath characters Fujin, Sheeva, and Rambo. Register varies by speaker-listener relationship, scene tension, and divine status. Liu Kang's god-state speech is tracked separately from his base state in the database.",
+            "Corrected 9 additional lines in story mode Part 1. Combined story update covers 795 lines."
+          ]
+        }
+      },
+      {
+        title: { kr: "캐릭터 화법 기준 DB 전면 재편성", en: "Character speech doctrine database overhaul" },
+        items: {
+          kr: [
+            "37명의 캐릭터 기본 화법과 상대방별 화법 예외를 구조화된 기준으로 재편성했습니다.",
+            "상대방별 화법 예외 449건을 신규 등록했습니다. 인게임 1v1 대화 8,964건 교정의 검증 근거로 사용됐습니다.",
+            "기존 항목의 중복·오류를 정리하여 전체 기준 항목을 559건 체계로 재구성했습니다.",
+            "이 기준 DB는 향후 번역 자동 검수와 화법 일관성 유지에 계속 사용됩니다."
+          ],
+          en: [
+            "Restructured speech doctrine for 37 characters, covering base speech style and per-opponent exceptions.",
+            "Registered 449 new per-opponent speech exceptions. These served as the verification baseline for 8,964 in-game dialogue corrections.",
+            "Consolidated and corrected existing entries into a 559-entry structured doctrine set.",
+            "The doctrine database serves as the ongoing foundation for automated translation compliance checking."
+          ]
+        }
+      },
+      {
+        title: { kr: "번역 검수 도구 개선", en: "Translation review tooling improvements" },
+        items: {
+          kr: [
+            "INI 정합 검사기 오판 수정: '-아니다'로 끝나는 선언체 대사가 합쇼체로 오분류되던 문제를 수정했습니다(91건 해소).",
+            "합쇼체와 존댓말_격식이 동일한 어미(-습니다/-십니까)를 공유한다는 점을 검사기에 반영했습니다. 리우 캉 등 존댓말_격식 화자의 대사 30건이 오분류에서 벗어났습니다.",
+            "자기 이름을 부르는 독백 대사(예: 'You can do this, Briggs.')를 청자 화법 적용 대상에서 제외하는 예외를 추가했습니다.",
+            "인게임 대화 검사에서 애프터매스 등 맥락 한정 화법 override를 제외하도록 정책을 정비했습니다.",
+            "캐릭터 화법 DB 업데이트: 레인(RAN)의 비표준 자체 화법 '선언체_자칭'을 표준 선언체로 통합했습니다. 나이트울프↔리우 캉 화법을 동등 전사 관계 기준(반말)으로 재정립했습니다.",
+            "캐릭터 화법 DB 업데이트: 레인(RAN)의 비표준 화법 '선언체_자칭'을 표준 선언체로 통합하고, 나이트울프↔리우 캉 화법을 동등 전사 관계 기준(반말)으로 재정립했습니다."
+          ],
+          en: [
+            "Fixed a false positive in the INI compliance checker where lines ending in '-아니다' (declarative negation) were misclassified as Hapsho-che (91 cases resolved).",
+            "Registered that Hapsho-che and Jondae-gyeoksik share identical verb endings (-습니다/-십니까). Resolved 30 false violations for characters like Liu Kang.",
+            "Added a self-monologue exception: lines where a character addresses their own name (e.g. 'You can do this, Briggs.') are excluded from listener-speech rule checks.",
+            "Updated InGameDialogue inspection policy to exclude context-tagged overrides (e.g. Aftermath-specific speech) that cannot be determined line-by-line.",
+            "Character DB updates: merged Rain's non-standard 선언체_자칭 register into standard declarative. Revised Nightwolf's speech toward Liu Kang to peer-warrior plain speech."
+          ]
+        }
+      }
+    ],
+    install_note: {
+      kr: [
+        "GUI(패치 인스톨러): 패치 매니저를 열고 업데이트 항목을 내려받으세요.",
+        "CLI: install.bat(Windows) 또는 install.sh(Linux · Steam Deck)를 다시 실행하세요."
+      ],
+      en: [
+        "GUI (Patch Installer): Open the Patch Manager and download the available update.",
+        "CLI: Re-run install.bat (Windows) or install.sh (Linux / Steam Deck)."
+      ]
+    }
+  },
+  {
     version: "1.1",
     date: "2026-05-22",
     tags: ["security"],
