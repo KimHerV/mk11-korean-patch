@@ -8,7 +8,7 @@
 window.MK11_CONTENT = {
 
   // ── Hero ──────────────────────────────────────────────────────
-  "hero.eyebrow":       "ver 1.2 (2026-05-17)",
+  "hero.eyebrow":       "ver 1.2 (2026-05-31)",
   "hero.title_en":      "MORTAL KOMBAT 11",
   "hero.title_kr": {
     kr: "한글 패치",
