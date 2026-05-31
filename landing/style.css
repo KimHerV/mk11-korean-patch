@@ -654,6 +654,8 @@ code {
 .online-modal.is-open .online-modal-box {
   transform: translateY(0);
 }
+/* GUI install (AV notice) dialog is wider to fit the update callout */
+#av-notice-modal .online-modal-box { max-width: 520px; }
 .online-modal-header {
   display: flex;
   align-items: center;
@@ -692,6 +694,27 @@ code {
   text-underline-offset: 2px;
 }
 .online-modal-body a:hover { color: var(--color-gold-bright); }
+/* Emphasised update callout (gold) sits above the security paragraphs */
+.av-notice-callout {
+  padding: var(--space-3) var(--space-4);
+  background: rgba(201, 168, 76, 0.1);
+  border: 1px solid var(--color-gold);
+  border-left-width: 3px;
+  border-radius: var(--radius-sm);
+}
+/* Higher specificity (0,2,0) overrides .online-modal-body p (0,1,1) */
+.online-modal-body .av-notice-callout-title {
+  margin: 0 0 var(--space-2);
+  color: var(--color-gold-bright);
+  font-weight: 700;
+  font-size: var(--text-caption);
+  line-height: 1.5;
+}
+.online-modal-body .av-notice-callout-body {
+  margin: 0;
+  color: var(--color-text-primary);
+  line-height: 1.8;
+}
 .online-modal-list-heading {
   font-size: var(--text-caption);
   font-weight: 700;
