@@ -330,12 +330,11 @@
     </div>
   </section>
 
-  <!-- ENGINE VISUALIZER: disabled temporarily
+  <!-- ── ENGINE ─────────────────────────────────────────────── -->
   <section class="section section-dark" id="engine">
     <div class="container">
       <div class="engine-heading-row">
         <h2 class="section-title" data-i18n="engine.heading"></h2>
-        <span class="engine-wip-badge" data-i18n="engine.wip"></span>
       </div>
       <p class="section-sub" data-i18n="engine.sub"></p>
 
@@ -343,7 +342,7 @@
 
       <div class="engine-layout">
         <div class="engine-graph-wrap">
-          <svg id="engine-svg"></svg>
+          <svg id="engine-svg" aria-label="Speech register graph"></svg>
           <div class="engine-panel" id="engine-panel" hidden>
             <div id="engine-panel-inner"></div>
           </div>
@@ -351,7 +350,6 @@
       </div>
     </div>
   </section>
-  -->
 
   <!-- ── INSTALL ──────────────────────────────────────────── -->
   <section class="section" id="install">
@@ -479,8 +477,8 @@
     </div>
   </section>
 
-  <!-- ── ABOUT ───────────────────────────────────────────── -->
-  <section class="section" id="about">
+  <!-- ── ABOUT: hidden (replaced by engine visualizer) ──── -->
+  <section class="section" id="about" hidden>
     <div class="container container-narrow">
       <h2 class="section-title" data-i18n="about.heading"></h2>
       <p class="section-sub" data-i18n="about.sub"></p>
@@ -585,16 +583,50 @@
           <select id="category" name="category">
 
             <option value="" disabled selected data-i18n="feedback.opt_placeholder"></option>
-            <option value="story"    data-i18n="feedback.opt_story"></option>
-            <option value="ingame"   data-i18n="feedback.opt_ingame"></option>
-            <option value="movelist" data-i18n="feedback.opt_movelist"></option>
-            <option value="tutorial" data-i18n="feedback.opt_tutorial"></option>
-            <option value="items"    data-i18n="feedback.opt_items"></option>
-            <option value="ui"       data-i18n="feedback.opt_ui"></option>
-            <option value="krypt"    data-i18n="feedback.opt_krypt"></option>
-            <option value="other"    data-i18n="feedback.opt_other"></option>
+            <optgroup data-i18n-label="feedback.optgroup_translation">
+              <option value="story"    data-i18n="feedback.opt_story"></option>
+              <option value="ingame"   data-i18n="feedback.opt_ingame"></option>
+              <option value="movelist" data-i18n="feedback.opt_movelist"></option>
+              <option value="tutorial" data-i18n="feedback.opt_tutorial"></option>
+              <option value="items"    data-i18n="feedback.opt_items"></option>
+              <option value="ui"       data-i18n="feedback.opt_ui"></option>
+              <option value="krypt"    data-i18n="feedback.opt_krypt"></option>
+              <option value="other"    data-i18n="feedback.opt_other"></option>
+            </optgroup>
+            <optgroup data-i18n-label="feedback.optgroup_support">
+              <option value="support"  data-i18n="feedback.opt_support"></option>
+            </optgroup>
           </select>
           <span class="field-error" id="error-category"></span>
+        </div>
+
+        <div id="support-checklist" class="form-row form-checklist" hidden>
+          <p class="checklist-heading">
+            <span data-i18n="support.checklist_heading"></span>
+            <span class="required">*</span>
+            <span class="check-counter" id="check-counter">0/5</span>
+          </p>
+          <label class="check-item">
+            <input type="checkbox" id="check-lang" name="check_lang" />
+            <span data-i18n="support.check_lang"></span>
+          </label>
+          <label class="check-item">
+            <input type="checkbox" id="check-av" name="check_av" />
+            <span data-i18n="support.check_av"></span>
+          </label>
+          <label class="check-item">
+            <input type="checkbox" id="check-reinstall" name="check_reinstall" />
+            <span data-i18n="support.check_reinstall"></span>
+          </label>
+          <label class="check-item">
+            <input type="checkbox" id="check-admin" name="check_admin" />
+            <span data-i18n="support.check_admin"></span>
+          </label>
+          <label class="check-item">
+            <input type="checkbox" id="check-deps" name="check_deps" />
+            <span data-i18n="support.check_deps"></span>
+          </label>
+          <span class="field-error" id="error-checks"></span>
         </div>
 
         <div class="form-row" id="subcategory-row" hidden>
@@ -623,7 +655,7 @@
           <span class="field-error" id="error-chars"></span>
         </div>
 
-        <div class="form-row">
+        <div class="form-row" id="original-row">
           <label for="original">
             <span data-i18n="feedback.label_original"></span>
             <span class="label-hint" data-i18n="feedback.label_original_hint"></span>
@@ -634,23 +666,13 @@
 
         <div class="form-row">
           <label for="suggestion">
-            <span data-i18n="feedback.label_suggestion"></span>
+            <span class="label-normal" data-i18n="feedback.label_suggestion"></span>
+            <span class="label-support" hidden data-i18n="support.label_symptom"></span>
             <span class="required">*</span>
           </label>
           <textarea id="suggestion" name="suggestion" rows="4"
             data-i18n-placeholder="feedback.placeholder_suggestion"></textarea>
           <span class="field-error" id="error-suggestion"></span>
-        </div>
-        <div class="form-row">
-          <label for="nickname">
-            <span data-i18n="feedback.label_nickname"></span>
-            <span class="label-hint" data-i18n="feedback.label_nickname_hint"></span>
-          </label>
-          <input type="text" id="nickname" name="nickname"
-            data-i18n-placeholder="feedback.placeholder_nickname"
-            data-i18n-default="feedback.nickname_default"
-            value="익명"
-            maxlength="30" />
         </div>
         <!-- SCREENSHOT: disabled temporarily
         <div class="form-row">
@@ -670,13 +692,98 @@
           <p class="screenshot-warn" id="screenshot-warn" hidden data-i18n="feedback.screenshot_warn"></p>
         </div>
         -->
-        <div class="form-row form-row--check">
+        <div id="support-fields" hidden>
+
+          <div class="form-row">
+            <label for="s-platform">
+              <span data-i18n="support.label_platform"></span>
+              <span class="required">*</span>
+            </label>
+            <select id="s-platform" name="platform">
+              <option value="" disabled selected data-i18n="support.opt_placeholder"></option>
+              <optgroup data-i18n-label="support.optgroup_steam">
+                <option value="steam_win"   data-i18n="support.opt_steam_win"></option>
+                <option value="steam_deck"  data-i18n="support.opt_steam_deck"></option>
+                <option value="steam_linux" data-i18n="support.opt_steam_linux"></option>
+              </optgroup>
+              <optgroup data-i18n-label="support.optgroup_other_stores">
+                <option value="epic"          data-i18n="support.opt_epic"></option>
+                <option value="xbox_gamepass" data-i18n="support.opt_xbox_gamepass"></option>
+              </optgroup>
+              <option value="other" data-i18n="support.opt_other"></option>
+            </select>
+            <span class="field-error" id="error-platform"></span>
+          </div>
+          <div class="form-row" id="platform-other-row" hidden>
+            <label for="s-platform-other" data-i18n="support.label_platform_other"></label>
+            <input type="text" id="s-platform-other" name="platform_other"
+              data-i18n-placeholder="support.placeholder_platform_other" />
+          </div>
+
+          <div class="form-row">
+            <div class="form-row-header">
+              <label for="s-os">
+                <span data-i18n="support.label_os"></span>
+                <span class="required">*</span>
+              </label>
+              <button type="button" id="btn-autofill" class="btn-link" data-i18n="support.btn_autofill"></button>
+            </div>
+            <input type="text" id="s-os" name="os"
+              data-i18n-placeholder="support.placeholder_os" />
+            <span class="field-error" id="error-os"></span>
+          </div>
+          <div class="form-row">
+            <label for="s-gpu">
+              <span data-i18n="support.label_gpu"></span>
+              <span class="required">*</span>
+            </label>
+            <input type="text" id="s-gpu" name="gpu"
+              data-i18n-placeholder="support.placeholder_gpu" />
+            <span class="field-error" id="error-gpu"></span>
+          </div>
+
+          <div class="form-row">
+            <label for="files-url">
+              <span data-i18n="support.label_files_url"></span>
+              <span class="label-hint" data-i18n="support.hint_optional"></span>
+            </label>
+            <p class="field-hint"><span data-i18n="support.hint_files_url"></span> <span id="copy-path-wrap" hidden><button type="button" id="btn-copy-path" class="btn-link" data-i18n="support.btn_copy_path"></button></span></p>
+            <input type="text" id="files-url" name="files_url"
+              data-i18n-placeholder="support.placeholder_files_url" />
+          </div>
+
+          <div class="form-row">
+            <label for="s-contact">
+              <span data-i18n="support.label_contact"></span>
+              <span class="label-hint" data-i18n="support.hint_optional"></span>
+            </label>
+            <input type="text" id="s-contact" name="contact"
+              data-i18n-placeholder="support.placeholder_contact" />
+          </div>
+
+        </div><!-- /support-fields -->
+
+        <div class="form-row">
+          <label for="nickname">
+            <span data-i18n="feedback.label_nickname"></span>
+            <span class="label-hint" data-i18n="feedback.label_nickname_hint"></span>
+          </label>
+          <input type="text" id="nickname" name="nickname"
+            data-i18n-placeholder="feedback.placeholder_nickname"
+            data-i18n-default="feedback.nickname_default"
+            value="익명"
+            maxlength="30" />
+        </div>
+
+        <!-- sysinfo-row: temporarily disabled
+        <div class="form-row form-row--check" id="sysinfo-row" hidden>
           <label class="sysinfo-label" for="include-sysinfo">
             <input type="checkbox" id="include-sysinfo" />
             <span data-i18n="feedback.sysinfo_label"></span>
           </label>
           <pre class="sysinfo-preview" id="sysinfo-preview" hidden></pre>
         </div>
+        -->
         <div class="form-footer">
           <button type="submit" class="btn btn-primary btn-lg" id="submit-btn" data-i18n="feedback.btn_submit"></button>
         </div>
@@ -684,6 +791,7 @@
       </form>
     </div>
   </section>
+
 
   <!-- ── FOOTER ───────────────────────────────────────────── -->
   <footer class="footer">
@@ -860,5 +968,6 @@
   }());
 
   </script>
+  <div class="toast" id="mk11-toast" role="status" aria-live="polite"></div>
 </body>
 </html>

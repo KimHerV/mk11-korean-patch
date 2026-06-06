@@ -17,6 +17,14 @@ const ALLOWED_ORIGINS = [
   'http://localhost:3000',
 ];
 
+const PLATFORM_LABEL = {
+  steam_win:    'Steam (Windows)',
+  steam_deck:   'Steam Deck',
+  steam_linux:  'Steam (Linux / Proton)',
+  epic:         'Epic Games',
+  xbox_gamepass:'Xbox Game Pass',
+};
+
 const CATEGORY_MAP = {
   story:    'area:story',
   ingame:   'area:ingame',
@@ -70,6 +78,10 @@ export default {
       return new Response('Bad Request', { status: 400, headers: cors(origin) });
     }
 
+    if (body.type === 'support') {
+      return handleSupport(body, env, origin);
+    }
+
     const { category, subcategory, character_a, character_b, original, suggestion, nickname } = body;
 
     if (!category || !suggestion?.trim()) {
@@ -114,3 +126,59 @@ export default {
     });
   },
 };
+
+async function handleSupport(body, env, origin) {
+  const { symptom, platform, lang_setting, os, gpu, patch_version,
+          files_url, contact, nickname } = body;
+
+  if (!symptom?.trim()) {
+    return new Response('Missing required fields', { status: 422, headers: cors(origin) });
+  }
+
+  const nick = nickname?.trim() || '익명';
+  const na   = '(미입력)';
+  const plat = PLATFORM_LABEL[platform] || platform || na;
+
+  const lines = [
+    `**플랫폼:** ${plat}`,
+    `**OS:** ${os?.trim() || na}`,
+    `**GPU:** ${gpu?.trim() || na}`,
+    `**패치 버전:** ${patch_version?.trim() || na}`,
+    `**Steam 언어 설정:** ${lang_setting?.trim() || na}`,
+    '',
+    '## 증상',
+    '',
+    symptom.trim(),
+  ];
+
+  if (files_url?.trim()) {
+    lines.push('', `**첨부 파일:** ${files_url.trim()}`);
+  }
+
+  if (contact?.trim()) lines.push('', `**연락처:** ${contact.trim()}`);
+
+  lines.push('', '---', `*제보자: ${nick} | 유형: 기술 문의*`);
+
+  const title = `[기술 지원] ${symptom.trim().slice(0, 60)}${symptom.trim().length > 60 ? '…' : ''}`;
+
+  const ghRes = await fetch(`${GITHUB_API}/repos/${GITHUB_REPO}/issues`, {
+    method: 'POST',
+    headers: {
+      Authorization:  `Bearer ${env.GITHUB_TOKEN}`,
+      'Content-Type': 'application/json',
+      'User-Agent':   'mk11-feedback-worker/1.0',
+      Accept:         'application/vnd.github+json',
+    },
+    body: JSON.stringify({ title, body: lines.join('\n'), labels: ['type:support'] }),
+  });
+
+  if (!ghRes.ok) {
+    console.error('GitHub API error:', await ghRes.text());
+    return new Response('Internal Server Error', { status: 500, headers: cors(origin) });
+  }
+
+  return new Response(JSON.stringify({ ok: true }), {
+    status: 201,
+    headers: { 'Content-Type': 'application/json', ...cors(origin) },
+  });
+}

@@ -391,10 +391,11 @@ code {
   display: grid;
   grid-template-columns: 1fr auto 1fr;
   align-items: center;
-  padding: var(--space-4) var(--space-8);
+  padding: var(--space-4) max(var(--space-6), calc((100% - 1100px) / 2 + var(--space-6)));
   background: var(--color-bg);
   border-top: 1px solid var(--color-border);
   gap: var(--space-4);
+  width: 100%;
 }
 
 .carousel-caption {
@@ -459,7 +460,7 @@ code {
   .carousel-arrow svg { width: 20px; height: 20px; }
   .carousel-arrow--prev { left: var(--space-3); }
   .carousel-arrow--next { right: var(--space-3); }
-  .carousel-footer { padding: var(--space-3) var(--space-4); }
+  .carousel-footer { padding: var(--space-3) var(--space-4); width: 100%; }
 }
 
 /* ── Features ──────────────────────────────────────────────── */
@@ -1237,7 +1238,7 @@ code {
 .install-trust-strip svg {
   width: 16px;
   height: 16px;
-  color: var(--color-success);
+  color: var(--color-gold);
   flex-shrink: 0;
 }
 /* Demoted variant: smaller, sits under the cards as decision-support */
@@ -1325,6 +1326,7 @@ code {
   padding: var(--space-8);
   margin-top: var(--space-8);
 }
+
 .form-row { margin-bottom: var(--space-6); }
 .form-row label {
   display: block;
@@ -1369,7 +1371,6 @@ code {
   font-size: var(--text-small);
   color: var(--color-danger);
   margin-top: var(--space-1);
-  min-height: 1em;
 }
 .form-row select.is-error,
 .form-row textarea.is-error {
@@ -1807,7 +1808,6 @@ code {
   align-items: center;
   justify-content: center;
   background: var(--color-surface);
-  border-bottom: 1px solid rgba(212, 175, 55, 0.45);
   min-height: 42px;
   padding: var(--space-2) var(--space-6);
   position: relative;
@@ -1885,6 +1885,141 @@ code {
   flex-shrink: 0;
 }
 
+/* ── Support fields ─────────────────────────────────────────── */
+.form-row-split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-4);
+}
+.field-hint {
+  font-size: var(--text-small);
+  color: var(--text-muted);
+  margin: var(--space-1) 0 var(--space-2);
+  line-height: 1.5;
+}
+
+.form-checklist {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: var(--space-4);
+}
+.checklist-heading {
+  display: flex;
+  align-items: center;
+  font-size: var(--text-caption);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+  margin: 0 0 var(--space-3) 0;
+}
+.check-counter {
+  margin-left: auto;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-gold-dim);
+  letter-spacing: 0;
+  text-transform: none;
+}
+.check-counter.all-checked { color: var(--color-gold); }
+
+/* Higher specificity than .form-row label (0,1,1) — same pattern as .form-row--check .sysinfo-label */
+.form-checklist .check-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-bottom: var(--space-2);
+  font-size: var(--text-caption);
+  color: var(--color-text-secondary);
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: 0;
+  cursor: pointer;
+}
+.form-checklist .check-item:last-of-type { margin-bottom: 0; }
+.form-checklist .check-item input[type="checkbox"] {
+  flex-shrink: 0;
+  -webkit-appearance: none;
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface-raised);
+  position: relative;
+  cursor: pointer;
+  transition: border-color .15s, background .15s;
+}
+.form-checklist .check-item input[type="checkbox"]:hover:not(:checked) {
+  border-color: var(--color-gold-dim);
+}
+.form-checklist .check-item input[type="checkbox"]:checked {
+  background: var(--color-gold);
+  border-color: var(--color-gold);
+}
+.form-checklist .check-item input[type="checkbox"]:checked::after {
+  content: '';
+  position: absolute;
+  left: 4px;
+  top: 1px;
+  width: 4px;
+  height: 8px;
+  border: 1.5px solid #0a0a0a;
+  border-top: none;
+  border-left: none;
+  transform: rotate(42deg);
+}
+
+.form-row-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-2);
+}
+.form-row-header label {
+  margin-bottom: 0;
+}
+.btn-link {
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  color: var(--color-gold);
+  font-size: var(--text-small);
+  font-family: inherit;
+  line-height: 1.4;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  white-space: nowrap;
+}
+.btn-link:hover { opacity: 0.75; }
+
+/* ── Toast ─────────────────────────────────────────────────── */
+.toast {
+  position: fixed;
+  top: var(--space-8);
+  left: 50%;
+  transform: translateX(-50%) translateY(-8px);
+  background: var(--color-gold);
+  border-radius: var(--radius-md);
+  padding: var(--space-3) var(--space-6);
+  font-size: var(--text-caption);
+  font-weight: 600;
+  color: #0a0a0a;
+  box-shadow: 0 4px 20px rgba(201, 168, 76, 0.35);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  z-index: 9999;
+  max-width: 420px;
+  white-space: nowrap;
+}
+.toast.toast--show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
 /* ── Responsive ────────────────────────────────────────────── */
 @media (max-width: 600px) {
   .hero-title { font-size: 3rem; }
@@ -1892,6 +2027,7 @@ code {
   .hero-actions { flex-direction: column; align-items: center; }
   .install-steps li { flex-direction: column; gap: var(--space-3); }
   .feedback-form { padding: var(--space-6) var(--space-4); }
+  .form-row-split { grid-template-columns: 1fr; }
   /* background-attachment: fixed is unreliable on iOS Safari */
   #faq { background-attachment: scroll; }
 }
@@ -2298,17 +2434,18 @@ code {
 }
 
 .engine-graph-wrap {
-  /* Dot grid pattern: same background as page sections */
   background-color: var(--color-bg);
   background-image: radial-gradient(circle, #1c1c26 1.5px, transparent 1.5px);
   background-size: 22px 22px;
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
   overflow: hidden;
-  height: 560px;
+  height: 660px;
   position: relative;
   width: 100%;
+  cursor: grab;
 }
+.engine-graph-wrap:active { cursor: grabbing; }
 
 /* Panel overlays on top-right of graph */
 .engine-panel {
@@ -2335,10 +2472,7 @@ code {
     border-radius: var(--radius-lg);
   }
 }
-@media (max-width: 600px) {
-  .engine-graph-wrap { height: 400px; }
-}
-
+/* D3 force graph SVG */
 #engine-svg {
   width: 100%;
   height: 100%;
@@ -2347,7 +2481,6 @@ code {
 }
 #engine-svg:active { cursor: grabbing; }
 
-/* D3 node/link SVG styles */
 .eng-node { cursor: pointer; }
 .eng-node:hover .eng-node-ring { filter: brightness(1.3); }
 .eng-node-label {
@@ -2355,6 +2488,32 @@ code {
   pointer-events: none;
   user-select: none;
 }
+.eng-zoom-label {
+  font-size: 11px;
+  font-family: 'Kombat11', 'NanumSquareNeo', monospace;
+  fill: var(--color-text-secondary);
+  pointer-events: none;
+  user-select: none;
+  letter-spacing: 0.04em;
+}
+.eng-realm-label-svg {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.10em;
+  fill: rgba(255,255,255,0.35);
+  pointer-events: none;
+  user-select: none;
+  font-family: 'Kombat11', monospace;
+  text-transform: uppercase;
+  opacity: 0.75;
+}
+
+@keyframes eng-flow {
+  from { stroke-dashoffset: 80; }
+  to   { stroke-dashoffset: 0; }
+}
+.eng-pair-base  { stroke: #f0c040; stroke-opacity: 0.22; stroke-width: 1.5; fill: none; }
+.eng-pair-pulse { stroke: #f0c040; stroke-dasharray: 14 66; stroke-width: 3.5; stroke-opacity: 0.95; stroke-linecap: round; fill: none; animation: eng-flow 1.6s linear infinite; }
 
 /* Shared badge */
 .engine-badge {
@@ -2558,36 +2717,6 @@ code {
   margin-bottom: 8px;
 }
 /* Pair connection animation */
-@keyframes eng-flow {
-  from { stroke-dashoffset: 80; }
-  to   { stroke-dashoffset: 0; }
-}
-/* Static base: permanent thin line showing connection */
-.eng-pair-base {
-  stroke: #f0c040;
-  stroke-opacity: 0.22;
-  stroke-width: 1.5;
-}
-/* Traveling pulse: large sparse dashes that clearly move */
-.eng-pair-pulse {
-  stroke: #f0c040;
-  stroke-dasharray: 14 66;
-  stroke-width: 3.5;
-  stroke-opacity: 0.95;
-  stroke-linecap: round;
-  animation: eng-flow 1.6s linear infinite;
-}
-/* Opposite direction offset: half-period delay */
-.eng-pair-pulse-rev {
-  stroke: #f5d060;
-  stroke-dasharray: 14 66;
-  stroke-width: 3.5;
-  stroke-opacity: 0.80;
-  stroke-linecap: round;
-  animation: eng-flow 1.6s linear infinite;
-  animation-delay: -0.8s;
-}
-
 /* Emotion map grid */
 .eng-emotion-grid {
   display: flex;

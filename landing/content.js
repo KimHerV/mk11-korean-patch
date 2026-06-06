@@ -23,8 +23,8 @@ window.MK11_CONTENT = {
     en: "How to Install ↓"
   },
   "hero.btn_feedback": {
-    kr: "번역 피드백",
-    en: "Translation Feedback"
+    kr: "피드백 · 문의",
+    en: "Feedback & Support"
   },
   "hero.platform_steam":     { kr: "Steam · 지원",               en: "Steam · Supported" },
   "hero.platform_steamdeck": { kr: "Steam Deck · CLI 설치 지원", en: "Steam Deck · Supported via CLI" },
@@ -342,13 +342,12 @@ window.MK11_CONTENT = {
   "faq.sub":     { kr: "설치·호환성·보안·피드백 관련 안내", en: "Installation, compatibility, security, and feedback" },
 
   // ── Feedback ──────────────────────────────────────────────────
-  // "feedback.heading": { kr: "번역 피드백", en: "Translation Feedback" },
-  "feedback.heading": { kr: "Translation Feedback", en: "Translation Feedback" },
+  "feedback.heading": { kr: "Feedback", en: "Feedback" },
   "feedback.sub": {
-    kr: "오역이나 어색한 번역을 발견하셨나요?<br>파트를 선택하고 내용을 남겨주세요. 익명으로 제출할 수 있으며,<br>피드백은 번역 품질 개선에만 사용됩니다.",
-    en: "Found a mistranslation or awkward phrasing?<br>Select a category and leave your feedback. Submissions are anonymous<br>and used solely for translation quality improvement."
+    kr: "번역 피드백이나 기술 지원 문의를 남겨주세요.<br>카테고리를 선택하면 해당 항목에 맞는 양식이 표시됩니다. 익명으로 제출됩니다.",
+    en: "Leave translation feedback or a technical support request.<br>Select a category and the relevant fields will appear. Submissions are anonymous."
   },
-  "feedback.label_category":      { kr: "번역 파트",    en: "Category" },
+  "feedback.label_category":      { kr: "카테고리",    en: "Category" },
   "feedback.label_subcategory":   { kr: "세부 항목",     en: "Sub-category" },
   "feedback.label_subcategory_hint": { kr: "(선택)",    en: "(optional)" },
   "feedback.opt_sub_placeholder": { kr: "세부 항목 선택", en: "Select sub-category" },
@@ -373,12 +372,14 @@ window.MK11_CONTENT = {
   "feedback.char_placeholder_b":  { kr: "상대 캐릭터", en: "Opponent" },
   "feedback.placeholder_suggestion": {
     kr: "어색한 부분, 오역, 개선 제안 등을 자유롭게 작성해주세요.",
-    en: "Describe the issue, mistranslation, or your suggestion."
+    en: "Describe the mistranslation, awkward phrasing, or your suggestion."
   },
   "feedback.placeholder_nickname": { kr: "익명", en: "Anonymous" },
   "feedback.nickname_default":     { kr: "익명", en: "Anonymous" },
 
-  "feedback.opt_placeholder": { kr: "파트를 선택하세요", en: "Select a category" },
+  "feedback.opt_placeholder":         { kr: "카테고리를 선택하세요",  en: "Select a category"     },
+  "feedback.optgroup_translation":    { kr: "번역 피드백",           en: "Translation Feedback"  },
+  "feedback.optgroup_support":        { kr: "기술 지원",             en: "Technical Support"     },
   "feedback.opt_ingame":    { kr: "인트로 대사", en: "Intro Dialogue" },
   "feedback.opt_story":     { kr: "스토리 모드",           en: "Story Mode" },
   "feedback.opt_movelist":  { kr: "무브리스트",             en: "Movelist" },
@@ -386,7 +387,8 @@ window.MK11_CONTENT = {
   "feedback.opt_items":     { kr: "커스터마이즈",           en: "Customize" },
   "feedback.opt_ui":        { kr: "UI · 메뉴",             en: "UI & Menus" },
   "feedback.opt_krypt":     { kr: "크립트",                 en: "Krypt" },
-  "feedback.opt_other":     { kr: "기타",                   en: "Other" },
+  "feedback.opt_other":     { kr: "기타",                   en: "Other"             },
+  "feedback.opt_support":   { kr: "기술 지원",              en: "Technical Support" },
 
   "feedback.char_picker_title":   { kr: "캐릭터 선택",  en: "Select Characters" },
   "feedback.char_picker_confirm": { kr: "확인",         en: "Confirm"           },
@@ -414,6 +416,83 @@ window.MK11_CONTENT = {
   "feedback.msg_success": { kr: "피드백이 제출됐습니다. 감사합니다!", en: "Feedback submitted. Thank you!" },
   "feedback.msg_error":   { kr: "제출에 실패했습니다. 잠시 후 다시 시도해주세요.", en: "Submission failed. Please try again later." },
 
+  // ── Feedback tabs ─────────────────────────────────────────────
+  "feedback.tab_translation": { kr: "번역 피드백", en: "Translation Feedback" },
+  "feedback.tab_support":     { kr: "기술 문의",   en: "Technical Support"   },
+
+  // ── Support ────────────────────────────────────────────────────
+  "support.heading": { kr: "기술 문의", en: "Technical Support" },
+  "support.sub": {
+    kr: "게임 실행 오류나 패치 적용 문제가 있으신가요?<br>가능한 한 자세한 정보를 남겨주세요. 익명으로 제출됩니다.",
+    en: "Experiencing a launch error or patch issue?<br>Please provide as much detail as possible. Submissions are anonymous."
+  },
+  "support.checklist_heading": { kr: "제출 전 확인 사항", en: "Pre-submission checklist" },
+  "support.check_lang":      { kr: "Steam 라이브러리에서 게임 언어를 중국어(간체)로 설정했습니다.",                           en: "Set the game language to Simplified Chinese in Steam." },
+  "support.check_av":        { kr: "백신(보안 프로그램)이 패치 파일을 차단하거나 격리하지 않았는지 확인했습니다.",                  en: "Confirmed that antivirus software has not blocked or quarantined any patch files." },
+  "support.check_reinstall": { kr: "패치를 삭제 후 최신 버전으로 재설치해봤습니다.",                                            en: "Tried uninstalling and reinstalling the latest version of the patch." },
+  "support.check_admin":     { kr: "인스톨러를 관리자 권한으로 실행했습니다.",                                                  en: "Ran the installer as administrator." },
+  "support.check_deps":      { kr: "Visual C++ 2015-2022 x64 재배포판을 설치했습니다.",                                      en: "Installed the Visual C++ 2015-2022 x64 redistributable." },
+  "support.err_checks":      { kr: "위 항목을 모두 확인해주세요.", en: "Please confirm all items above." },
+
+  "support.label_symptom": { kr: "증상 설명", en: "Symptom description" },
+  "support.placeholder_symptom": {
+    kr: "어떤 문제가 발생했는지 구체적으로 설명해주세요. (예: 플레이 버튼을 누르면 잠시 후 다시 돌아오고 게임이 실행되지 않습니다.)",
+    en: "Describe the issue in detail. (e.g., The play button briefly changes to stop, then reverts and the game never launches.)"
+  },
+  "support.err_symptom": { kr: "증상을 입력해주세요.", en: "Please describe the symptom." },
+
+  "support.label_platform":  { kr: "플랫폼",    en: "Platform"  },
+  "support.opt_placeholder": { kr: "선택",      en: "Select"    },
+  "support.optgroup_steam":        { kr: "Steam",        en: "Steam"         },
+  "support.optgroup_other_stores": { kr: "기타 스토어",    en: "Other Stores"  },
+  "support.opt_steam_win":    { kr: "Steam (Windows)",        en: "Steam (Windows)"        },
+  "support.opt_steam_deck":   { kr: "Steam Deck",             en: "Steam Deck"             },
+  "support.opt_steam_linux":  { kr: "Steam (Linux / Proton)", en: "Steam (Linux / Proton)" },
+  "support.opt_epic":         { kr: "Epic Games",             en: "Epic Games"             },
+  "support.opt_xbox_gamepass":{ kr: "Xbox Game Pass",         en: "Xbox Game Pass"         },
+  "support.opt_other":        { kr: "기타 (직접 입력)",          en: "Other (specify)"        },
+  "support.label_platform_other":       { kr: "플랫폼 직접 입력",          en: "Platform (specify)"            },
+  "support.placeholder_platform_other": { kr: "예: GOG, Amazon Games 등",  en: "e.g., GOG, Amazon Games, etc." },
+  "support.err_platform":    { kr: "플랫폼을 선택해주세요.", en: "Please select a platform." },
+
+  "support.label_lang_setting":       { kr: "Steam 언어 설정값",  en: "Steam language setting"   },
+  "support.placeholder_lang_setting": { kr: "예: 중국어 간체",    en: "e.g., Simplified Chinese" },
+
+  "support.label_os":        { kr: "운영체제",            en: "Operating system"    },
+  "support.placeholder_os":  { kr: "예: Windows 11 23H2 (64-bit)", en: "e.g., Windows 11 23H2 (64-bit)" },
+  "support.err_os":          { kr: "운영체제를 입력해주세요.", en: "Please enter your operating system." },
+  "support.label_gpu":       { kr: "GPU",                 en: "GPU"                 },
+  "support.placeholder_gpu": { kr: "예: RTX 4070 (드라이버 버전 있으면 포함)", en: "e.g., RTX 4070 (include driver version if known)" },
+  "support.err_gpu":         { kr: "GPU를 입력해주세요.", en: "Please enter your GPU." },
+
+  "support.label_patch_version":       { kr: "패치 버전",  en: "Patch version"  },
+  "support.placeholder_patch_version": { kr: "예: v1.1",   en: "e.g., v1.1"     },
+
+  "support.label_files_url":       { kr: "파일 첨부",                     en: "Attachments"                          },
+  "support.placeholder_files_url": { kr: "https://gofile.io/d/xxxxxxx",  en: "https://gofile.io/d/xxxxxxx"         },
+  "support.hint_files_url": {
+    kr: "gofile.io에 스크린샷, 영상, 크래시 덤프를 한 번에 업로드 후 링크를 붙여넣어 주세요. 크래시 덤프(.dmp)는 .zip으로 압축 후 업로드하세요.",
+    en: "Upload screenshots, video, and crash dumps together to gofile.io, then paste the link. Compress .dmp files as .zip before uploading."
+  },
+
+  "support.btn_autofill":      { kr: "내 정보 자동 입력", en: "Auto-fill my info" },
+  "support.hint_autofill":     { kr: "OS, GPU를 자동으로 감지합니다. 입력 후 확인 및 수정 가능합니다.", en: "Detects OS and GPU. You can review and edit before submitting." },
+  "support.btn_copy_path":     { kr: "크래시 덤프 경로 복사", en: "Copy crash dump path" },
+  "support.btn_copied":        { kr: "복사됨",   en: "Copied"    },
+  "support.toast_copy_path":   { kr: "경로가 복사되었습니다. 탐색기 주소창에 붙여넣기 하세요.", en: "Path copied. Paste in File Explorer's address bar." },
+
+  "support.label_contact":       { kr: "연락처",                                     en: "Contact"                                          },
+  "support.placeholder_contact": { kr: "example@gmail.com", en: "example@gmail.com" },
+
+  "support.label_nickname":       { kr: "닉네임", en: "Nickname"   },
+  "support.placeholder_nickname": { kr: "익명",   en: "Anonymous"  },
+  "support.hint_optional":        { kr: "(선택)",  en: "(optional)" },
+
+  "support.btn_submit":    { kr: "기술 문의 제출", en: "Submit Support Request" },
+  "support.btn_submitting": { kr: "제출 중...",    en: "Submitting..."          },
+  "support.msg_success": { kr: "문의가 제출됐습니다. 감사합니다!", en: "Support request submitted. Thank you!" },
+  "support.msg_error":   { kr: "제출에 실패했습니다. 잠시 후 다시 시도해주세요.", en: "Submission failed. Please try again later." },
+
   // ── Footer ────────────────────────────────────────────────────
   "footer.title":                { kr: "MORTAL KOMBAT 11<br>KOREAN PATCH",  en: "MORTAL KOMBAT 11<br>KOREAN PATCH" },
   "footer.credit":               { kr: "by KimHerV",   en: "by KimHerV" },
@@ -425,7 +504,7 @@ window.MK11_CONTENT = {
   "player.unmute_hint":   { kr: "소리 켜기",        en: "Unmute" },
 
   // ── Engine Visualizer ────────────────────────────────────────
-  "engine.heading":       { kr: "번역 엔진: 화법 시스템", en: "Translation Engine: Speech System" },
+  "engine.heading":       { kr: "Translation Engine: Speech System", en: "Translation Engine: Speech System" },
   "engine.wip":           { kr: "개발 중", en: "In Development" },
   "engine.sub":           { kr: "37인 캐릭터의 화법 체계. 노드를 클릭하면 상세 정보를, 두 번째 노드를 클릭하면 화법 관계를 비교합니다. 드래그·줌으로 탐색하세요.", en: "The speech register system behind 37 characters. Click a node for details, click a second node to compare registers. Drag and zoom to explore." },
   "engine.filter_all":    { kr: "전체", en: "All" },

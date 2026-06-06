@@ -24,7 +24,11 @@ function applyI18n() {
   });
   document.querySelectorAll('[data-i18n-label]').forEach(function (el) {
     var v = _t(el.dataset.i18nLabel);
-    if (v !== undefined) el.dataset.label = v;
+    if (v === undefined) return;
+    // <optgroup> needs its `label` attribute set to render the visible heading;
+    // other elements (e.g. carousel figures) read dataset.label instead.
+    if (el.tagName === 'OPTGROUP') el.label = v;
+    else el.dataset.label = v;
   });
   document.querySelectorAll('[data-i18n-title]').forEach(function (el) {
     var v = _t(el.dataset.i18nTitle);
@@ -507,6 +511,130 @@ function _clearFieldError(id) { _setFieldError(id, ''); }
   });
 })();
 
+// ── Support fields show/hide ──────────────────────────────────
+(function () {
+  var catEl         = document.getElementById('category');
+  var origRow       = document.getElementById('original-row');
+  var supportFields = document.getElementById('support-fields');
+  var checklistEl   = document.getElementById('support-checklist');
+  var sysinfoRow    = document.getElementById('sysinfo-row');
+  var labelNormal   = document.querySelector('label[for="suggestion"] .label-normal');
+  var labelSupport  = document.querySelector('label[for="suggestion"] .label-support');
+  if (!catEl) return;
+
+  function toggleSupportFields(isSupport) {
+    if (origRow)       origRow.hidden       = isSupport;
+    if (supportFields) supportFields.hidden = !isSupport;
+    if (checklistEl)   checklistEl.hidden   = !isSupport;
+    if (sysinfoRow)    sysinfoRow.hidden    = !isSupport;
+    if (labelNormal)   labelNormal.hidden   = isSupport;
+    if (labelSupport)  labelSupport.hidden  = !isSupport;
+    var sugEl = document.getElementById('suggestion');
+    if (sugEl) sugEl.placeholder = isSupport
+      ? (_t('support.placeholder_symptom') || '어떤 문제가 발생했는지 구체적으로 설명해주세요.')
+      : (_t('feedback.placeholder_suggestion') || '어색한 부분, 오역, 개선 제안 등을 자유롭게 작성해주세요.');
+  }
+
+  catEl.addEventListener('change', function () {
+    toggleSupportFields(catEl.value === 'support');
+  });
+})();
+
+// ── Support: auto-fill OS/GPU ─────────────────────────────────
+(function () {
+  var btn = document.getElementById('btn-autofill');
+  if (!btn) return;
+  btn.addEventListener('click', async function () {
+    var osEl  = document.getElementById('s-os');
+    var gpuEl = document.getElementById('s-gpu');
+    if (navigator.userAgentData && navigator.userAgentData.getHighEntropyValues) {
+      try {
+        var ua = await navigator.userAgentData.getHighEntropyValues(['platform', 'platformVersion', 'bitness']);
+        if (osEl) {
+          var bits = ua.bitness ? ' (' + ua.bitness + '-bit)' : '';
+          osEl.value = ((ua.platform || '') + ' ' + (ua.platformVersion || '') + bits).trim();
+        }
+      } catch (e) {}
+    } else if (osEl && !osEl.value) {
+      var m = navigator.userAgent.match(/Windows NT ([\d.]+)/);
+      if (m) osEl.value = 'Windows NT ' + m[1];
+    }
+    if (gpuEl) {
+      try {
+        var canvas = document.createElement('canvas');
+        var gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+        if (gl) {
+          var ext = gl.getExtension('WEBGL_debug_renderer_info');
+          if (ext) gpuEl.value = gl.getParameter(ext.UNMASKED_RENDERER_WEBGL);
+        }
+      } catch (e) {}
+    }
+  });
+})();
+
+// ── Toast ─────────────────────────────────────────────────────
+var _toastTimer = null;
+function showToast(msg) {
+  var t = document.getElementById('mk11-toast');
+  if (!t) return;
+  t.textContent = msg;
+  t.classList.add('toast--show');
+  clearTimeout(_toastTimer);
+  _toastTimer = setTimeout(function () {
+    t.classList.remove('toast--show');
+  }, 3000);
+}
+
+// ── Support: copy crash-dump path ────────────────────────────
+(function () {
+  var btn = document.getElementById('btn-copy-path');
+  if (!btn) return;
+  btn.addEventListener('click', function () {
+    navigator.clipboard.writeText('%LOCALAPPDATA%\\MK11').then(function () {
+      showToast(_t('support.toast_copy_path') || '경로가 복사되었습니다. 탐색기 주소창에 붙여넣기 하세요.');
+    });
+  });
+})();
+
+// ── Support: checklist counter ────────────────────────────────
+(function () {
+  var IDS = ['check-lang', 'check-av', 'check-reinstall', 'check-admin', 'check-deps'];
+  var counter = document.getElementById('check-counter');
+  if (!counter) return;
+  function update() {
+    var n = IDS.filter(function (id) {
+      var el = document.getElementById(id);
+      return el && el.checked;
+    }).length;
+    counter.textContent = n + '/' + IDS.length;
+    counter.classList.toggle('all-checked', n === IDS.length);
+  }
+  IDS.forEach(function (id) {
+    var el = document.getElementById(id);
+    if (el) el.addEventListener('change', update);
+  });
+})();
+
+// ── Platform "other" show/hide + copy-path button visibility ─
+(function () {
+  var platEl    = document.getElementById('s-platform');
+  var otherRow  = document.getElementById('platform-other-row');
+  var copyWrap  = document.getElementById('copy-path-wrap');
+  if (!platEl || !otherRow) return;
+  var WIN_PLATFORMS = ['steam_win', 'epic', 'xbox_gamepass'];
+  function syncPlatform() {
+    var v = platEl.value;
+    var isOther = v === 'other';
+    otherRow.hidden = !isOther;
+    if (!isOther) {
+      var inp = document.getElementById('s-platform-other');
+      if (inp) inp.value = '';
+    }
+    if (copyWrap) copyWrap.hidden = !WIN_PLATFORMS.includes(v);
+  }
+  platEl.addEventListener('change', syncPlatform);
+})();
+
 // ── Feedback form submit ──────────────────────────────────────
 const FEEDBACK_ENDPOINT = 'https://mk11-feedback.elka2love.workers.dev';
 
@@ -546,10 +674,71 @@ document.getElementById('feedback-form')?.addEventListener('submit', async (e) =
     sugEl?.classList.remove('is-error');
   }
 
+  if (form.category.value === 'support') {
+    const checks = ['check-lang', 'check-av', 'check-reinstall', 'check-admin', 'check-deps'];
+    const allChecked = checks.every(id => document.getElementById(id)?.checked);
+    if (!allChecked) {
+      _setFieldError('error-checks', _t('support.err_checks') || '위 항목을 모두 확인해주세요.');
+      hasError = true;
+    } else {
+      _clearFieldError('error-checks');
+    }
+
+    const platEl = document.getElementById('s-platform');
+    if (!platEl?.value) {
+      _setFieldError('error-platform', _t('support.err_platform') || '플랫폼을 선택해주세요.');
+      platEl?.classList.add('is-error');
+      hasError = true;
+    } else {
+      _clearFieldError('error-platform');
+      platEl?.classList.remove('is-error');
+      if (platEl.value === 'other') {
+        const platOtherEl = document.getElementById('s-platform-other');
+        if (!platOtherEl?.value.trim()) {
+          _setFieldError('error-platform', _t('support.err_platform') || '플랫폼을 입력해주세요.');
+          platOtherEl?.classList.add('is-error');
+          hasError = true;
+        } else {
+          platOtherEl?.classList.remove('is-error');
+        }
+      }
+    }
+
+    const osEl = document.getElementById('s-os');
+    if (!osEl?.value.trim()) {
+      _setFieldError('error-os', _t('support.err_os') || '운영체제를 입력해주세요.');
+      osEl?.classList.add('is-error');
+      hasError = true;
+    } else {
+      _clearFieldError('error-os');
+      osEl?.classList.remove('is-error');
+    }
+
+    const gpuEl = document.getElementById('s-gpu');
+    if (!gpuEl?.value.trim()) {
+      _setFieldError('error-gpu', _t('support.err_gpu') || 'GPU를 입력해주세요.');
+      gpuEl?.classList.add('is-error');
+      hasError = true;
+    } else {
+      _clearFieldError('error-gpu');
+      gpuEl?.classList.remove('is-error');
+    }
+  }
+
   if (hasError) return;
 
   const siCb = document.getElementById('include-sysinfo');
-  const payload = {
+  const isSupport = form.category.value === 'support';
+  const payload = isSupport ? {
+    type:           'support',
+    symptom:        form.suggestion.value.trim(),
+    platform:       (function() { var p = document.getElementById('s-platform'); return (p?.value === 'other') ? (document.getElementById('s-platform-other')?.value.trim() || null) : (p?.value || null); })(),
+    os:             document.getElementById('s-os')?.value.trim() || null,
+    gpu:            document.getElementById('s-gpu')?.value.trim() || null,
+    files_url:      document.getElementById('files-url')?.value.trim()      || null,
+    contact:        document.getElementById('s-contact')?.value.trim()     || null,
+    nickname:       form.nickname.value.trim() || '익명',
+  } : {
     category:    form.category.value,
     subcategory: form.subcategory?.value || null,
     character_a: form.character_a?.value || null,
@@ -557,7 +746,7 @@ document.getElementById('feedback-form')?.addEventListener('submit', async (e) =
     original:    form.original?.value.trim() || null,
     suggestion:  form.suggestion.value.trim(),
     nickname:    form.nickname.value.trim() || '익명',
-    screenshot:  null, /* disabled temporarily */
+    screenshot:  null,
     system_info: (siCb && siCb.checked && window._getSysInfo) ? window._getSysInfo() : null,
   };
 
@@ -577,7 +766,7 @@ document.getElementById('feedback-form')?.addEventListener('submit', async (e) =
       result.textContent = _t('feedback.msg_success') ?? '피드백이 제출됐습니다. 감사합니다!';
       result.classList.add('success');
       form.reset();
-      ['error-category','error-chars','error-suggestion'].forEach(_clearFieldError);
+      ['error-category','error-chars','error-suggestion','error-checks'].forEach(_clearFieldError);
       document.getElementById('category')?.classList.remove('is-error');
       document.getElementById('suggestion')?.classList.remove('is-error');
       // restore nickname default after reset
@@ -588,6 +777,8 @@ document.getElementById('feedback-form')?.addEventListener('submit', async (e) =
       if (siCb) { siCb.checked = false; }
       const siPrev = document.getElementById('sysinfo-preview');
       if (siPrev) siPrev.hidden = true;
+      // re-trigger category toggle so support-fields hides after reset
+      document.getElementById('category')?.dispatchEvent(new Event('change'));
     } else {
       throw new Error('server error');
     }
@@ -981,10 +1172,10 @@ async function collectSystemInfo() {
 // ── Engine Visualizer (D3 force graph) ────────────────────────
 (function () {
   let vizData = null;
-  let svgSel = null;
-  let simRef = null;
+  let svgSel  = null;
+  let simRef  = null;
   const state = { selected: null, pair: null, filter: null };
-  const NW = 38, NH = 51;  // portrait ratio 124/167
+  const NW = 38, NH = 51;
 
   function t(key) { return (window._i18n && window._i18n.t(key)) || key; }
   function loc()  { return (window._i18n && window._i18n.locale) || 'kr'; }
@@ -1036,11 +1227,9 @@ async function collectSystemInfo() {
     if (!bar || !vizData) return;
     const counts = fmCounts();
     const total  = vizData.characters.filter(c => c.has_portrait).length;
-
     const all = `<button class="eng-filter-btn active" data-fm="">
       ${t('engine.filter_all')} <span class="eng-filter-count">(${total})</span>
     </button>`;
-
     const btns = Object.entries(vizData.formality_levels).map(([name, fm]) => {
       const n = counts[name] || 0;
       const label = loc() === 'en' ? fm.short_en : name;
@@ -1051,7 +1240,6 @@ async function collectSystemInfo() {
         ${label} <span class="eng-filter-count">(${n})</span>
       </button>`;
     }).join('');
-
     bar.innerHTML = all + btns;
     bar.querySelectorAll('.eng-filter-btn:not([disabled])').forEach(btn =>
       btn.addEventListener('click', () => applyFilter(btn.dataset.fm, bar))
@@ -1066,232 +1254,185 @@ async function collectSystemInfo() {
     if (!svgSel) return;
     svgSel.selectAll('.eng-link').each(function (d) {
       const match = !fm || fmBase(d.formality) === fm;
-      d3.select(this).attr('stroke-opacity', match ? 0.72 : 0.06).attr('stroke-width', match ? 2 : 1);
+      d3.select(this).attr('stroke-opacity', match ? 0.22 : 0.03).attr('stroke-width', match ? 1.2 : 0.4);
     });
   }
 
-  // ── Realm layout targets ─────────────────────────────────────
-  const REALM_TARGET = {
-    // Gods / Divine: top center
-    RAI:{ rx:0.50,ry:0.14 }, FUJ:{ rx:0.42,ry:0.14 }, CET:{ rx:0.58,ry:0.14 },
-    // Earthrealm heroes: left
-    SCO:{ rx:0.18,ry:0.35 }, SUB:{ rx:0.18,ry:0.52 }, LIU:{ rx:0.26,ry:0.28 },
-    KUN:{ rx:0.24,ry:0.45 }, JOH:{ rx:0.12,ry:0.30 }, SON:{ rx:0.12,ry:0.48 },
-    CAS:{ rx:0.12,ry:0.65 }, JAX:{ rx:0.18,ry:0.72 }, JAC:{ rx:0.24,ry:0.68 },
-    FRO:{ rx:0.20,ry:0.78 }, KAB:{ rx:0.28,ry:0.75 }, KAN:{ rx:0.22,ry:0.85 },
-    SKA:{ rx:0.30,ry:0.85 }, ERR:{ rx:0.35,ry:0.78 },
-    // Outworld / Edenia: right
-    KIT:{ rx:0.76,ry:0.30 }, SHA:{ rx:0.88,ry:0.48 }, KOT:{ rx:0.78,ry:0.48 },
-    JAD:{ rx:0.86,ry:0.35 }, SHE:{ rx:0.84,ry:0.62 }, MIL:{ rx:0.76,ry:0.62 },
-    BAR:{ rx:0.88,ry:0.28 }, KOL:{ rx:0.92,ry:0.55 }, SIN:{ rx:0.70,ry:0.22 },
-    // Netherrealm / Other: center-bottom
-    NOO:{ rx:0.50,ry:0.78 }, TER:{ rx:0.50,ry:0.60 }, DVO:{ rx:0.60,ry:0.72 },
-    // DLC: spread bottom
-    SHT:{ rx:0.42,ry:0.90 }, NIT:{ rx:0.32,ry:0.90 }, JOK:{ rx:0.22,ry:0.92 },
-    SPA:{ rx:0.50,ry:0.94 }, ROB:{ rx:0.12,ry:0.88 }, RAM:{ rx:0.62,ry:0.90 },
-    RAN:{ rx:0.72,ry:0.90 }, TRM:{ rx:0.38,ry:0.94 },
+  // ── Realm helpers ─────────────────────────────────────────────
+  const REALM_ORDER = ['Earthrealm', 'Edenia', 'Outworld', 'Netherrealm', 'Heavens', 'Beyond'];
+  const REALM_COLOR = {
+    'Earthrealm':  '#3a7fd5',
+    'Edenia':      '#9b59b6',
+    'Outworld':    '#c0392b',
+    'Netherrealm': '#8e3191',
+    'Heavens':     '#c9a11a',
+    'Beyond':      '#7f8c8d',
+    'Other':       '#556066',
   };
+  function primaryRealm(r) {
+    if (!r) return 'Other';
+    for (const p of REALM_ORDER) { if (r.startsWith(p)) return p; }
+    return 'Other';
+  }
+  function realmColor(realm) {
+    return REALM_COLOR[primaryRealm(realm)] || '#556066';
+  }
 
-  // ── Graph ────────────────────────────────────────────────────
+  // ── Circular chord layout ─────────────────────────────────────
   function initGraph() {
     const wrap = document.querySelector('.engine-graph-wrap');
     if (!wrap || !vizData || typeof d3 === 'undefined') return;
 
-    const W = wrap.offsetWidth  || 800;
-    const H = wrap.offsetHeight || 560;
+    const W  = wrap.offsetWidth  || 800;
+    const H  = wrap.offsetHeight || 660;
+    const CX = W / 2, CY = H / 2;
+    const PW = 28, PH = 36; // portrait size
 
+    // Build realm-ordered node array
     const portrait = vizData.characters.filter(c => c.has_portrait);
-    const codeSet  = new Set(portrait.map(c => c.code));
-    const nodes    = portrait.map(c => ({ ...c }));
-    // show only explicitly mapped pairs. ingame-only covers all combos and creates visual noise.
+    const realmMap = {};
+    REALM_ORDER.forEach(r => { realmMap[r] = []; });
+    portrait.forEach(c => {
+      const r = primaryRealm(c.realm);
+      if (!realmMap[r]) realmMap[r] = [];
+      realmMap[r].push(c);
+    });
+    const activeRealms = REALM_ORDER.filter(r => realmMap[r] && realmMap[r].length);
+
+    // Compute radius so portraits don't overlap (arc per char > portrait width + margin)
+    const GAP_MULT  = 1.6;
+    const GAP       = (2 * Math.PI / portrait.length) * GAP_MULT;
+    const totalGap  = activeRealms.length * GAP;
+    const radPerChar = (2 * Math.PI - totalGap) / portrait.length;
+    const R_fit = (PW + 5) / radPerChar;
+    const R = Math.max(R_fit, Math.min(W * 0.41, H * 0.39));
+
+    let angle = -Math.PI / 2 + GAP / 2;
+    const nodeData     = {};
+    const orderedNodes = [];
+    const realmMidA    = {};
+
+    activeRealms.forEach(realm => {
+      const chars = realmMap[realm];
+      const startA = angle;
+      chars.forEach(c => {
+        const nd = Object.assign({}, c, {
+          x: CX + R * Math.cos(angle), y: CY + R * Math.sin(angle), angle
+        });
+        nodeData[c.code] = nd;
+        orderedNodes.push(nd);
+        angle += radPerChar;
+      });
+      realmMidA[realm] = (startA + angle - radPerChar) / 2;
+      angle += GAP;
+    });
+
+    // Links (matrix pairs only)
+    const codeSet = new Set(orderedNodes.map(n => n.code));
     const links = vizData.pairs
-      .filter(p => codeSet.has(p.speaker) && codeSet.has(p.listener) && p.source !== 'ingame')
-      .map(p => ({
-        source: p.speaker, target: p.listener,
-        formality: p.formality, tone: p.tone, example_kr: p.example_kr,
-        src_type: 'matrix', exchange_count: p.exchange_count || 0
-      }));
+      .filter(p => p.source !== 'ingame' && codeSet.has(p.speaker) && codeSet.has(p.listener))
+      .map(p => ({ source: p.speaker, target: p.listener, formality: p.formality, example_kr: p.example_kr }));
 
-    // Bidirectional pair lookup for offset direction
-    const bidir = new Set(links.map(l => `${l.source}|${l.target}`));
-
-    const svg = d3.select('#engine-svg')
-      .attr('width', W).attr('height', H)
-      .attr('viewBox', `0 0 ${W} ${H}`)
-      .style('width', W + 'px').style('height', H + 'px');
+    // SVG setup
+    const svg = d3.select('#engine-svg').attr('viewBox', `0 0 ${W} ${H}`);
+    svg.selectAll('*').remove();
 
     const defs = svg.append('defs');
-
-    // Clip paths: portrait rectangles
-    nodes.forEach(n => {
+    orderedNodes.forEach(n => {
       defs.append('clipPath').attr('id', `ec-${n.code}`)
-        .append('rect')
-        .attr('x', -NW/2).attr('y', -NH/2)
-        .attr('width', NW).attr('height', NH).attr('rx', 3);
+        .append('rect').attr('x', -PW/2).attr('y', -PH/2).attr('width', PW).attr('height', PH).attr('rx', 3);
     });
-
-    // Arrow markers per formality
-    Object.entries(vizData.formality_levels).forEach(([name, fm]) => {
-      const id = `ea-${name.replace(/[\s_]/g, '-')}`;
-      defs.append('marker').attr('id', id)
-        .attr('viewBox', '0 -4 8 8').attr('refX', 0).attr('refY', 0)
-        .attr('markerWidth', 5).attr('markerHeight', 5).attr('orient', 'auto')
-        .append('path').attr('d', 'M0,-4L8,0L0,4Z')
-        .attr('fill', fm.color).attr('opacity', 0.9);
-    });
-
-    // Gold marker for pair animation
     defs.append('marker').attr('id', 'ea-pair')
       .attr('viewBox', '0 -4 8 8').attr('refX', 0).attr('refY', 0)
       .attr('markerWidth', 6).attr('markerHeight', 6).attr('orient', 'auto')
       .append('path').attr('d', 'M0,-4L8,0L0,4Z').attr('fill', '#f0c040');
 
+    const zoomLabel = svg.append('text').attr('class', 'eng-zoom-label')
+      .attr('x', W - 10).attr('y', H - 10).attr('text-anchor', 'end').text('100%');
+
     const g = svg.append('g');
-    svg.call(d3.zoom().scaleExtent([0.2, 3]).on('zoom', e => g.attr('transform', e.transform)));
+    svg.call(d3.zoom().scaleExtent([0.3, 4]).on('zoom', e => {
+      g.attr('transform', e.transform);
+      zoomLabel.text(Math.round(e.transform.k * 100) + '%');
+    }));
     svg.on('click', () => { state.selected = null; state.pair = null; updateVisuals(); closePanel(); });
 
-    // Realm soft-positioning forces
-    const txFn = d => { const rt = REALM_TARGET[d.code]; return rt ? rt.rx * W : W * 0.5; };
-    const tyFn = d => { const rt = REALM_TARGET[d.code]; return rt ? rt.ry * H : H * 0.5; };
-
-    simRef = d3.forceSimulation(nodes)
-      .force('link',    d3.forceLink(links).id(d => d.code).distance(160).strength(0.25))
-      .force('charge',  d3.forceManyBody().strength(-420))
-      .force('collide', d3.forceCollide(Math.sqrt(NW*NW/4 + NH*NH/4) + 14))
-      .force('rx',      d3.forceX().x(txFn).strength(0.18))
-      .force('ry',      d3.forceY().y(tyFn).strength(0.18))
-      .alphaDecay(0.012);
-
-    // Animation layer (pair arrows drawn on top)
-    const animLayer = g.append('g').attr('class', 'eng-anim-layer');
-
-    const linkSel = g.append('g').selectAll('line').data(links).join('line')
-      .attr('class', 'eng-link')
-      .attr('stroke', d => fmColor(d.formality))
-      .attr('stroke-width', 1)
-      .attr('stroke-opacity', 0.55)
-      .attr('marker-end', d => `url(#ea-${fmBase(d.formality).replace(/[\s_]/g, '-')})`);
-
-    const nodeSel = g.append('g').selectAll('g').data(nodes).join('g')
-      .attr('class', 'eng-node')
-      .call(d3.drag()
-        .on('start', (e, d) => { if (!e.active) simRef.alphaTarget(0.3).restart(); d.fx = d.x; d.fy = d.y; })
-        .on('drag',  (e, d) => { d.fx = e.x; d.fy = e.y; })
-        .on('end',   (e, d) => { if (!e.active) simRef.alphaTarget(0); d.fx = null; d.fy = null; })
-      )
-      .on('click', (e, d) => { e.stopPropagation(); onNodeClick(d.code); });
-
-    // Border rect
-    nodeSel.append('rect').attr('class', 'eng-node-ring')
-      .attr('x', -NW/2 - 2).attr('y', -NH/2 - 2)
-      .attr('width', NW + 4).attr('height', NH + 4).attr('rx', 4)
-      .attr('fill', '#111')
-      .attr('stroke', d => fmColor(d.default_formality))
-      .attr('stroke-width', 2.5);
-
-    // Portrait placeholder bg (shows when image fails)
-    nodeSel.append('rect').attr('class', 'eng-node-img-bg')
-      .attr('x', -NW/2).attr('y', -NH/2)
-      .attr('width', NW).attr('height', NH).attr('rx', 3)
-      .attr('fill', d => fmColor(d.default_formality))
-      .attr('opacity', 0.18);
-
-    nodeSel.append('text').attr('class', 'eng-node-fallback')
-      .attr('y', 5).attr('text-anchor', 'middle')
-      .attr('font-size', 11).attr('fill', '#666')
-      .attr('pointer-events', 'none')
-      .text(d => d.code);
-
-    // Portrait (hides fallback on success)
-    nodeSel.append('image')
-      .attr('href', d => `assets/characters/${d.code}.png`)
-      .attr('x', -NW/2).attr('y', -NH/2)
-      .attr('width', NW).attr('height', NH)
-      .attr('clip-path', d => `url(#ec-${d.code})`)
-      .on('error', function() { d3.select(this).attr('href', null); });
-
-    // Name label bg (inside card, bottom strip)
-    nodeSel.append('rect').attr('class', 'eng-label-bg')
-      .attr('x', -NW/2).attr('y', NH/2 - 16)
-      .attr('width', NW).attr('height', 16).attr('rx', 0)
-      .attr('fill', 'rgba(0,0,0,0.70)').attr('pointer-events', 'none');
-
-    // Name label
-    nodeSel.append('text').attr('class', 'eng-node-label')
-      .attr('y', NH/2 - 5).attr('text-anchor', 'middle')
-      .attr('font-size', 9).attr('fill', '#eee')
-      .attr('pointer-events', 'none')
-      .text(d => loc() === 'en' ? d.name_en.split(' ')[0] : d.name_kr);
-
-    function lineEndpoint(src, tgt, side) {
-      // Returns endpoint on the boundary of the rectangular node
-      const dx = tgt.x - src.x, dy = tgt.y - src.y;
-      const dist = Math.sqrt(dx*dx + dy*dy) || 1;
-      // Perpendicular offset for bidirectionality
-      const hasMirror = bidir.has(`${tgt.code ?? tgt}|${src.code ?? src}`) ||
-                        bidir.has(`${tgt}|${src}`);
-      const off = hasMirror ? 7 : 0;
-      const ox = (-dy / dist) * off * side;
-      const oy = (dx  / dist) * off * side;
-      // Walk inward from target center by half-diagonal
-      const r = Math.sqrt(NW*NW/4 + NH*NH/4) + 3;
-      return {
-        x: tgt.x - (dx/dist)*r + ox,
-        y: tgt.y - (dy/dist)*r + oy,
-        ox, oy
-      };
-    }
-
-    function linkPath(d, side) {
-      const sx = d.source.x ?? 0, sy = d.source.y ?? 0;
-      const tx = d.target.x ?? 0, ty = d.target.y ?? 0;
-      const dx = tx - sx, dy = ty - sy;
-      const dist = Math.sqrt(dx*dx + dy*dy) || 1;
-      const hasMirror = bidir.has(`${d.target.code ?? d.target}|${d.source.code ?? d.source}`);
-      const off = hasMirror ? 7 : 0;
-      const ox = (-dy/dist)*off*side, oy = (dx/dist)*off*side;
-      const r = Math.sqrt(NW*NW/4 + NH*NH/4) + 3;
-      const ex = tx - (dx/dist)*r + ox;
-      const ey = ty - (dy/dist)*r + oy;
-      return { x1: sx+ox, y1: sy+oy, x2: ex, y2: ey };
-    }
-
-    simRef.on('tick', () => {
-      linkSel.each(function(d) {
-        const p = linkPath(d, 1);
-        d3.select(this).attr('x1', p.x1).attr('y1', p.y1).attr('x2', p.x2).attr('y2', p.y2);
-      });
-      nodeSel.attr('transform', d => `translate(${d.x ?? 0},${d.y ?? 0})`);
-
-      // Update pair animation paths
-      animLayer.selectAll('.eng-pair-base, .eng-pair-pulse, .eng-pair-pulse-rev').each(function() {
-        const el = d3.select(this);
-        const fc = el.attr('data-from'), tc = el.attr('data-to');
-        const fn = nodes.find(n => n.code === fc), tn = nodes.find(n => n.code === tc);
-        if (!fn || !tn) return;
-        const dx = tn.x - fn.x, dy = tn.y - fn.y;
-        const dist = Math.sqrt(dx*dx + dy*dy) || 1;
-        const r = Math.sqrt(NW*NW/4 + NH*NH/4) + 3;
-        const ex = tn.x - (dx/dist)*r, ey = tn.y - (dy/dist)*r;
-        el.attr('x1', fn.x).attr('y1', fn.y).attr('x2', ex).attr('y2', ey);
-      });
+    // Realm arc labels (colored, just outside circle)
+    const lblR = R + PH / 2 + 20;
+    activeRealms.forEach(realm => {
+      const mid = realmMidA[realm];
+      g.append('text').attr('class', 'eng-realm-label-svg')
+        .attr('x', CX + lblR * Math.cos(mid)).attr('y', CY + lblR * Math.sin(mid))
+        .attr('text-anchor', 'middle').attr('dominant-baseline', 'middle')
+        .attr('fill', realmColor(realm))
+        .text(realm.toUpperCase());
     });
 
+    // Link layer (neutral color — no register coding)
+    const animLayer = g.append('g').attr('class', 'eng-anim-layer');
+    const linkSel = g.append('g').selectAll('line').data(links).join('line')
+      .attr('class', 'eng-link')
+      .attr('x1', d => (nodeData[d.source] || {}).x || CX)
+      .attr('y1', d => (nodeData[d.source] || {}).y || CY)
+      .attr('x2', d => (nodeData[d.target] || {}).x || CX)
+      .attr('y2', d => (nodeData[d.target] || {}).y || CY)
+      .attr('stroke', '#8899aa')
+      .attr('stroke-width', 0.7).attr('stroke-opacity', 0.12);
+
+    // Node layer
+    const nodeSel = g.append('g').selectAll('g').data(orderedNodes).join('g')
+      .attr('class', 'eng-node')
+      .attr('transform', d => `translate(${d.x},${d.y})`)
+      .on('click', (e, d) => { e.stopPropagation(); onNodeClick(d.code); });
+
+    nodeSel.append('rect').attr('class', 'eng-node-ring')
+      .attr('x', -PW/2 - 2).attr('y', -PH/2 - 2).attr('width', PW + 4).attr('height', PH + 4).attr('rx', 4)
+      .attr('fill', '#111')
+      .attr('stroke', d => realmColor(d.realm))
+      .attr('stroke-width', 2);
+
+    nodeSel.append('rect')
+      .attr('x', -PW/2).attr('y', -PH/2).attr('width', PW).attr('height', PH).attr('rx', 3)
+      .attr('fill', d => realmColor(d.realm)).attr('opacity', 0.18);
+
+    nodeSel.append('image')
+      .attr('href', d => `assets/characters/${d.code}.png`)
+      .attr('x', -PW/2).attr('y', -PH/2).attr('width', PW).attr('height', PH)
+      .attr('clip-path', d => `url(#ec-${d.code})`);
+
+    // Radial name labels
+    nodeSel.append('text').attr('class', 'eng-node-label')
+      .attr('transform', d => {
+        const lx = (PW / 2 + 8) * Math.cos(d.angle);
+        const ly = (PW / 2 + 8) * Math.sin(d.angle);
+        const deg = d.angle * 180 / Math.PI;
+        return `translate(${lx},${ly}) rotate(${Math.cos(d.angle) < -0.05 ? deg + 180 : deg})`;
+      })
+      .attr('text-anchor', d => Math.cos(d.angle) < -0.05 ? 'end' : 'start')
+      .attr('dominant-baseline', 'middle')
+      .attr('font-size', 8).attr('fill', '#bbb').attr('pointer-events', 'none')
+      .text(d => loc() === 'en' ? d.name_en.split(' ')[0] : d.name_kr);
+
     svgSel = svg;
-    svgSel._linkSel = linkSel;
-    svgSel._nodeSel = nodeSel;
+    svgSel._linkSel   = linkSel;
+    svgSel._nodeSel   = nodeSel;
     svgSel._animLayer = animLayer;
-    svgSel._nodes = nodes;
+    svgSel._nodeData  = nodeData;
+    svgSel._CX = CX; svgSel._CY = CY;
   }
 
   // ── Node click ───────────────────────────────────────────────
   function onNodeClick(code) {
-    if (state.selected === code) {
-      state.selected = null; state.pair = null;
-    } else if (state.selected) {
-      state.pair = code;
-    } else {
+    const { selected: sel, pair } = state;
+    if (!sel) {
       state.selected = code; state.pair = null;
+    } else if (pair) {
+      // pair(A,B): collapse to single if clicking either, swap partner otherwise
+      if (code === sel || code === pair) { state.pair = null; }
+      else { state.pair = code; }
+    } else {
+      if (code === sel) { state.selected = null; }
+      else { state.pair = code; }
     }
     updateVisuals();
     state.selected ? renderPanel(state.selected, state.pair) : closePanel();
@@ -1300,56 +1441,58 @@ async function collectSystemInfo() {
   function updateVisuals() {
     if (!svgSel) return;
     const { selected: sel, pair, filter } = state;
-
     svgSel._nodeSel && svgSel._nodeSel
       .select('.eng-node-ring')
-      .attr('stroke', d => d.code === sel ? '#f0c040' : d.code === pair ? '#cc3333' : fmColor(d.default_formality))
-      .attr('stroke-width', d => (d.code === sel || d.code === pair) ? 3.5 : 2.5);
-
+      .attr('stroke', d => d.code === sel ? '#f0c040' : d.code === pair ? '#cc3333' : realmColor(d.realm))
+      .attr('stroke-width', d => (d.code === sel || d.code === pair) ? 3.5 : 2);
     svgSel._nodeSel && svgSel._nodeSel.attr('opacity', d => {
+      if (sel && pair) return (d.code === sel || d.code === pair) ? 1 : 0.15;
       if (!sel) return 1;
-      if (d.code === sel || d.code === pair) return 1;
+      if (d.code === sel) return 1;
       const connected = vizData.pairs.some(p =>
         (p.speaker === sel && p.listener === d.code) ||
         (p.listener === sel && p.speaker === d.code)
       );
-      return connected ? 0.9 : 0.4;
+      return connected ? 0.9 : 0.35;
     });
-
     svgSel._linkSel && svgSel._linkSel
       .attr('stroke-opacity', d => {
-        if (sel) {
-          const hit = d.source.code === sel || d.target.code === sel;
-          return hit ? 0.9 : 0.04;
-        }
-        return (!filter || fmBase(d.formality) === filter) ? 0.55 : 0.06;
+        const s = typeof d.source === 'object' ? d.source.code : d.source;
+        const t = typeof d.target === 'object' ? d.target.code : d.target;
+        if (sel) return (s === sel || t === sel) ? 0.85 : 0.04;
+        return (!filter || fmBase(d.formality) === filter) ? 0.10 : 0.04;
       })
       .attr('stroke-width', d => {
-        if (sel) return (d.source.code === sel || d.target.code === sel) ? 2.5 : 0.8;
-        return 1.8;
+        const s = typeof d.source === 'object' ? d.source.code : d.source;
+        const t = typeof d.target === 'object' ? d.target.code : d.target;
+        if (sel) return (s === sel || t === sel) ? 2.2 : 0.5;
+        return 0.7;
       });
-
-    // Pair connection animation
+    // Pulse lines for selected pair
     if (svgSel._animLayer) {
       svgSel._animLayer.selectAll('*').remove();
       if (sel && pair) {
-        // Layer 1: static base lines (thin, with direction arrows)
-        [[sel, pair], [pair, sel]].forEach(([fc, tc]) => {
-          svgSel._animLayer.append('line')
-            .attr('class', 'eng-pair-base')
-            .attr('data-from', fc).attr('data-to', tc)
-            .attr('marker-end', 'url(#ea-pair)');
+        const pAB = vizData.pairs.find(p => p.speaker === sel  && p.listener === pair);
+        const pBA = vizData.pairs.find(p => p.speaker === pair && p.listener === sel);
+        const nd  = svgSel._nodeData;
+        [[pAB, sel, pair], [pBA, pair, sel]].forEach(([p, from, to]) => {
+          if (!p || !nd) return;
+          const nf = nd[from], nt = nd[to];
+          if (!nf || !nt) return;
+          const color = fmColor(p.formality);
+          ['eng-pair-base', 'eng-pair-pulse'].forEach(cls => {
+            svgSel._animLayer.append('line')
+              .attr('class', cls)
+              .attr('x1', nf.x).attr('y1', nf.y)
+              .attr('x2', nt.x).attr('y2', nt.y)
+              .attr('stroke', color).attr('fill', 'none')
+              .attr('marker-end', 'url(#ea-pair)');
+          });
         });
-        // Layer 2: traveling pulses. Opposite directions, half-period offset.
-        svgSel._animLayer.append('line')
-          .attr('class', 'eng-pair-pulse')
-          .attr('data-from', sel).attr('data-to', pair);
-        svgSel._animLayer.append('line')
-          .attr('class', 'eng-pair-pulse-rev')
-          .attr('data-from', pair).attr('data-to', sel);
       }
     }
   }
+
 
   // ── Panel ────────────────────────────────────────────────────
   function closePanel() {
@@ -1463,7 +1606,7 @@ async function collectSystemInfo() {
         <img class="eng-panel-portrait" src="assets/characters/${char.code}.png" alt="${char.name_kr}" />
         <div class="eng-panel-header-info">
           <div class="eng-panel-name">${nameA}<span class="eng-panel-subname">${subA}</span></div>
-          <div class="eng-panel-meta">${badge(char.default_formality)}${char.register ? `<span class="eng-panel-realm">${char.register}</span>` : ''}</div>
+          <div class="eng-panel-meta">${badge(char.default_formality)}</div>
         </div>
         <button class="eng-panel-close" id="eng-close">&#x2715;</button>
       </div>
@@ -1495,9 +1638,6 @@ async function collectSystemInfo() {
     _orig(l);
     if (!vizData) return;
     renderFilter();
-    if (svgSel) {
-      svgSel._nodeSel && svgSel._nodeSel.select('text').text(d => loc() === 'en' ? d.name_en.split(' ')[0] : d.name_kr);
-    }
     if (state.selected) renderPanel(state.selected, state.pair);
   };
 })();
