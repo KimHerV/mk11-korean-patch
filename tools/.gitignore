@@ -1,0 +1,4 @@
+# Local test fixtures hold large real game assets (CHS ~5MB, font ~2MB) + the
+# CVD bundle. They are generated on demand by stage_fixture.py / pack_cvd_bypass.py.
+release_fixtures/
+__pycache__/
