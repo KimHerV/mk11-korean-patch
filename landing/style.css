@@ -3107,7 +3107,7 @@ body.changelog-page {
   transform: rotate(180deg);
 }
 
-/* 메타 라인 (v1.1 · 2026-05-17 · NEW) */
+/* Meta row (v1.1 · 2026-05-17 · NEW) */
 .cl-version-meta {
   display: flex;
   align-items: center;
@@ -3139,7 +3139,7 @@ body.changelog-page {
   transition: color 0.15s;
 }
 
-/* 펼친 본문 */
+/* Expanded body */
 .cl-version-body {
   padding: 0 var(--space-8) var(--space-8);
   color: var(--color-text-primary);
