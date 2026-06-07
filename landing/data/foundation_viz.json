@@ -904,7 +904,7 @@
       "name_kr": "크로니카",
       "name_en": "Kronika",
       "section": "playable",
-      "has_portrait": false,
+      "has_portrait": true,
       "realm": "Beyond the Realms",
       "faction": "Titans",
       "species": "Titan",
