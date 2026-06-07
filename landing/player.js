@@ -36,6 +36,18 @@
 
     if (!bar) return;
 
+    // Show the unmute hint only after the player finishes its entrance slide
+    // (mk-slide-up-player). Prevents the hint appearing alone while the splash
+    // still has the player off-screen (the hint depends on the player).
+    (function () {
+      var an = getComputedStyle(bar).animationName;
+      if (!an || an === 'none') { bar.classList.add('is-entered'); return; } // reduced motion, etc.
+      bar.addEventListener('animationend', function (e) {
+        if (e.animationName === 'mk-slide-up-player') bar.classList.add('is-entered');
+      }, { once: true });
+      setTimeout(function () { bar.classList.add('is-entered'); }, 8000); // safety fallback
+    })();
+
     const isMobile = window.innerWidth <= 600;
     document.body.style.paddingBottom = (isMobile ? 62 : PLAYER_H) + 'px';
 

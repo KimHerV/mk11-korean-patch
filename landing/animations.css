@@ -67,6 +67,25 @@
   animation: mk-slide-up-player 400ms var(--anim-ease-out) 1200ms both;
 }
 
+/* ── Pause the hero entrance sequence while the splash (loading) is up ──
+   loading.js removes .mk11-loading the moment the splash lifts, so the
+   sequence plays from the start. Only applies when motion is allowed
+   (reduced-motion already shows everything immediately). */
+@media (prefers-reduced-motion: no-preference) {
+  .mk11-loading .hero-eyebrow,
+  .mk11-loading .hero-logo,
+  .mk11-loading .hero-title-kr,
+  .mk11-loading .hero-divider,
+  .mk11-loading .hero-subtitle,
+  .mk11-loading .hero-actions,
+  .mk11-loading .hero-platforms,
+  .mk11-loading .hero-legal,
+  .mk11-loading .hero-credit,
+  .mk11-loading .music-player {
+    animation-play-state: paused;
+  }
+}
+
 /* ── Scroll-triggered system ────────────────────────────── */
 /* Base: invisible until JS adds .anim-visible              */
 .anim-watch {
@@ -140,6 +159,23 @@
    on mobile. translateY during active scroll causes momentary hitch on touch devices. */
 .install-card.anim-watch             { transform: none; }
 .install-card.anim-watch.anim-visible { transform: none; }
+
+/* Restore the opacity fade: .install-card { transition: transform,border,shadow }
+   (no opacity) overrode the reveal transition so the fade "snapped", and
+   .install-card:not(.is-selected){opacity:.92} overrode the starting opacity:0
+   so the unselected card (CLI) was stuck. Bring the fade back with enough
+   specificity, while leaving transform/hover to the rules above to preserve
+   the opacity-only design. */
+@media (prefers-reduced-motion: no-preference) {
+  .install-cards > .install-card.anim-watch {
+    opacity: 0;
+    transition: opacity var(--anim-dur-scroll) var(--anim-ease-out),
+                transform 0.15s, border-color 0.15s, box-shadow 0.15s;
+  }
+  .install-cards > .install-card.anim-watch.anim-visible { opacity: 1; }
+  /* Keep the unselected card's 0.92 resting state */
+  .install-cards > .install-card.anim-watch.anim-visible:not(.is-selected) { opacity: 0.92; }
+}
 
 /* ── Reduced motion: accessibility override ─────────────── */
 @media (prefers-reduced-motion: reduce) {

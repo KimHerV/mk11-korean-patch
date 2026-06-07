@@ -1759,3 +1759,28 @@ async function collectSystemInfo() {
   });
 })();
 
+// ── Back to top ───────────────────────────────────────────
+(function () {
+  var btn = document.getElementById('to-top');
+  if (!btn) return;
+
+  var SHOW_AT = 600;          // 이 정도 내려오면 표시
+  var ticking = false;
+  function update() {
+    ticking = false;
+    if (window.pageYOffset > SHOW_AT) btn.classList.add('is-visible');
+    else btn.classList.remove('is-visible');
+  }
+  window.addEventListener('scroll', function () {
+    if (!ticking) { ticking = true; requestAnimationFrame(update); }
+  }, { passive: true });
+
+  var reduceMotion = false;
+  try { reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (_) {}
+  btn.addEventListener('click', function () {
+    window.scrollTo({ top: 0, behavior: reduceMotion ? 'auto' : 'smooth' });
+  });
+
+  update();
+})();
+

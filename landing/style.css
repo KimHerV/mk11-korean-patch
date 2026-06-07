@@ -2,9 +2,9 @@
 
 /* ── Fonts ─────────────────────────────────────────────────── */
 @font-face {
-  font-family: 'NanumSquareNeo';
-  src: url('assets/fonts/kor.woff2') format('woff2-variations');
-  font-weight: 300 900;
+  font-family: 'NanumSquare Neo';
+  src: url('assets/fonts/kor.woff2') format('woff2');
+  font-weight: 100 900;
   font-style: normal;
   font-display: swap;
 }
@@ -24,6 +24,8 @@
    Landing-specific overrides only: */
 :root {
   --color-text-secondary: #888880; /* keep explicit for legacy refs */
+  /* Scrim system: same black base (#0a0a0a). Only alpha/stops vary per context. */
+  --scrim-base: 10, 10, 10;
 }
 
 /* Kombat11: single Regular weight. Synthesized bold disabled. */
@@ -50,7 +52,7 @@ html {
 body {
   background: var(--color-bg);
   color: var(--color-text-primary);
-  font-family: 'NanumSquareNeo', sans-serif;
+  font-family: 'NanumSquare Neo';
   font-size: var(--text-body);
   line-height: 1.7;
   word-break: keep-all;
@@ -61,7 +63,7 @@ a { color: var(--color-gold); text-decoration: none; transition: color .2s; }
 a:hover { color: var(--color-gold-bright); }
 img { display: block; width: 100%; height: auto; }
 code {
-  font-family: 'NanumSquareNeo', sans-serif;
+  font-family: 'NanumSquare Neo';
   background: var(--color-surface-raised);
   padding: 1px 6px;
   border-radius: var(--radius-sm);
@@ -160,16 +162,15 @@ code {
   pointer-events: none;
 }
 
-/* Gold gradient overlay on video. Bottom fade for text readability. */
+/* Unified scrim: light, bottom-weighted fade. Gold radial removed, shared base.
+   Keeps the video as visible as possible while preserving bottom CTA/text legibility. */
 .hero::before {
   content: '';
   position: absolute; inset: 0;
-  background:
-    linear-gradient(to bottom,
-      rgba(0,0,0,0.35) 0%,
-      rgba(0,0,0,0.1)  40%,
-      rgba(0,0,0,0.5)  100%),
-    radial-gradient(ellipse 80% 50% at 50% 100%, rgba(201,168,76,.12) 0%, transparent 70%);
+  background: linear-gradient(to bottom,
+    rgba(var(--scrim-base), 0.20) 0%,
+    rgba(var(--scrim-base), 0.06) 45%,
+    rgba(var(--scrim-base), 0.50) 100%);
   z-index: 1;
   pointer-events: none;
 }
@@ -180,6 +181,33 @@ code {
   text-transform: uppercase;
   color: var(--color-gold);
   margin-bottom: var(--space-8);
+}
+/* Hero version line: chip (v1.2) + muted date. Scoped to #id since .hero-eyebrow is also used by the changelog heading. */
+#hero-eyebrow {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: 0.72rem;
+  text-transform: none;
+  letter-spacing: normal;
+  color: var(--color-text-secondary);
+}
+#hero-eyebrow .hero-ver-chip {
+  border: 1px solid var(--color-gold-dim);
+  color: var(--color-gold);
+  border-radius: 999px;
+  padding: 1px 8px;
+  font-weight: 600;
+  letter-spacing: .02em;
+  line-height: 1.4;
+}
+#hero-eyebrow .hero-ver-date {
+  color: var(--color-text-secondary);
+  letter-spacing: .04em;
+}
+@media (max-width: 768px) {
+  #hero-eyebrow { font-size: 0.64rem; }
 }
 .hero-title {
   font-family: 'Kombat11', sans-serif;
@@ -213,7 +241,7 @@ code {
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
-  font-family: 'Noto Sans KR', sans-serif;
+  font-family: 'NanumSquare Neo';
   font-weight: 600;
   margin-bottom: var(--space-4);
 }
@@ -938,7 +966,7 @@ code {
   font-size: 11px;
   font-weight: 400;
   letter-spacing: 0.06em;
-  font-family: 'NanumSquareNeo', sans-serif;
+  font-family: 'NanumSquare Neo';
 }
 .card-badge-gold {
   border: 1px solid var(--color-gold);
@@ -1009,7 +1037,7 @@ code {
   background: var(--color-surface);
   border: 1px solid var(--color-border);
   overflow: hidden;
-  font-family: 'NanumSquareNeo', sans-serif;
+  font-family: 'NanumSquare Neo';
 }
 .card-cli-viewer-bar {
   display: flex;
@@ -1026,12 +1054,10 @@ code {
   border-radius: 50%;
   display: inline-block;
 }
-.card-cli-viewer-dot--r,
-.card-cli-viewer-dot--y,
-.card-cli-viewer-dot--g { background: rgba(255, 255, 255, 0.18); }
-.install-card.is-selected .card-cli-viewer-dot--r { background: #ff5f57; }
-.install-card.is-selected .card-cli-viewer-dot--y { background: #febc2e; }
-.install-card.is-selected .card-cli-viewer-dot--g { background: #28c840; }
+/* macOS traffic lights: always lit, regardless of selection */
+.card-cli-viewer-dot--r { background: #ff5f57; }
+.card-cli-viewer-dot--y { background: #febc2e; }
+.card-cli-viewer-dot--g { background: #28c840; }
 .card-cli-viewer-title {
   margin-left: var(--space-2);
   font-size: 11px;
@@ -1043,7 +1069,7 @@ code {
   padding: var(--space-3) var(--space-4);
   font-size: 12px;
   line-height: 1.65;
-  font-family: 'NanumSquareNeo', 'Courier New';
+  font-family: 'NanumSquare Neo', 'Courier New';
   color: var(--color-text-secondary);
   white-space: pre;
   overflow-x: hidden;
@@ -1822,7 +1848,7 @@ code {
   background: none;
   border: none;
   color: var(--color-gold);
-  font-family: 'NanumSquareNeo', sans-serif;
+  font-family: 'NanumSquare Neo';
   font-size: var(--text-small);
   font-weight: 700;
   letter-spacing: 0.01em;
@@ -1866,7 +1892,7 @@ code {
   -webkit-backdrop-filter: blur(8px);
   z-index: 900;
   cursor: pointer;
-  font-family: 'NanumSquareNeo', sans-serif;
+  font-family: 'NanumSquare Neo';
   font-size: 0.75rem;
   font-weight: 700;
   letter-spacing: .06em;
@@ -2250,6 +2276,13 @@ code {
   opacity: 1;
   pointer-events: auto;
 }
+/* Show the unmute hint only after the player finishes its entrance slide
+   (the hint depends on the player). Otherwise it appears alone while the
+   splash still has the player off-screen. */
+.music-player:not(.is-entered) .mp-unmute-hint {
+  opacity: 0 !important;
+  pointer-events: none;
+}
 .mp-unmute-hint:hover { background: var(--color-gold-bright); }
 
 /* Mobile */
@@ -2484,13 +2517,13 @@ code {
 .eng-node { cursor: pointer; }
 .eng-node:hover .eng-node-ring { filter: brightness(1.3); }
 .eng-node-label {
-  font-family: 'NanumSquareNeo', sans-serif;
+  font-family: 'NanumSquare Neo';
   pointer-events: none;
   user-select: none;
 }
 .eng-zoom-label {
   font-size: 11px;
-  font-family: 'Kombat11', 'NanumSquareNeo', monospace;
+  font-family: 'Kombat11', 'NanumSquare Neo', monospace;
   fill: var(--color-text-secondary);
   pointer-events: none;
   user-select: none;
@@ -2771,7 +2804,7 @@ code {
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(to bottom, rgba(10,10,10,0.92) 0%, rgba(10,10,10,0.84) 50%, rgba(10,10,10,0.92) 100%);
+    linear-gradient(to bottom, rgba(var(--scrim-base),0.92) 0%, rgba(var(--scrim-base),0.84) 50%, rgba(var(--scrim-base),0.92) 100%);
   pointer-events: none;
   z-index: 0;
 }
@@ -2793,7 +2826,7 @@ code {
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(to bottom, rgba(10,10,10,0.92) 0%, rgba(10,10,10,0.92) 50%, rgba(10,10,10,0.92) 100%);
+    linear-gradient(to bottom, rgba(var(--scrim-base),0.92) 0%, rgba(var(--scrim-base),0.92) 50%, rgba(var(--scrim-base),0.92) 100%);
   pointer-events: none;
   z-index: 0;
 }
@@ -2890,7 +2923,7 @@ code {
 body.changelog-page {
   background: var(--color-bg);
   color: var(--color-text-primary);
-  font-family: 'NanumSquareNeo', sans-serif;
+  font-family: 'NanumSquare Neo';
   /* Wrap Korean text at word boundaries instead of syllable-by-syllable.
      Fallback to break-word so long English words / URLs stay inside the box. */
   word-break: keep-all;
@@ -2911,7 +2944,7 @@ body.changelog-page {
 .changelog-page .cl-install,
 .changelog-page .cl-install p,
 .changelog-page .changelog-sub {
-  font-family: 'NanumSquareNeo', sans-serif;
+  font-family: 'NanumSquare Neo';
 }
 
 .changelog-header {
@@ -2978,7 +3011,7 @@ body.changelog-page {
   background: transparent;
   color: var(--color-text-secondary);
   font-size: 0.9375rem;
-  font-family: 'NanumSquareNeo', sans-serif;
+  font-family: 'NanumSquare Neo';
   cursor: pointer;
   transition: color 0.15s;
   line-height: 1.4;
@@ -3004,7 +3037,7 @@ body.changelog-page {
   border-radius: 999px;
   border: none;
   font-size: 0.6875rem;
-  font-family: 'NanumSquareNeo', sans-serif;
+  font-family: 'NanumSquare Neo';
   cursor: pointer;
   transition: opacity 0.15s;
   line-height: 1.4;
@@ -3097,7 +3130,7 @@ body.changelog-page {
   color: var(--color-text-secondary);
 }
 .cl-version-title {
-  font-family: 'NanumSquareNeo', sans-serif;
+  font-family: 'NanumSquare Neo';
   font-size: var(--text-subheading);
   font-weight: 700;
   margin: 0;
@@ -3215,7 +3248,7 @@ body.changelog-page {
   color: var(--color-gold);
   font-size: var(--text-caption);
   text-decoration: none;
-  font-family: 'NanumSquareNeo', sans-serif;
+  font-family: 'NanumSquare Neo';
   border-bottom: 1px solid transparent;
   transition: border-color 0.15s;
 }
@@ -3234,4 +3267,108 @@ body.changelog-page {
   .cl-version-meta { flex-wrap: wrap; }
   .cl-entry-chips { width: 100%; margin-top: var(--space-1); }
   .cl-tags-sep { display: none; }
+}
+
+/* ── MK11 intro splash (shown every load · outline + gold fill-rise) ──────────
+   Brand intro that replays on every refresh. position:fixed overlay, so it
+   doesn't affect page flow. Even if JS fails, the mk11-splash-out keyframe
+   removes the overlay on its own (so the page is never permanently covered). */
+#mk11-splash {
+  position: fixed;
+  inset: 0;
+  z-index: 100000;
+  display: grid;
+  place-items: center;
+  background: radial-gradient(120% 120% at 50% 35%, #15140f 0%, #0a0a0c 60%, #050506 100%);
+  /* Normally loading.js clears it via .mk11-splash--out (waits for real readiness).
+     The animation below is a CSS fail-safe that only matters if JS dies — force-removes after 6s. */
+  animation: mk11-splash-out 700ms ease 6000ms forwards;
+}
+/* When the user skips immediately via click/Esc */
+#mk11-splash.mk11-splash--out {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.45s ease;
+}
+#mk11-splash .mk11-splash__stage {
+  position: relative;
+  width: min(238px, 43vw);
+  aspect-ratio: 560 / 514;
+}
+#mk11-splash .mk11-splash__svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+/* Always-visible symbol outline */
+#mk11-splash .splash-outline path {
+  fill: none;
+  stroke: var(--color-gold);
+  stroke-width: 2;
+  vector-effect: non-scaling-stroke;
+  opacity: 0.28;
+}
+/* Design-system primary gold fills from bottom to top */
+#mk11-splash .splash-fill path { fill: var(--color-gold); stroke: none; }
+#mk11-splash .splash-fill {
+  clip-path: inset(100% 0 0 0);
+  animation: mk11-splash-rise 1400ms cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
+}
+@keyframes mk11-splash-rise {
+  from { clip-path: inset(100% 0 0 0); }
+  to   { clip-path: inset(0 0 0 0); }
+}
+@keyframes mk11-splash-out {
+  to { opacity: 0; visibility: hidden; pointer-events: none; }
+}
+/* Reduced motion: show the finished logo with no fill-rise motion.
+   Lift timing is controlled by loading.js (short minimum). fail-safe stays the 6s rule above. */
+@media (prefers-reduced-motion: reduce) {
+  #mk11-splash .splash-fill { clip-path: inset(0 0 0 0); animation: none; }
+}
+
+/* ── Back-to-top button ─────────────────────────────────────────
+   Appears at bottom-right on scroll down. Floated above the fixed music
+   player (80px, 62px on mobile) so they don't overlap. Design-system gold. */
+.to-top {
+  position: fixed;
+  right: 20px;
+  bottom: calc(80px + 16px);          /* above the music player */
+  z-index: 950;                       /* above player (900), below modals (1000+) */
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  border: 1px solid var(--color-gold-dim);
+  background: var(--color-surface-raised);
+  color: var(--color-gold);
+  cursor: pointer;
+  opacity: 0;
+  transform: translateY(8px);
+  pointer-events: none;               /* not clickable while hidden */
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
+  transition: opacity 0.25s ease, transform 0.25s ease,
+              background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+.to-top.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+.to-top:hover {
+  background: var(--color-gold);
+  color: var(--color-bg);
+  border-color: var(--color-gold);
+}
+.to-top svg { width: 20px; height: 20px; }
+
+@media (max-width: 768px) {
+  .to-top { right: 14px; bottom: calc(62px + 14px); width: 42px; height: 42px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .to-top { transform: none; transition: opacity 0.2s ease; }
+  .to-top.is-visible { transform: none; }
 }

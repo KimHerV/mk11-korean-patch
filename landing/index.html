@@ -133,6 +133,17 @@
     });
   }());
   </script>
+  <script>
+  /* Hold the hero entrance animation until the splash (loading) lifts.
+     Otherwise it plays out during loading and looks "already finished" on reveal.
+     Without JS the class is never added, so the hero plays normally (a11y fallback).
+     A 6s safety release ensures the page isn't trapped if loading.js never runs. */
+  (function () {
+    var d = document.documentElement;
+    d.classList.add('mk11-loading');
+    setTimeout(function () { d.classList.remove('mk11-loading'); }, 6000);
+  })();
+  </script>
   <script src="content.js"></script>
   <script src="lucide.min.js"></script>
   <!-- Cloudflare Web Analytics -->
@@ -140,6 +151,15 @@
   <!-- End Cloudflare Web Analytics -->
 </head>
 <body>
+
+  <!-- ── MK11 intro splash (shown every load · click/Esc to skip · auto-clears via CSS even without JS) ─ -->
+  <div id="mk11-splash" aria-hidden="true">
+    <div class="mk11-splash__stage">
+      <svg class="mk11-splash__svg splash-outline" viewBox="0 0 560.02 513.74" aria-hidden="true"><path d="M531.32,401.77h4.81v15.08h1.8v-15.08h4.83v-1.6h-11.42v1.6H531.32z M553.04,411.99l-5.51-11.83h-1.78v16.68h1.78v-12.67l4.63,10.05h1.53l4.56-10.05v12.67h1.78v-16.68h-1.78L553.04,411.99z M507.54,393.81l-77.96-132.09l67.11-101.68l34.2-22.29h-98.73l12.32,18.69l-55.69,84.51v82.52l10.29-15.64c0,0,54.5,91.91,64.43,108.96h69.79L507.54,393.81z M373.14,417.27l-56.04,96.21V114.16h-32.97L373.14,0L373.14,417.27z M243.32,513.74l-56.04-96.52V114.12H154.3L243.32,0v513.68L243.32,513.74z M171.61,294.73V172.61c-15.51,49.36-43.22,133.58-43.22,133.58S78.22,158.84,73.21,139.42c-0.28-1.06-1.25-1.8-2.35-1.78H0l19.01,19.03c0,13.69,0,241.07-0.22,241.77L0,417.2h93.86l0,0l-18.97-18.87c-0.14-0.66-0.22-130.57-0.22-130.57l53.64,149.46L171.61,294.73z"/></svg>
+      <svg class="mk11-splash__svg splash-fill" viewBox="0 0 560.02 513.74" aria-hidden="true"><path d="M531.32,401.77h4.81v15.08h1.8v-15.08h4.83v-1.6h-11.42v1.6H531.32z M553.04,411.99l-5.51-11.83h-1.78v16.68h1.78v-12.67l4.63,10.05h1.53l4.56-10.05v12.67h1.78v-16.68h-1.78L553.04,411.99z M507.54,393.81l-77.96-132.09l67.11-101.68l34.2-22.29h-98.73l12.32,18.69l-55.69,84.51v82.52l10.29-15.64c0,0,54.5,91.91,64.43,108.96h69.79L507.54,393.81z M373.14,417.27l-56.04,96.21V114.16h-32.97L373.14,0L373.14,417.27z M243.32,513.74l-56.04-96.52V114.12H154.3L243.32,0v513.68L243.32,513.74z M171.61,294.73V172.61c-15.51,49.36-43.22,133.58-43.22,133.58S78.22,158.84,73.21,139.42c-0.28-1.06-1.25-1.8-2.35-1.78H0l19.01,19.03c0,13.69,0,241.07-0.22,241.77L0,417.2h93.86l0,0l-18.97-18.87c-0.14-0.66-0.22-130.57-0.22-130.57l53.64,149.46L171.61,294.73z"/></svg>
+    </div>
+  </div>
+  <!-- Splash control lives in loading.js (the unified intro + loader controller) -->
 
   <!-- ── ANNOUNCEMENT BANNER ──────────────────────────────────── -->
   <div id="site-banner" class="site-banner" role="status" hidden>
@@ -164,7 +184,7 @@
     </video>
 
     <div class="hero-inner">
-      <p class="hero-eyebrow" data-i18n="hero.eyebrow"></p>
+      <p class="hero-eyebrow" id="hero-eyebrow"></p>
       <h1 class="hero-title">
         <svg class="hero-logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1173.68 278.52" aria-label="MORTAL KOMBAT 11" role="img" focusable="false">
           <path d="M552.33,278.52l-30.38-52.32V61.91h-17.88L552.33,0V278.52z M622.75,0l-48.3,61.91h17.88v216.47l30.42-52.17
@@ -330,8 +350,8 @@
     </div>
   </section>
 
-  <!-- ── ENGINE ─────────────────────────────────────────────── -->
-  <section class="section section-dark" id="engine">
+  <!-- ── ENGINE: hidden (not ready for release) ───────────── -->
+  <section class="section section-dark" id="engine" hidden>
     <div class="container">
       <div class="engine-heading-row">
         <h2 class="section-title" data-i18n="engine.heading"></h2>
@@ -938,8 +958,29 @@
 
   </div>
 
+  <!-- Back-to-top button (appears on scroll down · Lucide arrow-up) -->
+  <button id="to-top" class="to-top" type="button" aria-label="Back to top" title="Back to top">
+    <i data-lucide="arrow-up" aria-hidden="true"></i>
+  </button>
+
   <script src="player.js"></script>
   <script>lucide.createIcons();</script>
+  <script>
+  /* Hero eyebrow: render content.js "ver X.Y (DATE)" as chip (vX.Y) + muted date.
+     The content.js value is left unchanged, so the release_meta regexes still match (display only). */
+  (function () {
+    var el = document.getElementById('hero-eyebrow');
+    var raw = window.MK11_CONTENT && window.MK11_CONTENT['hero.eyebrow'];
+    if (!el || !raw) return;
+    var m = /ver\s+([\d.]+)\s*\((\d{4})-(\d{2})-(\d{2})\)/.exec(raw);
+    if (!m) { el.textContent = raw; return; }
+    var ver = 'v' + m[1], date = m[2] + '.' + m[3] + '.' + m[4];
+    var chip = document.createElement('span'); chip.className = 'hero-ver-chip'; chip.textContent = ver;
+    var d = document.createElement('span'); d.className = 'hero-ver-date'; d.textContent = date;
+    el.textContent = ''; el.appendChild(chip); el.appendChild(d);
+    el.setAttribute('aria-label', ver + ' · ' + date);
+  })();
+  </script>
   <script>
   document.addEventListener('mousemove', function (e) {
     var card = e.target.closest('.reveal');
