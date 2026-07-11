@@ -86,7 +86,7 @@ All game files are installed inside the MK11 folder. Original files are backed u
 | `Coalesced.CHS` | `Localization/` | Korean translation |
 | `ui_c_inGameFonts_chs.xxx` | `Asset/` | NanumSquare Neo font |
 | `dinput8.dll` | `Binaries/Retail/` | ASI plugin loader |
-| `ASIMK11.asi` | `Binaries/Retail/` | Translation loader / CVD bypass |
+| `ASIMK11.asi` | `Binaries/Retail/` | Translation loader |
 | `ASIMK11.ini` | `Binaries/Retail/` | Loader configuration |
 | `libzmq-v120-mt-4_3_4.dll` | `Binaries/Retail/` | Runtime dependency |
 | `libsodium.dll` | `Binaries/Retail/` | Runtime dependency |
@@ -140,7 +140,7 @@ VirusTotal aggregates many independent engines with different heuristics and thr
 Known contributors include:
 - unsigned executable distribution
 - GUI installer packaging/runtime behavior
-- translation loader / CVD bypass chain
+- translation loader runtime behavior
 
 The project continues to improve packaging structure and distribution trust signals.  
 If EXE-based installation feels uncomfortable, use the **CLI installer**.
