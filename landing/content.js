@@ -330,8 +330,8 @@ window.MK11_CONTENT = {
     en: "Update with the Patch Manager after installing"
   },
   "avnotice.update_body": {
-    kr: "GUI 설치 파일은 안정성을 위해 이전 버전(v1.1) 기반으로 제공됩니다. 설치를 마친 뒤 함께 설치되는 패치 매니저를 통해 최신 번역(v1.2)로 업데이트해 주세요.",
-    en: "For stability, the GUI installer is based on the previous version (v1.1). After installation, update to the latest translation (v1.2) through the bundled Patch Manager."
+    kr: "GUI 설치 파일은 안정성을 위해 이전 버전(v1.1) 기반으로 제공됩니다. 설치를 마친 뒤 함께 설치되는 패치 매니저를 통해 최신 번역(v1.3)으로 업데이트해 주세요.",
+    en: "For stability, the GUI installer is based on the previous version (v1.1). After installation, update to the latest translation (v1.3) through the bundled Patch Manager."
   },
   "avnotice.btn_proceed": { kr: "다운로드",      en: "Download" },
   "avnotice.btn_cli":     { kr: "CLI 설치 전환", en: "Switch to CLI" },

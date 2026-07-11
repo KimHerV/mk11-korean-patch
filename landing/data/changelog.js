@@ -29,8 +29,8 @@ window.MK11_CHANGELOG = [
       en: "Tutorial Restoration, Residual English Removal, and Full-Surface Move Name Unification"
     },
     lead: {
-      kr: "v1.2에서 파손됐던 캐릭터 튜토리얼 설명 283건을 복구하고, 공식 중국어판 대조 전수 검사로 게임에 남아 있던 영문 문자열을 제거했습니다. 무브리스트·튜토리얼·아이템 설명·갤러리 등 모든 화면에서 기술명 표기를 통일했습니다. v1.2 대비 총 3,100건이 업데이트됩니다.",
-      en: "Restored 283 character tutorial descriptions broken since v1.2, removed residual English strings found by a full-corpus audit against the official Chinese localization, and unified move name notation across every surface. 3,100 total changes from v1.2."
+      kr: "v1.2에서 파손됐던 캐릭터 튜토리얼 설명 283건을 복구하고, 전수 검사로 게임에 남아 있던 영문 문자열을 제거했습니다. 무브리스트·튜토리얼·아이템 설명·갤러리 등 모든 화면에서 기술명 표기를 통일했습니다. v1.2 대비 총 3,100건이 업데이트됩니다.",
+      en: "Restored 283 character tutorial descriptions broken since v1.2, removed residual English strings found by a full-corpus audit, and unified move name notation across every surface. 3,100 total changes from v1.2."
     },
     highlights: [
       {
@@ -52,14 +52,14 @@ window.MK11_CHANGELOG = [
         title: { kr: "잔여 영문 문자열 제거", en: "Residual English strings removed" },
         items: {
           kr: [
-            "공식 중국어판을 대조 기준으로 39개 로컬라이제이션 파일을 전수 검사하여, 번역 대상인데 영문으로 남아 있던 문자열을 정리했습니다.",
+            "39개 로컬라이제이션 파일을 전수 검사하여, 번역 대상인데 영문으로 남아 있던 문자열을 정리했습니다.",
             "간편 페이탈리티 입력 안내(Hold)와 DLC 캐릭터 무브리스트의 Hold·Release 입력 표기 52건을 본편 관행([버튼] 유지)으로 번역했습니다.",
             "크립트 컬렉터 상인 대사 23건과 크로니카 대사 2건을 신규 번역했습니다.",
             "조니 케이지 페이탈리티 전용 자막 15건을 말장난을 살려 신규 번역했습니다.",
             "일시정지 UI(켬·끔, 킹 오브 더 힐, 미완주 등), 드래곤 도전 타워명 27건 등 개별 UI 문자열을 한글화했습니다."
           ],
           en: [
-            "Audited all 39 localization files against the official Chinese localization as an oracle and cleared strings that remained in English despite being translatable.",
+            "Audited all 39 localization files and cleared strings that remained in English despite being translatable.",
             "Translated the easy fatality Hold prompt and 52 Hold/Release input strings in DLC movelists to match the base-game convention.",
             "Translated 23 Krypt Kollector merchant lines and 2 Kronika lines.",
             "Translated 15 Johnny Cage fatality gag subtitles with puns preserved.",
@@ -91,7 +91,7 @@ window.MK11_CHANGELOG = [
             "샤오 칸 브루탈리티 발동 조건이 실제와 다른 기술(망치 돌격)로 표기되던 오역을 뒤잡기로 교정했습니다.",
             "신델 커스터마이즈 화면의 파손된 키(스크롤 안내가 영문으로 표시)를 복구했습니다.",
             "크로니카의 모래시계(선사 시대) 아레나 해금 문구 누락을 복원했습니다.",
-            "자막 1건에 노출되던 작업용 태그를 제거하고, 용어 정책 위반(아우터 월드, em-dash 표기)을 정리했습니다.",
+            "자막 1건에 노출되던 작업용 태그를 제거하고, 용어 정책 위반 표기를 정리했습니다.",
             "카노 어그먼트 설명 1건의 내용 오역을 원문 기준으로 재작성했습니다."
           ],
           en: [
@@ -193,12 +193,12 @@ window.MK11_CHANGELOG = [
         items: {
           kr: [
             "스토리 모드 2부(Aftermath) 1,058줄 중 786줄을 개선했습니다. 109개 스토리 장면 중 104개에 걸쳐 정밀하게 다듬었습니다.",
-            "Aftermath 신규 캐릭터(푸진·쉬바·람보)의 화자 화법을 장면 컨텍스트 기반으로 정립했습니다. 화자·청자 관계, 씬의 긴장도, 신격 여부에 따라 하게체·선언체·반말이 구분됩니다. 리우 캉의 신격 전환 후 화법은 일반 상태와 별도로 관리됩니다.",
+            "Aftermath 신규 캐릭터의 화자 화법을 장면 컨텍스트 기반으로 정립했습니다. 화자·청자 관계, 씬의 긴장도, 신격 여부에 따라 하게체·선언체·반말이 구분됩니다. 리우 캉의 신격 전환 후 화법은 일반 상태와 별도로 관리됩니다.",
             "1부 대사 9건도 추가 교정했습니다. 합계 795건의 스토리 대사가 이번 업데이트에 포함됩니다."
           ],
           en: [
             "Refined 786 of 1,058 Aftermath story lines across 104 of 109 story scenes.",
-            "Established scene-context-based speech registers for new Aftermath characters Fujin, Sheeva, and Rambo. Register varies by speaker-listener relationship, scene tension, and divine status. Liu Kang's god-state speech is tracked separately from his base state in the database.",
+            "Established scene-context-based speech registers for new Aftermath characters. Register varies by speaker-listener relationship, scene tension, and divine status. Liu Kang's god-state speech is tracked separately from his base state in the database.",
             "Corrected 9 additional lines in story mode Part 1. Combined story update covers 795 lines."
           ]
         }
