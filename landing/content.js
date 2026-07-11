@@ -8,7 +8,7 @@
 window.MK11_CONTENT = {
 
   // ── Hero ──────────────────────────────────────────────────────
-  "hero.eyebrow":       "ver 1.2 (2026-05-31)",
+  "hero.eyebrow":       "ver 1.3 (2026-07-11)",
   "hero.title_en":      "MORTAL KOMBAT 11",
   "hero.title_kr": {
     kr: "한글 패치",
@@ -270,8 +270,8 @@ window.MK11_CONTENT = {
 
   // ── CLI card: terminal viewer preview lines ─────────────────
   "install.cli_preview_l1": {
-    kr: "MK11 한글 패치 v1.2",
-    en: "MK11 Korean Patch v1.2"
+    kr: "MK11 한글 패치 v1.3",
+    en: "MK11 Korean Patch v1.3"
   },
   "install.cli_preview_l2": {
     kr: "Steam 경로 자동 탐지 완료",

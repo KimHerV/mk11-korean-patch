@@ -15,12 +15,12 @@
  * then reload.
  */
 window.MK11_BANNER = {
-  id: 'v1-2-release',
+  id: 'v1-3-release',
   active: true,
-  kr: 'v1.2: 스토리 2부, 인게임 대화 품질 개선 및 기술명 동기화.',
-  en: 'v1.2: Story Part 2, in-game dialogue quality improvements, and move name sync.',
-  kr_mobile: 'v1.2: 스토리 2부·대화 개선.',
-  en_mobile: 'v1.2: Story Part 2 and dialogue updated.',
+  kr: 'v1.3: 튜토리얼 283건 복구, 잔여 영문 제거.',
+  en: 'v1.3: Restored 283 tutorials and removed residual English.',
+  kr_mobile: 'v1.3: 튜토리얼 복구·영문 정리.',
+  en_mobile: 'v1.3: Tutorials restored.',
   cta_kr: '',
   cta_en: '',
   href: '#install',

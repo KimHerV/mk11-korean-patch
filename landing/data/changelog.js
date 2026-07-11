@@ -21,6 +21,102 @@
  */
 window.MK11_CHANGELOG = [
   {
+    version: "1.3",
+    date: "2026-07-11",
+    tags: ["translation"],
+    title: {
+      kr: "튜토리얼 복구·잔여 영문 제거: 전 표면 기술명 통일",
+      en: "Tutorial Restoration, Residual English Removal, and Full-Surface Move Name Unification"
+    },
+    lead: {
+      kr: "v1.2에서 파손됐던 캐릭터 튜토리얼 설명 283건을 복구하고, 공식 중국어판 대조 전수 검사로 게임에 남아 있던 영문 문자열을 제거했습니다. 무브리스트·튜토리얼·아이템 설명·갤러리 등 모든 화면에서 기술명 표기를 통일했습니다. v1.2 대비 총 3,100건이 업데이트됩니다.",
+      en: "Restored 283 character tutorial descriptions broken since v1.2, removed residual English strings found by a full-corpus audit against the official Chinese localization, and unified move name notation across every surface. 3,100 total changes from v1.2."
+    },
+    highlights: [
+      {
+        title: { kr: "캐릭터 튜토리얼 설명 283건 복구", en: "283 character tutorial descriptions restored" },
+        items: {
+          kr: [
+            "v1.2에서 도구 결함으로 튜토리얼 설명 283건의 줄바꿈이 소실되어, 학습 메뉴의 캐릭터·전략 레슨 설명 상당수가 게임에서 읽히지 않았습니다. 번역 자체는 온전했고 줄 구조만 파손된 것으로 확인되어 전량 복구했습니다.",
+            "영향 범위: 기본 캐릭터 25명의 캐릭터 튜토리얼과 고급·전략 레슨 설명입니다.",
+            "동일 사고의 재발을 막기 위해 빌드 전 자동 검사(줄 병합·키 소실·표기 정책)를 컴파일 절차에 상설화했습니다."
+          ],
+          en: [
+            "A tooling defect in v1.2 destroyed line breaks in 283 tutorial descriptions, making many character and strategy lesson texts unreadable in the Learn menu. Translations were intact; only line structure was damaged. All 283 were restored.",
+            "Affected scope: character tutorials for 25 base characters plus advanced and strategy lessons.",
+            "A pre-build regression gate (line-merge, key-loss, and notation checks) was added to the compile pipeline to prevent recurrence."
+          ]
+        }
+      },
+      {
+        title: { kr: "잔여 영문 문자열 제거", en: "Residual English strings removed" },
+        items: {
+          kr: [
+            "공식 중국어판을 대조 기준으로 39개 로컬라이제이션 파일을 전수 검사하여, 번역 대상인데 영문으로 남아 있던 문자열을 정리했습니다.",
+            "간편 페이탈리티 입력 안내(Hold)와 DLC 캐릭터 무브리스트의 Hold·Release 입력 표기 52건을 본편 관행([버튼] 유지)으로 번역했습니다.",
+            "크립트 컬렉터 상인 대사 23건과 크로니카 대사 2건을 신규 번역했습니다.",
+            "조니 케이지 페이탈리티 전용 자막 15건을 말장난을 살려 신규 번역했습니다.",
+            "일시정지 UI(켬·끔, 킹 오브 더 힐, 미완주 등), 드래곤 도전 타워명 27건 등 개별 UI 문자열을 한글화했습니다."
+          ],
+          en: [
+            "Audited all 39 localization files against the official Chinese localization as an oracle and cleared strings that remained in English despite being translatable.",
+            "Translated the easy fatality Hold prompt and 52 Hold/Release input strings in DLC movelists to match the base-game convention.",
+            "Translated 23 Krypt Kollector merchant lines and 2 Kronika lines.",
+            "Translated 15 Johnny Cage fatality gag subtitles with puns preserved.",
+            "Localized individual UI strings including pause options, King of the Hill labels, and 27 Towers of Time tower names."
+          ]
+        }
+      },
+      {
+        title: { kr: "기술명 전 표면 통일", en: "Move names unified across all surfaces" },
+        items: {
+          kr: [
+            "무브리스트를 기준 표기로 삼아, 아이템·어그먼트 설명, 브루탈리티 발동 조건, 래더 설명, 튜토리얼 본문 등 약 2,400줄의 기술명 표기를 통일했습니다. 무브리스트에서 본 기술명이 아이템 화면에서도 같은 이름으로 표시됩니다.",
+            "교차 표면 감사 기준으로 완전 일치 기술명이 337개에서 1,041개로 늘었습니다(공유 기술명 1,294개 중).",
+            "콜렉션 갤러리의 페이탈리티 스토리보드 캡션 9건을 무브리스트 표기와 통일했습니다.",
+            "치환 이후의 조사(을/를·은/는·이/가·과/와·으로/로)는 받침 규칙에 따라 자동 교정했습니다."
+          ],
+          en: [
+            "Unified move name notation in ~2,400 lines across item and augment descriptions, brutality conditions, ladder text, and tutorial prose, using the movelist as the canonical source.",
+            "Fully consistent shared move names rose from 337 to 1,041 of 1,294 under the cross-surface audit.",
+            "Unified 9 Kollection gallery fatality storyboard captions with movelist names.",
+            "Korean particles after every replacement were auto-corrected by final-consonant rule."
+          ]
+        }
+      },
+      {
+        title: { kr: "개별 오류 교정", en: "Individual corrections" },
+        items: {
+          kr: [
+            "샤오 칸 브루탈리티 발동 조건이 실제와 다른 기술(망치 돌격)로 표기되던 오역을 뒤잡기로 교정했습니다.",
+            "신델 커스터마이즈 화면의 파손된 키(스크롤 안내가 영문으로 표시)를 복구했습니다.",
+            "크로니카의 모래시계(선사 시대) 아레나 해금 문구 누락을 복원했습니다.",
+            "자막 1건에 노출되던 작업용 태그를 제거하고, 용어 정책 위반(아우터 월드, em-dash 표기)을 정리했습니다.",
+            "카노 어그먼트 설명 1건의 내용 오역을 원문 기준으로 재작성했습니다."
+          ],
+          en: [
+            "Corrected a Shao Kahn brutality condition that named the wrong move.",
+            "Restored a corrupted key on Sindel's customization screen that displayed an English scroll prompt.",
+            "Restored the missing unlock message for the Kronika's Hourglass Prehistoric arena.",
+            "Removed a leaked annotation tag from one subtitle and cleared terminology policy violations.",
+            "Rewrote one Kano augment description that mistranslated the original meaning."
+          ]
+        }
+      }
+    ],
+    install_note: {
+      kr: [
+        "GUI(패치 인스톨러): 패치 매니저를 열고 업데이트 항목을 내려받으세요.",
+        "CLI: install.bat(Windows) 또는 install.sh(Linux · Steam Deck)를 다시 실행하세요."
+      ],
+      en: [
+        "GUI (Patch Installer): Open the Patch Manager and download the available update.",
+        "CLI: Re-run install.bat (Windows) or install.sh (Linux / Steam Deck)."
+      ]
+    },
+    github_release: "https://github.com/KimHerV/mk11-korean-patch/releases/tag/v1.3"
+  },
+  {
     version: "1.2",
     date: "2026-05-31",
     tags: ["translation"],
